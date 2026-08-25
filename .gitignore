@@ -22,7 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
-.vercel
 
 # Fontes pesadas que não entram no build.
 # O vídeo cru tem 262MB (o GitHub rejeita acima de 100MB); o site usa o

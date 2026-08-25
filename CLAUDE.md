@@ -17,7 +17,8 @@ Consulte a inteligência em [`intelligence/`](intelligence/README.md) **antes de
 
 - `src/` — app Astro (páginas, layout, estilos). É o que vira o site.
 - `intelligence/` — prompts/instruções de IA para criar landing pages. Independente do build.
-- `vercel.json` — deploy estático no Vercel (`framework: astro`, output `dist/`).
+- `.github/workflows/` — build automático a cada push na `main`, publicando o
+  `dist/` na branch `deploy`, que é a servida pela Hostinger. Ver README.
 
 ## Comandos
 

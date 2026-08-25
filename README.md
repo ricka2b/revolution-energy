@@ -33,5 +33,22 @@ public/
 
 ## Deploy
 
-Conectar o repositório no [Vercel](https://vercel.com/new) — detecção automática do Astro, sem configuração. Cada push no GitHub publica.
+Hospedado na Hostinger, via Git.
+
+A Hostinger **não builda o projeto** — ela clona o repositório e serve os
+arquivos como estão. Apontá-la para a `main` devolve **403**, porque na raiz
+só existe código-fonte Astro, sem `index.html`.
+
+Por isso o repositório tem duas branches com papéis distintos:
+
+| Branch | O que guarda | Quem escreve |
+|---|---|---|
+| `main` | o código-fonte | você |
+| `deploy` | só o conteúdo de `dist/`, pronto para servir | o GitHub Actions |
+
+A cada push na `main`, o fluxo [`build-e-publica.yml`](.github/workflows/build-e-publica.yml)
+builda e substitui a `deploy`. **Na Hostinger, a branch de implantação precisa
+ser `deploy`** (não `main`), com o diretório raiz em `public_html`.
+
+Nunca edite a `deploy` na mão: a publicação seguinte sobrescreve tudo.
 # revolution-energy

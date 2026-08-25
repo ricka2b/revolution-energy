@@ -1,0 +1,75 @@
+name: Build e publica na branch deploy
+
+# A Hostinger clona o repositório e serve os arquivos como estão — ela não
+# roda `npm run build` (o log dela instala dependências do Composer, que é
+# PHP). Servir a `main` direto devolve 403: não existe `index.html` na raiz,
+# só código-fonte Astro.
+#
+# Este fluxo resolve isso: a cada push na `main`, builda e joga **só o
+# conteúdo de `dist/`** na branch `deploy`. Aponte a Hostinger para `deploy`
+# e o `public_html` recebe o site pronto.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Permite ao job escrever de volta no próprio repositório.
+permissions:
+  contents: write
+
+# Se dois pushes vierem juntos, o mais novo cancela o anterior — a `deploy`
+# nunca fica com um build intermediário.
+concurrency:
+  group: publica-deploy
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixa o código
+        uses: actions/checkout@v4
+
+      - name: Prepara o Node
+        uses: actions/setup-node@v4
+        with:
+          # O projeto exige >=22.12.0 (package.json → engines).
+          node-version: "22"
+          cache: npm
+
+      - name: Instala as dependências
+        run: npm ci
+
+      - name: Builda o site
+        run: npm run build
+
+      - name: Confere que o build saiu de pé
+        run: |
+          test -f dist/index.html || { echo "::error::dist/index.html não foi gerado"; exit 1; }
+          echo "index.html: $(wc -c < dist/index.html) bytes"
+
+      - name: Publica o conteúdo de dist/ na branch deploy
+        env:
+          GIT_AUTOR: "github-actions[bot]"
+          GIT_EMAIL: "41898282+github-actions[bot]@users.noreply.github.com"
+        run: |
+          set -euo pipefail
+
+          # Lixo do macOS que às vezes vem junto do build local.
+          find dist -name '.DS_Store' -delete
+
+          # A branch `deploy` guarda só o resultado do build, sem histórico:
+          # é artefato, não código. Cada publicação a substitui por inteiro.
+          cd dist
+          git init -q -b deploy
+          git config user.name  "$GIT_AUTOR"
+          git config user.email "$GIT_EMAIL"
+          git add -A
+          git commit -q -m "Build de ${GITHUB_SHA:0:7}"
+          git push -q --force \
+            "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" \
+            deploy
+
+          echo "Publicado na branch deploy a partir de ${GITHUB_SHA:0:7}."
