@@ -451,3 +451,75 @@ b {
   padding-block-end: 0.08em;
   margin-block-end: -0.08em;
 }
+
+/* =============================================================================
+   Dica "arraste para continuar"
+
+   As cenas densas travam a rolagem enquanto a animação toca. Quando ela
+   termina, a rolagem é devolvida — e esta dica avisa que dá para seguir.
+   Sem ela a pessoa fica olhando uma tela parada sem saber que já pode passar.
+
+   É um elemento único, criado uma vez e reaproveitado por todas as seções.
+   Fica `fixed` no rodapé da janela: como a cena está presa na tela nesse
+   momento, o rodapé da janela é o rodapé da cena.
+
+   A pastilha é escura com borda clara de propósito: precisa ser legível tanto
+   sobre as seções claras (lavanda, branco) quanto sobre as escuras.
+   ========================================================================== */
+
+.dica-arraste {
+  position: fixed;
+  inset-block-end: clamp(1rem, 4vh, 2.25rem);
+  inset-inline-start: 50%;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.125rem;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: var(--radius-pill, 999px);
+  background: rgba(14, 10, 21, 0.82);
+  box-shadow: 0 0.75rem 2rem rgba(14, 10, 21, 0.28);
+  color: #fff;
+  font-size: var(--text-xs, 0.8125rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  white-space: nowrap;
+  opacity: 0;
+  /* `translate` separado do `transform` para a seta poder animar sozinha
+     sem brigar com a centralização horizontal. */
+  translate: -50% 0.5rem;
+  pointer-events: none;
+  transition:
+    opacity 420ms var(--ease-out),
+    translate 420ms var(--ease-out);
+}
+
+@supports (backdrop-filter: blur(10px)) {
+  .dica-arraste {
+    background: rgba(14, 10, 21, 0.62);
+    backdrop-filter: blur(12px) saturate(1.2);
+  }
+}
+
+.dica-arraste[data-visivel] {
+  opacity: 1;
+  translate: -50% 0;
+}
+
+.dica-arraste svg {
+  flex: none;
+  animation: dica-arraste-desce 1.6s var(--ease-out) infinite;
+}
+
+@keyframes dica-arraste-desce {
+  0%, 100% { transform: translateY(-0.125rem); }
+  50% { transform: translateY(0.125rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dica-arraste svg {
+    animation: none;
+  }
+}

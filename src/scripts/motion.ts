@@ -335,7 +335,15 @@ function segundaDobra() {
   utils.set(itens, { opacity: 0, y: 22 });
   utils.set(fecho, { opacity: 0, y: 18 });
 
-  /* ---- regime 1: abertura, disparada de uma vez ---- */
+  /* ---- uma linha do tempo só, tocada com a rolagem travada ----
+
+     A cena inteira roda de uma vez: a chamada e a pergunta entram no centro
+     da tela, esperam um segundo, e então a pergunta encolhe e sobe enquanto
+     o resto aparece. No fim a rolagem é devolvida com a dica de que dá para
+     seguir.
+
+     Antes isto era raspado no scroll, e a velocidade do gesto decidia o
+     ritmo: quem rolava rápido atravessava a cena sem ler nada. */
 
   const CORPO_CHAMADA = 620;
   const PASSO_CHAMADA = 14;
@@ -347,104 +355,15 @@ function segundaDobra() {
   const percursoChamada =
     CORPO_CHAMADA + PASSO_CHAMADA * Math.max(0, letrasIntro.length - 1);
   const entradaPergunta = Math.round(percursoChamada * 0.8);
+  const fimDaAbertura =
+    entradaPergunta +
+    CORPO_PERGUNTA +
+    PASSO_PERGUNTA * Math.max(0, letrasPergunta.length - 1);
 
-  const abertura = {
-    // No celular a trava começa assim que o palco encosta no topo. Isso
-    // impede que a inércia do primeiro gesto avance a cena antes de a
-    // pergunta terminar de entrar e se estabilizar no centro.
-    em: window.matchMedia("(max-width: 48rem)").matches ? 0 : 0.05,
-    ativo: false,
-    executando: false,
-  };
-  let failsafeAbertura: number | undefined;
-
-  // Durante a abertura, o gesto não pode carregar o palco para a etapa
-  // seguinte. O Lenis é interrompido junto com wheel/touch/teclado e só é
-  // retomado quando a última letra da pergunta já parou no centro.
-  const impedirRolagem = (evento: Event) => evento.preventDefault();
-  const teclasDeRolagem = new Set([
-    "ArrowDown",
-    "ArrowUp",
-    "PageDown",
-    "PageUp",
-    " ",
-    "Home",
-    "End",
-  ]);
-  const impedirTeclado = (evento: KeyboardEvent) => {
-    if (teclasDeRolagem.has(evento.key)) evento.preventDefault();
-  };
-
-  const travarAbertura = () => {
-    pausarRolagemSuave();
-    window.addEventListener("wheel", impedirRolagem, {
-      passive: false,
-      capture: true,
-    });
-    window.addEventListener("touchmove", impedirRolagem, {
-      passive: false,
-      capture: true,
-    });
-    window.addEventListener("keydown", impedirTeclado, { capture: true });
-    // Uma aba ocultada pode suspender o RAF do navegador e impedir o
-    // `onComplete`. A trava nunca pode sobreviver indefinidamente.
-    failsafeAbertura = window.setTimeout(liberarAbertura, 3500);
-  };
-
-  const liberarAbertura = () => {
-    if (!abertura.executando) return;
-    window.clearTimeout(failsafeAbertura);
-    retomarRolagemSuave();
-    window.removeEventListener("wheel", impedirRolagem, true);
-    window.removeEventListener("touchmove", impedirRolagem, true);
-    window.removeEventListener("keydown", impedirTeclado, true);
-    abertura.executando = false;
-  };
-
-  const abrir = () => {
-    abertura.executando = true;
-    travarAbertura();
-    animate(letrasIntro, {
-      y: "0%",
-      duration: CORPO_CHAMADA,
-      ease: EASE_SUAVE,
-      delay: stagger(PASSO_CHAMADA),
-    });
-    animate(letrasPergunta, {
-      y: "0%",
-      duration: CORPO_PERGUNTA,
-      ease: EASE_SUAVE,
-      delay: stagger(PASSO_PERGUNTA, { start: entradaPergunta }),
-      onComplete: liberarAbertura,
-    });
-  };
-
-  // A saída é mais curta que a entrada e começa pela última letra: desmonta
-  // na ordem inversa de como montou, a pergunta saindo primeiro.
-  const fechar = () => {
-    animate(letrasPergunta, {
-      y: "110%",
-      duration: 460,
-      ease: EASE_SUAVE,
-      delay: stagger(6, { from: "last" }),
-    });
-    animate(letrasIntro, {
-      y: "110%",
-      duration: 460,
-      ease: EASE_SUAVE,
-      delay: stagger(8, { from: "last", start: 140 }),
-    });
-  };
-
-  /* ---- regime 2: linha do tempo raspada no scroll ---- */
-
-  // A raspagem só começa a reagir depois de um respiro (a pergunta grande
-  // fica parada na tela até ali) e termina antes do fim do trilho de
-  // propósito: o trecho que sobra é tempo de tela com a cena montada e a
-  // frase de fecho já visível, para dar tempo de ler antes de o bloco
-  // seguinte entrar.
-  const INICIO_RASPADO = 0.34;
-  const FIM_RASPADO = 0.86;
+  // O segundo de respiro pedido: a pergunta fica parada no centro, sozinha,
+  // antes de a cena virar.
+  const ESPERA_NO_CENTRO = 1000;
+  const VIRADA = fimDaAbertura + ESPERA_NO_CENTRO;
 
   /** Mede o corpo que o CSS daria à pergunta em cada estado. */
   const medirCorpo = (estadoFinal: boolean) => {
@@ -458,135 +377,79 @@ function segundaDobra() {
     return corpo;
   };
 
-  let raspada = criarRaspada();
+  // Solta a medida: com o corpo grande o texto segue em duas linhas e
+  // assume uma linha só quando encolher o bastante para caber.
+  utils.set(pergunta, { maxWidth: "100%" });
 
-  function criarRaspada() {
-    // Solta a medida: com o corpo grande o texto segue em duas linhas e
-    // assume uma linha só quando encolher o bastante para caber.
-    utils.set(pergunta, { maxWidth: "100%" });
-
-    const linha = createTimeline({
-      autoplay: false,
-      defaults: { ease: EASE_SUAVE },
-    });
-
-    linha.add(intro, { opacity: 0, y: -28, duration: 560 }, 0);
-    linha.add(
-      pergunta,
-      { fontSize: [medirCorpo(false), medirCorpo(true)], duration: 760 },
-      0,
-    );
-    linha.add(
-      grupo,
-      {
-        y: [centroInicialPergunta, 0],
-        // A subida percorre uma faixa maior da rolagem que a redução da
-        // fonte. A curva simétrica evita tanto o arranque quanto a parada
-        // brusca, mantendo a pergunta visualmente assentada durante o gesto.
-        duration: 1280,
-        ease: EASE_SCROLL,
-      },
-      0,
-    );
-    // Entrada longa com deslocamento curto: desliza em vez de pular.
-    linha.add(provavelmente, { opacity: 1, y: 0, duration: 900 }, 760);
-    // Passo largo entre os itens: um termina de entrar antes de o próximo
-    // começar, em vez de todos borrarem juntos.
-    linha.add(
-      itens,
-      { opacity: 1, y: 0, duration: 620, delay: stagger(340) },
-      1560,
-    );
-    // A frase fecha a cena sem criar uma espera longa antes da seção seguinte.
-    linha.add(fecho, { opacity: 1, y: 0, duration: 680 }, 4380);
-
-    return linha;
-  }
-
-  /* ---- leitura da rolagem, com suavização ---- */
-
-  let alvo = 0;
-  let atual = 0;
-  let animando = false;
-  let agendado = false;
-
-  const aplicar = (p: number) => {
-    raspada.seek(raspada.duration * p);
-    pergunta.classList.toggle("pergunta--fim", p > 0.92);
-  };
-
-  const suavizar = () => {
-    // Aproximação exponencial: a cena persegue a posição da rolagem em vez
-    // de saltar para ela. É o que tira a dureza do scrub.
-    atual += (alvo - atual) * 0.14;
-    if (Math.abs(alvo - atual) < 0.0004) {
-      atual = alvo;
-      animando = false;
-    } else {
-      requestAnimationFrame(suavizar);
-    }
-    aplicar(atual);
-  };
-
-  const conferir = () => {
-    agendado = false;
-    const caixa = trilho.getBoundingClientRect();
-    const percurso = caixa.height - window.innerHeight;
-    if (percurso <= 0) return;
-
-    const progresso = -caixa.top / percurso;
-
-    const abriu = progresso >= abertura.em;
-    if (abriu !== abertura.ativo) {
-      abertura.ativo = abriu;
-      // Uma âncora pode carregar a página depois desta seção. Nesse caso a
-      // abertura é montada fora da tela, sem sequestrar a rolagem da pessoa.
-      if (abriu && progresso < INICIO_RASPADO) abrir();
-      else if (abriu) utils.set([...letrasIntro, ...letrasPergunta], { y: "0%" });
-      else fechar();
-    }
-
-    alvo = Math.min(
-      1,
-      Math.max(0, (progresso - INICIO_RASPADO) / (FIM_RASPADO - INICIO_RASPADO)),
-    );
-
-    if (!animando) {
-      animando = true;
-      requestAnimationFrame(suavizar);
-    }
-  };
-
-  const agendar = () => {
-    if (agendado) return;
-    agendado = true;
-    requestAnimationFrame(conferir);
-  };
-
-  // A medida da pergunta depende da largura: ao redimensionar, a linha do
-  // tempo é refeita e reposicionada no ponto atual.
-  let refazendo: number | undefined;
-  const refazer = () => {
-    window.clearTimeout(refazendo);
-    refazendo = window.setTimeout(() => {
-      raspada.revert();
-      raspada = criarRaspada();
-      aplicar(atual);
-    }, 200);
-  };
-
-  window.addEventListener("scroll", agendar, { passive: true });
-  window.addEventListener("resize", () => {
-    refazer();
-    agendar();
+  const linha = createTimeline({
+    autoplay: false,
+    defaults: { ease: EASE_SUAVE },
   });
 
-  // `requestAnimationFrame` não roda em aba oculta: reconfere na volta.
-  document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) conferir();
-  });
+  /* Abertura, no centro da tela. */
+  linha.add(
+    letrasIntro,
+    { y: "0%", duration: CORPO_CHAMADA, delay: stagger(PASSO_CHAMADA) },
+    0,
+  );
+  linha.add(
+    letrasPergunta,
+    { y: "0%", duration: CORPO_PERGUNTA, delay: stagger(PASSO_PERGUNTA) },
+    entradaPergunta,
+  );
 
-  conferir();
+  /* A virada: a chamada sai, a pergunta encolhe e o grupo assenta. */
+  linha.add(intro, { opacity: 0, y: -28, duration: 560 }, VIRADA);
+  linha.add(
+    pergunta,
+    { fontSize: [medirCorpo(false), medirCorpo(true)], duration: 760 },
+    VIRADA,
+  );
+  linha.add(
+    grupo,
+    {
+      y: [centroInicialPergunta, 0],
+      // A subida percorre uma faixa maior que a redução da fonte. A curva
+      // simétrica evita tanto o arranque quanto a parada brusca.
+      duration: 1280,
+      ease: EASE_SCROLL,
+    },
+    VIRADA,
+  );
+  // Devolve o controle do corpo ao CSS assim que a redução termina.
+  linha.add(
+    { marca: 0 },
+    {
+      marca: 1,
+      duration: 1,
+      onBegin: () => pergunta.classList.add("pergunta--fim"),
+    },
+    VIRADA + 760,
+  );
+
+  /* O restante entra em sequência, um bloco de cada vez. */
+  linha.add(provavelmente, { opacity: 1, y: 0, duration: 900 }, VIRADA + 760);
+  linha.add(
+    itens,
+    { opacity: 1, y: 0, duration: 620, delay: stagger(340) },
+    VIRADA + 1560,
+  );
+  linha.add(fecho, { opacity: 1, y: 0, duration: 680 }, VIRADA + 4380);
+
+  // O gatilho é o trilho: quando o centro dele encontra o centro da tela, o
+  // palco já preenche a viewport e a cena pode começar enquadrada.
+  const resto = document.querySelector<HTMLElement>("[data-resto]");
+
+  cenaTravada({
+    gatilho: trilho,
+    linha,
+    inicio: "top top",
+    // O box seguinte é puxado para dentro da área do palco pela margem
+    // negativa. Só ganha opacidade quando a cena devolve a rolagem.
+    aoLiberar: () => {
+      if (resto) resto.dataset.liberado = "true";
+    },
+  });
 }
 
 /* ------------------------------------------------------------------ *
@@ -1637,6 +1500,160 @@ function sequenciaFinalTravada(opcoes: {
 }
 
 /* ------------------------------------------------------------------ *
+ * Trava de rolagem reutilizável.
+ * ------------------------------------------------------------------ */
+
+/**
+ * Prende a rolagem e devolve a função que a solta. Chamar a função de volta
+ * mais de uma vez é seguro — a segunda chamada não faz nada.
+ *
+ * Bloquear os eventos não basta: o Lenis tem listener de roda e motor de
+ * rolagem próprios, e continuaria interpolando por conta dele. Por isso ele
+ * é parado junto.
+ */
+function travarRolagem() {
+  const teclasBloqueadas = new Set([
+    "ArrowDown",
+    "ArrowUp",
+    "PageDown",
+    "PageUp",
+    " ",
+    "Home",
+    "End",
+  ]);
+
+  const barrar = (evento: Event) => evento.preventDefault();
+  const barrarTeclado = (evento: KeyboardEvent) => {
+    if (teclasBloqueadas.has(evento.key)) evento.preventDefault();
+  };
+
+  pausarRolagemSuave();
+  window.addEventListener("wheel", barrar, { passive: false });
+  window.addEventListener("touchmove", barrar, { passive: false });
+  window.addEventListener("keydown", barrarTeclado);
+
+  let solto = false;
+  return () => {
+    if (solto) return;
+    solto = true;
+    window.removeEventListener("wheel", barrar);
+    window.removeEventListener("touchmove", barrar);
+    window.removeEventListener("keydown", barrarTeclado);
+    retomarRolagemSuave();
+  };
+}
+
+/* ------------------------------------------------------------------ *
+ * Cena travada + dica "arraste para continuar".
+ * ------------------------------------------------------------------ */
+
+/**
+ * A dica é um elemento só, criado na primeira vez e reaproveitado por todas
+ * as cenas. Fica `fixed` no rodapé da janela — como a cena está presa na
+ * tela quando ela aparece, o rodapé da janela é o rodapé da cena.
+ *
+ * Não é `aria-hidden`: a trava também bloqueia as setas do teclado, então
+ * quem navega sem mouse precisa ser avisado de que a espera acabou.
+ */
+let elementoDica: HTMLElement | null = null;
+
+function obterDica() {
+  if (elementoDica) return elementoDica;
+  const el = document.createElement("div");
+  el.className = "dica-arraste";
+  el.setAttribute("role", "status");
+  el.innerHTML =
+    "<span>Arraste para continuar</span>" +
+    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+    '<path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="2.4"' +
+    ' stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  document.body.appendChild(el);
+  elementoDica = el;
+  return el;
+}
+
+function mostrarDica() {
+  obterDica().dataset.visivel = "true";
+}
+
+function esconderDica() {
+  if (elementoDica) delete elementoDica.dataset.visivel;
+}
+
+/**
+ * Prende a rolagem, toca a linha inteira e **mantém a tela presa** depois
+ * que ela termina: aparece a dica, e só o gesto seguinte libera a cena.
+ *
+ * A trava não se solta sozinha de propósito. Soltar no fim da animação
+ * devolvia o controle no meio de uma inércia que já estava em curso, e a
+ * cena escapava sem a pessoa ter lido nada.
+ *
+ * `once: true` porque a cena conta uma história: repetir a cada passagem
+ * prenderia a pessoa de novo num conteúdo que ela já viu.
+ */
+function cenaTravada(opcoes: {
+  gatilho: HTMLElement;
+  linha: { play: () => unknown; duration: number; seek: (t: number) => unknown };
+  inicio?: string;
+  /** Chamado quando a pessoa arrasta e a cena devolve a rolagem. */
+  aoLiberar?: () => void;
+}) {
+  const { gatilho, linha, inicio = "center center", aoLiberar } = opcoes;
+
+  // Recarregar a página numa âncora abaixo desta seção deixaria a cena
+  // presa no estado inicial, invisível para sempre — o gatilho só dispara
+  // ao ser cruzado. Aqui ela já nasce montada, sem travar nada.
+  if (gatilho.getBoundingClientRect().bottom < 0) {
+    linha.seek(linha.duration);
+    aoLiberar?.();
+    return;
+  }
+
+  ScrollTrigger.create({
+    trigger: gatilho,
+    start: inicio,
+    once: true,
+    onEnter: () => {
+      const soltarRolagem = travarRolagem();
+
+      let liberado = false;
+      const liberar = () => {
+        if (liberado) return;
+        liberado = true;
+        window.removeEventListener("wheel", liberar);
+        window.removeEventListener("touchmove", liberar);
+        window.removeEventListener("keydown", liberar);
+        esconderDica();
+        soltarRolagem();
+        aoLiberar?.();
+      };
+
+      let terminou = false;
+      const aoTerminar = () => {
+        if (terminou) return;
+        terminou = true;
+        mostrarDica();
+        // A cena continua presa. O primeiro gesto depois da dica é que
+        // devolve a rolagem — é ele o "arraste para continuar".
+        window.addEventListener("wheel", liberar, { passive: true });
+        window.addEventListener("touchmove", liberar, { passive: true });
+        window.addEventListener("keydown", liberar, { passive: true });
+      };
+
+      // Rede de segurança: se a linha não avisar que terminou, a dica
+      // aparece assim mesmo. Prender para sempre seria pior que o defeito.
+      const resgate = window.setTimeout(aoTerminar, linha.duration + 4000);
+
+      Promise.resolve(linha.play() as PromiseLike<unknown>).then(() => {
+        window.clearTimeout(resgate);
+        // Um respiro com a cena montada antes de convidar a seguir.
+        window.setTimeout(aoTerminar, 500);
+      });
+    },
+  });
+}
+
+/* ------------------------------------------------------------------ *
  * Sessão 7 — renda recorrente, narrativa raspada no scroll.
  * ------------------------------------------------------------------ */
 
@@ -1852,12 +1869,20 @@ function recorrenciaInterativa() {
       usaFundo: true,
     });
   } else {
+    // No celular a história roda travada: o gatilho espera o card ficar
+    // centralizado, prende a rolagem, toca a linha inteira e só devolve o
+    // scroll no fim. Sem isso a pessoa atravessava a cena no meio dela.
     ScrollTrigger.create({
       trigger: card,
-      start: "top 78%",
+      start: "center center",
       once: true,
       onEnter: () => {
-        linhaCard.play();
+        const soltar = travarRolagem();
+        const resgate = window.setTimeout(soltar, linhaCard.duration + 4000);
+        linhaCard.play().then(() => {
+          window.clearTimeout(resgate);
+          window.setTimeout(soltar, 600);
+        });
       },
     });
   }

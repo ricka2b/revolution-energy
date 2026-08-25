@@ -169,6 +169,18 @@ const quemPaga: Array<{ icon: IconName; text: string }> = [
     margin-top: calc(2.5rem - var(--puxar, 0px));
   }
 
+  /* A margem negativa acima coloca o box dentro da área do palco, então ele
+     apareceria no meio da cena. Fica invisível até a pessoa arrastar: é o
+     script que marca `data-liberado` quando devolve a rolagem. */
+  :global(.anim) .resto {
+    opacity: 0;
+    transition: opacity 520ms var(--ease-out);
+  }
+
+  :global(.anim) .resto[data-liberado] {
+    opacity: 1;
+  }
+
   .turn {
     padding: clamp(var(--space-6), 5vw, var(--space-8));
     border-radius: var(--radius-xl);
@@ -216,17 +228,23 @@ const quemPaga: Array<{ icon: IconName; text: string }> = [
     padding-block: 0 var(--section-y);
   }
 
-  /* O trilho é o percurso da rolagem: é ele que dá espaço para os momentos
-     acontecerem sem que a seção saia da tela. */
+  /* A cena roda com a rolagem travada, então o trilho não precisa mais ser
+     um percurso: quem segura o palco na tela é a trava, não a altura. Os
+     320svh de antes viravam rolagem vazia depois que a animação acabava.
+     Uma tela cheia basta para o palco `sticky` enquadrar a cena. */
   :global(.anim) .trilho {
-    height: 320svh;
+    height: 100svh;
   }
 
   :global(.anim) .palco {
     position: sticky;
     inset-block-start: var(--bar-h);
     /* Opaco: a seção seguinte é puxada para dentro deste vazio e precisa
-       ficar escondida atrás do palco até ele sair de cena. */
+       ficar escondida atrás do palco até ele sair de cena.
+
+       Esconder por empilhamento não serviu: o palco passava por cima do box
+       e deixava uma faixa sobre ele durante a rolagem. Quem esconde o box
+       agora é a opacidade dele, liberada no arraste. */
     background: var(--lavender);
     display: grid;
     /* Linha que estica: sem isto o `height: 100%` do filho resolveria
@@ -275,10 +293,6 @@ const quemPaga: Array<{ icon: IconName; text: string }> = [
   }
 
   @media (max-width: 48rem) {
-    :global(.anim) .trilho {
-      height: 300svh;
-    }
-
     :global(.anim) .tiles {
       grid-template-columns: 1fr 1fr;
       gap: var(--space-2);

@@ -33,18 +33,27 @@ if (ponteiroFino.matches && !movimentoReduzido.matches) {
 /**
  * O Lenis tem o próprio listener de wheel e a própria animação de rolagem —
  * um `preventDefault` isolado em outro módulo não o impede de continuar. Para
- * travar o scroll de verdade (a sequência final da seção de números, por
- * exemplo) é preciso parar o Lenis também.
+ * travar o scroll de verdade é preciso parar o Lenis também.
+ *
+ * A contagem existe porque mais de uma cena pode pedir a pausa ao mesmo
+ * tempo (ou em sequência, com sobreposição). Sem ela, a primeira que
+ * terminasse chamaria `start()` e destravaria a rolagem por baixo das
+ * outras — que continuariam achando que ainda estão segurando a tela.
  *
  * Sem instância (ponteiro grosso, ou `prefers-reduced-motion`), a rolagem já
- * é 100% nativa e essas funções não fazem nada.
+ * é 100% nativa e estas funções não fazem nada.
  */
+let pedidosDePausa = 0;
+
 export function pausarRolagemSuave() {
-  instancia?.stop();
+  pedidosDePausa += 1;
+  if (pedidosDePausa === 1) instancia?.stop();
 }
 
 export function retomarRolagemSuave() {
-  instancia?.start();
+  if (pedidosDePausa === 0) return;
+  pedidosDePausa -= 1;
+  if (pedidosDePausa === 0) instancia?.start();
 }
 
 /** Mantém bibliotecas vinculadas ao scroll em sincronia com o RAF do Lenis. */
