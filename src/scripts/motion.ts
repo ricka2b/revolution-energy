@@ -1831,13 +1831,36 @@ function recorrenciaInterativa() {
     8500,
   );
 
-  // O trilho mantém o card fixo no centro até o último texto terminar. A
-  // cena só devolve a rolagem à seção quando a história ficou inteira visível.
-  vincular(linhaCard, trilhoCard, {
-    inicio: 0.22,
-    fim: 0.83,
-    usaFundo: true,
-  });
+  // O card só fica preso no desktop — o `position: sticky` e a altura extra
+  // do trilho vivem num `@media (min-width: 68.0625rem)`. Abaixo disso o
+  // trilho é do tamanho do próprio card, e raspar a história nele daria
+  // ~256px de rolagem para quase 9s de animação: um toque do dedo atravessa
+  // tudo antes de qualquer texto terminar de entrar.
+  //
+  // Prender o card no celular não resolve: ele tem ~762px e num aparelho de
+  // 667px de altura sobrariam 627px úteis — cortaria 135px. Então no mobile
+  // a história é **disparada** e roda no tempo dela, como as frases de
+  // abertura da segunda dobra.
+  const CARD_PRESO = window.matchMedia("(min-width: 68.0625rem)");
+
+  if (CARD_PRESO.matches) {
+    // O trilho mantém o card fixo no centro até o último texto terminar. A
+    // cena só devolve a rolagem à seção quando a história ficou inteira visível.
+    vincular(linhaCard, trilhoCard, {
+      inicio: 0.22,
+      fim: 0.83,
+      usaFundo: true,
+    });
+  } else {
+    ScrollTrigger.create({
+      trigger: card,
+      start: "top 78%",
+      once: true,
+      onEnter: () => {
+        linhaCard.play();
+      },
+    });
+  }
 
   /* 3. Um único palco para a escala e as duas viradas do Figma. Assim o
      primeiro bloco não gruda no teto e todas as trocas preservam exatamente
