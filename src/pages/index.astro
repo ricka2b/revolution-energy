@@ -83,11 +83,11 @@ import Fechamento from "../components/Fechamento.astro";
       letter-spacing: -0.05em;
     }
 
-    /* Quebras desenhadas no desktop continuam sendo quebras autorais no
-       mobile; linhas embrulhadas em spans diretos não voltam a refluir. */
+    /* No mobile o texto corre solto: as quebras desenhadas para a largura do
+       frame do Figma não servem para a tela do celular. */
     .figma-sections br,
     .fechamento br {
-      display: initial !important;
+      display: none;
     }
 
     .figma-sections :where(h1, h2, h3, h4) > span,

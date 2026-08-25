@@ -207,23 +207,12 @@ const escala = [
     margin-top: 60px;
   }
 
-  /* O trilho só ganha altura extra quando há animação. O card fica preso no
-     centro útil da viewport durante a história inteira e volta ao fluxo ao
-     terminar, sem mudar o layout estático ou o mobile. */
+  /* A conclusão permanece no seu palco longo; o card acima é uma cena
+     travada no próprio fluxo, sem criar espaço extra de rolagem. */
   @media (min-width: 68.0625rem) {
-    :global(.anim) .recorrencia__card-track {
-      position: relative;
-      height: calc(545.224px + 170svh);
-    }
-
-    :global(.anim) .recorrencia__card {
-      position: sticky;
-      top: calc(var(--bar-h) + max(1rem, (100svh - var(--bar-h) - 545.224px) / 2));
-    }
-
     :global(.anim) .recorrencia__conclusao-track {
       position: relative;
-      height: 620svh;
+      height: 100svh;
     }
 
     :global(.anim) .recorrencia__conclusao-palco {
@@ -588,13 +577,11 @@ const escala = [
       padding-block: 56px;
     }
 
-    /* A conclusão volta a ser um único palco no mobile. O trilho fornece o
-       espaço de rolagem e o palco permanece preso por uma viewport inteira,
-       mantendo cada estado da animação no centro da área realmente visível
-       abaixo da barra superior. */
+    /* A conclusão é uma cena travada: uma viewport basta para a animação
+       completa, sem manter o percurso longo usado pelo scrub anterior. */
     :global(.anim) .recorrencia__conclusao-track {
       position: relative;
-      height: 620svh;
+      height: 100svh;
     }
 
     :global(.anim) .recorrencia__conclusao-palco {
@@ -732,8 +719,16 @@ const escala = [
       gap: 24px;
     }
 
+    .recorrencia__label {
+      width: 100%;
+      font-size: 15px;
+      text-align: center;
+    }
+
     .recorrencia__texto {
       gap: 20px;
+      font-size: 16px;
+      letter-spacing: -0.5px;
     }
 
     .recorrencia__ilustracao {
@@ -761,7 +756,6 @@ const escala = [
     }
   }
 
-  :global(.anim) [data-rec-header-text],
   :global(.anim) [data-rec-label],
   :global(.anim) [data-rec-pill],
   :global(.anim) [data-rec-paragraph],

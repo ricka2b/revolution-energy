@@ -18,7 +18,7 @@ import iconPlusCircle from "../assets/figma-section-6/icon-plus-circle.svg?url";
           <div class="numeros__composition">
             <div class="numeros__intro">
               <h2 class="head" data-num-title>
-                <span class="head__initial" data-num-title-initial>Vamos colocar<br />números nisso?</span>
+                <span class="head__initial" data-num-title-initial>Vamos colocar <br />números nisso?</span>
                 <span class="head__final" data-num-title-final aria-hidden="true">Vamos colocar números nisso?</span>
               </h2>
 
@@ -167,8 +167,12 @@ import iconPlusCircle from "../assets/figma-section-6/icon-plus-circle.svg?url";
     display: flex;
   }
 
+  /* As quatro cenas viraram cenas travadas: cada uma toca por inteiro com a
+     rolagem presa e avança por gesto. Nada aqui é raspado pelo scroll, então
+     o trilho não precisa de percurso nenhum — o que sobrasse viraria rolagem
+     vazia. Uma tela basta para o palco `sticky` enquadrar a cena. */
   :global(.anim) .numeros__track {
-    height: calc(100svh + 921rem);
+    height: 100svh;
   }
 
   :global(.anim) .numeros__stage {
@@ -950,6 +954,19 @@ import iconPlusCircle from "../assets/figma-section-6/icon-plus-circle.svg?url";
       gap: 0.9rem;
     }
 
+    .s6-3__pill {
+      width: 100%;
+      padding: 0.9rem 1.6rem;
+      border-radius: 999px;
+      background: var(--action);
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      font-size: 28px;
+      white-space: nowrap;
+    }
+
     .s6-3__coluna {
       width: 100%;
     }
@@ -978,7 +995,7 @@ import iconPlusCircle from "../assets/figma-section-6/icon-plus-circle.svg?url";
 
     .s6-4__card-valor,
     .s6-4__total-valor {
-      font-size: clamp(3rem, 6.2vw, 4.5rem);
+      font-size: 68px;
     }
 
     .s6-4__plus {

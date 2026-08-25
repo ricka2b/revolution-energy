@@ -8,7 +8,7 @@ const ignorar = ["Fechar esta página.", "Voltar para sua rotina.", "Continuar p
 <section class="timing" id="timing" data-node-id="1048:7739">
   <div class="timing__inner">
     <header class="timing__top reveal">
-      <h2><span>Talvez você nunca tivesse ouvido falar</span> <span>em Consultor de Energia</span> <span>antes de chegar até aqui.</span></h2>
+      <h2>Talvez você nunca tivesse ouvido falar <br />em Consultor de Energia <br />antes de chegar até aqui.</h2>
       <p>E isso deveria chamar sua atenção.</p>
     </header>
     <div class="timing__inicio reveal">
@@ -145,9 +145,8 @@ const ignorar = ["Fechar esta página.", "Voltar para sua rotina.", "Continuar p
       max-width: 350px;
     }
 
-    .timing__top h2 span {
-      display: block;
-      white-space: nowrap;
+    .timing__top h2 br {
+      display: none;
     }
 
     .timing__argumento h3 {
@@ -245,13 +244,10 @@ const ignorar = ["Fechar esta página.", "Voltar para sua rotina.", "Continuar p
      último de propósito — mesma especificidade das regras acima, então é
      este bloco que vale no celular. */
   @media (max-width: 760px) {
-    /* Os `span` viram texto corrido: sem eles a frase quebra sozinha. */
+    /* No mobile o título é um texto corrido. O SplitText continua cuidando
+       da entrada letra por letra sem herdar as linhas fixas do desktop. */
     .timing__top h2 {
       font-size: 24px;
-    }
-
-    .timing__top h2 span {
-      display: inline;
     }
 
     .timing__argumento h3 {

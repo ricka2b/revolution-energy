@@ -232,6 +232,13 @@ const naoPrecisa = [
     .hero__media video {
       object-position: 52% 50%;
     }
+
+    /* No celular o botão fica compacto: o recuo maior à esquerda, que no
+       desktop equilibra o texto com a bolinha da seta, some. */
+    .hero__cta {
+      gap: 5px;
+      padding: 10px;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

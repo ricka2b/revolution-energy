@@ -717,8 +717,8 @@ const naoPrecisa = [
     }
 
     /* A 35px o `nowrap` do desktop estourava o card em 133px e o texto era
-       cortado. A quebra desejada já vem do `<br>` do markup, então basta
-       liberar — o corpo continua sendo os 35px pedidos. */
+       cortado. Aqui o texto corre solto — os `<br>` já saem de cena pela
+       regra global de mobile. */
     .not-needed h3 {
       font-size: 35px;
       line-height: 1.2em;

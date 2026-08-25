@@ -18,7 +18,6 @@
 import {
   animate,
   createTimeline,
-  cubicBezier,
   eases,
   onScroll,
   splitText,
@@ -45,11 +44,13 @@ const raiz = document.documentElement;
  */
 let deslocamentoFinalGrupoReconhecimento = 0;
 
-/**
- * Curva de saída forte — a mesma de `--ease-out` no CSS.
- * A partir do anime.js v4 a curva vem da função, não de uma string.
- */
-const EASE = cubicBezier(0.23, 1, 0.32, 1);
+/** Padrão único para entradas e transições da landing. */
+const EASE_INOUT = eases.inOutQuad;
+const DURACAO_ENTRADA = 600;
+const EASE_GSAP = "power1.inOut";
+const DURACAO_GSAP = 0.6;
+
+const EASE = EASE_INOUT;
 
 /** Desaceleração mais longa, para os números subirem sem parecer travados. */
 const EASE_CONTAGEM = eases.outCubic;
@@ -59,10 +60,13 @@ const EASE_CONTAGEM = eases.outCubic;
  * A `EASE` acima é forte de propósito em micro-interação; num trecho longo,
  * com o texto entrando letra a letra, ela lê como solavanco.
  */
-const EASE_SUAVE = cubicBezier(0.33, 1, 0.68, 1);
+const EASE_SUAVE = EASE_INOUT;
 
 /** Curva simétrica para animações raspadas: não salta no início nem no fim. */
-const EASE_SCROLL = cubicBezier(0.45, 0, 0.55, 1);
+const EASE_SCROLL = EASE_INOUT;
+
+/** Um passo da abertura da sessão 6. Todos têm a mesma duração. */
+const PASSO = DURACAO_ENTRADA;
 
 /**
  * Velocidade constante.
@@ -111,7 +115,7 @@ function hero() {
       {
         y: ["102%", "0%"],
         opacity: [0, 1],
-        duration: 800,
+        duration: DURACAO_ENTRADA,
       },
       stagger(80),
     );
@@ -120,7 +124,7 @@ function hero() {
   if (itens.length) {
     linha.add(
       itens,
-      { opacity: [0, 1], y: [14, 0], duration: 620 },
+      { opacity: [0, 1], y: [14, 0], duration: DURACAO_ENTRADA },
       stagger(90, { start: "-=480" }),
     );
   }
@@ -128,7 +132,7 @@ function hero() {
   if (chips.length) {
     linha.add(
       chips,
-      { opacity: [0, 1], y: [10, 0], scale: [0.96, 1], duration: 520 },
+      { opacity: [0, 1], y: [10, 0], scale: [0.96, 1], duration: DURACAO_ENTRADA },
       stagger(60, { start: "-=520" }),
     );
   }
@@ -345,9 +349,9 @@ function segundaDobra() {
      Antes isto era raspado no scroll, e a velocidade do gesto decidia o
      ritmo: quem rolava rápido atravessava a cena sem ler nada. */
 
-  const CORPO_CHAMADA = 620;
+  const CORPO_CHAMADA = DURACAO_ENTRADA;
   const PASSO_CHAMADA = 14;
-  const CORPO_PERGUNTA = 700;
+  const CORPO_PERGUNTA = DURACAO_ENTRADA;
   const PASSO_PERGUNTA = 11;
 
   // A pergunta entra quando a chamada está em 80% do próprio percurso: as
@@ -362,7 +366,7 @@ function segundaDobra() {
 
   // O segundo de respiro pedido: a pergunta fica parada no centro, sozinha,
   // antes de a cena virar.
-  const ESPERA_NO_CENTRO = 1000;
+  const ESPERA_NO_CENTRO = 300;
   const VIRADA = fimDaAbertura + ESPERA_NO_CENTRO;
 
   /** Mede o corpo que o CSS daria à pergunta em cada estado. */
@@ -399,10 +403,10 @@ function segundaDobra() {
   );
 
   /* A virada: a chamada sai, a pergunta encolhe e o grupo assenta. */
-  linha.add(intro, { opacity: 0, y: -28, duration: 560 }, VIRADA);
+  linha.add(intro, { opacity: 0, y: -28, duration: DURACAO_ENTRADA }, VIRADA);
   linha.add(
     pergunta,
-    { fontSize: [medirCorpo(false), medirCorpo(true)], duration: 760 },
+    { fontSize: [medirCorpo(false), medirCorpo(true)], duration: DURACAO_ENTRADA },
     VIRADA,
   );
   linha.add(
@@ -411,8 +415,7 @@ function segundaDobra() {
       y: [centroInicialPergunta, 0],
       // A subida percorre uma faixa maior que a redução da fonte. A curva
       // simétrica evita tanto o arranque quanto a parada brusca.
-      duration: 1280,
-      ease: EASE_SCROLL,
+      duration: DURACAO_ENTRADA,
     },
     VIRADA,
   );
@@ -421,20 +424,20 @@ function segundaDobra() {
     { marca: 0 },
     {
       marca: 1,
-      duration: 1,
+      duration: DURACAO_GSAP,
       onBegin: () => pergunta.classList.add("pergunta--fim"),
     },
-    VIRADA + 760,
+    VIRADA + DURACAO_ENTRADA,
   );
 
   /* O restante entra em sequência, um bloco de cada vez. */
-  linha.add(provavelmente, { opacity: 1, y: 0, duration: 900 }, VIRADA + 760);
+  linha.add(provavelmente, { opacity: 1, y: 0, duration: DURACAO_ENTRADA }, VIRADA + DURACAO_ENTRADA);
   linha.add(
     itens,
-    { opacity: 1, y: 0, duration: 620, delay: stagger(340) },
-    VIRADA + 1560,
+    { opacity: 1, y: 0, duration: DURACAO_ENTRADA, delay: stagger(160) },
+    VIRADA + 1300,
   );
-  linha.add(fecho, { opacity: 1, y: 0, duration: 680 }, VIRADA + 4380);
+  linha.add(fecho, { opacity: 1, y: 0, duration: DURACAO_ENTRADA }, VIRADA + 3200);
 
   // O gatilho é o trilho: quando o centro dele encontra o centro da tela, o
   // palco já preenche a viewport e a cena pode começar enquadrada.
@@ -579,13 +582,13 @@ function terceiraSecao() {
     autoplay: false,
   });
 
-  linhaIntro.add(eyebrow, { opacity: 1, y: 0, duration: 760 }, 0);
+  linhaIntro.add(eyebrow, { opacity: 1, y: 0, duration: DURACAO_ENTRADA }, 0);
   linhaIntro.add(
     letrasTitulo,
     {
       opacity: 1,
       y: "0%",
-      duration: 760,
+      duration: DURACAO_ENTRADA,
       delay: stagger(15),
     },
     520,
@@ -600,14 +603,14 @@ function terceiraSecao() {
 
   linhaMecanismo.add(
     esquerda,
-    { opacity: 1, y: 0, duration: 760, delay: stagger(360) },
+    { opacity: 1, y: 0, duration: DURACAO_ENTRADA, delay: stagger(360) },
     0,
   );
-  linhaMecanismo.add(card, { opacity: 1, y: 0, scale: 1, duration: 860 }, 520);
-  linhaMecanismo.add(cardTitulo, { opacity: 1, y: 0, duration: 680 }, 940);
+  linhaMecanismo.add(card, { opacity: 1, y: 0, scale: 1, duration: DURACAO_ENTRADA }, 520);
+  linhaMecanismo.add(cardTitulo, { opacity: 1, y: 0, duration: DURACAO_ENTRADA }, 940);
   linhaMecanismo.add(
     cardItens,
-    { opacity: 1, y: 0, duration: 620, delay: stagger(240) },
+    { opacity: 1, y: 0, duration: DURACAO_ENTRADA, delay: stagger(240) },
     1320,
   );
 
@@ -623,7 +626,7 @@ function terceiraSecao() {
 
   linhaContinuidade.add(
     continuidade,
-    { opacity: 1, y: 0, duration: 900, delay: stagger(440) },
+    { opacity: 1, y: 0, duration: DURACAO_ENTRADA, delay: stagger(440) },
     0,
   );
 
@@ -639,7 +642,7 @@ function terceiraSecao() {
 
   linhaPonte.add(
     [ponteTexto, ponteImagem],
-    { opacity: 1, y: 0, duration: 1050, delay: stagger(120) },
+    { opacity: 1, y: 0, duration: DURACAO_ENTRADA, delay: stagger(120) },
     0,
   );
 
@@ -669,7 +672,7 @@ function processoTravado() {
         autoAlpha: 1,
         y: 0,
         scale: 1,
-        ease: "power1.out",
+        ease: EASE_GSAP,
         scrollTrigger: {
           trigger: elemento,
           start: "top 86%",
@@ -694,19 +697,19 @@ function processoTravado() {
     autoplay: false,
   });
 
-  linha.add(titulo, { opacity: 1, y: 0, duration: 620 }, 0);
+  linha.add(titulo, { opacity: 1, y: 0, duration: DURACAO_ENTRADA }, 0);
   linha.add(
     passos,
     {
       opacity: 1,
       y: 0,
       scale: 1,
-      duration: 680,
+      duration: DURACAO_ENTRADA,
       delay: stagger(720),
     },
     760,
   );
-  linha.add(fim, { opacity: 1, y: 0, duration: 620 }, 4300);
+  linha.add(fim, { opacity: 1, y: 0, duration: DURACAO_ENTRADA }, 4300);
 
   // A timeline termina um pouco antes do fim do sticky, deixando uma pausa
   // curta com as quatro etapas e o fechamento totalmente visíveis.
@@ -954,549 +957,223 @@ function numerosInterativos() {
   contadoresS4.forEach(escreverS4Card);
   escreverTotal();
 
-  const linha = createTimeline({
-    defaults: { ease: EASE_SCROLL },
+  // ---- Abertura: cena travada, com a rolagem presa ----
+  //
+  // Esta parte não é raspada pelo scroll. Ao chegar no topo do trilho a tela
+  // trava, a cena roda inteira no tempo dela e só então aparece o "Arraste
+  // para continuar" — o mesmo padrão da segunda dobra.
+  //
+  // Um passo só termina para o seguinte começar: as marcas saem do
+  // comprimento real de cada trecho (letras têm stagger, então duram mais
+  // que os 500ms de cada tween). Assim as esperas pedidas são mesmo esperas
+  // e nada encavala se a contagem de letras mudar.
+  const linhaAbertura = createTimeline({
+    defaults: { ease: EASE_INOUT, duration: PASSO },
     autoplay: false,
   });
 
-  // ---- Cena 1: título, chamada, 40 contas e a comissão de 40% ----
+  const ESPERA_TITULO = 1000;
+  const ESPERA_CHAMADA = 1500;
 
-  linha.add(
-    letras,
-    { opacity: 1, y: 0, duration: 650, delay: stagger(25) },
-    0,
-  );
-  linha.add(
-    titulo,
-    { y: 0, scale: 1, duration: 900 },
-    1500,
-  );
-  linha.add(tituloInicial, { opacity: 0, duration: 320 }, 1720);
-  linha.add(tituloFinal, { opacity: 1, duration: 320 }, 1720);
-  linha.add(
+  const fimLetrasTitulo = PASSO + 25 * (letras.length - 1);
+  const sobeTitulo = fimLetrasTitulo + ESPERA_TITULO;
+  const fimLetrasChamada = sobeTitulo + PASSO + 18 * (letrasChamada.length - 1);
+  const sobeChamada = fimLetrasChamada + ESPERA_CHAMADA;
+  // As contas só entram quando a chamada já chegou ao lugar dela, lá em cima.
+  const entradaIcones = sobeChamada + PASSO;
+  const fimIcones = entradaIcones + PASSO + 8 * (icones.length - 1);
+  const consumoInicio = fimIcones + 150;
+
+  // 1. "Vamos colocar números nisso?" entra letra por letra, grande e no
+  //    centro exato da tela.
+  linhaAbertura.add(letras, { opacity: 1, y: 0, delay: stagger(25) }, 0);
+
+  // 2. Passada a espera, o título sobe para o lugar dele no layout e, no
+  //    mesmo instante, a chamada aparece no centro.
+  linhaAbertura.add(titulo, { y: 0, scale: 1 }, sobeTitulo);
+  linhaAbertura.add(tituloInicial, { opacity: 0 }, sobeTitulo);
+  linhaAbertura.add(tituloFinal, { opacity: 1 }, sobeTitulo);
+  linhaAbertura.add(
     letrasChamada,
-    {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      duration: 700,
-      delay: stagger(18),
-    },
-    2050,
+    { opacity: 1, y: 0, scale: 1, delay: stagger(18) },
+    sobeTitulo,
   );
-  linha.add(
-    chamada,
-    { y: 0, duration: 900 },
-    3500,
-  );
-  linha.add(
-    icones,
-    {
-      opacity: 1,
-      scale: 1,
-      duration: 360,
-      delay: stagger(8),
-    },
-    4400,
-  );
-  linha.add(consumoLinha, { opacity: 1, y: 0, duration: 680 }, 5350);
-  linha.add(
+
+  // 3. Passada a segunda espera, a chamada sobe — e só depois de ela chegar
+  //    lá em cima é que as 40 contas aparecem.
+  linhaAbertura.add(chamada, { y: 0 }, sobeChamada);
+  linhaAbertura.add(icones, { opacity: 1, scale: 1, delay: stagger(8) }, entradaIcones);
+
+  // 4. E então o consumo e a comissão, um depois do outro.
+  linhaAbertura.add(consumoLinha, { opacity: 1, y: 0 }, consumoInicio);
+  linhaAbertura.add(consumoFrase, { opacity: 1, y: 0 }, consumoInicio + PASSO);
+  linhaAbertura.add(
     contador,
-    {
-      valor: 15,
-      duration: 950,
-      onUpdate: escreverConsumo,
-    },
-    5800,
+    { valor: 15, onUpdate: escreverConsumo },
+    consumoInicio + PASSO,
   );
-  linha.add(consumoFrase, { opacity: 1, y: 0, duration: 850 }, 5800);
-  linha.add(comissao, { opacity: 1, y: 0, duration: 760 }, 6200);
+  linhaAbertura.add(comissao, { opacity: 1, y: 0 }, consumoInicio + 2 * PASSO);
 
-  // ---- Transição 1 → 2: a cena que sai dá zoom e some; a próxima aparece ----
+  // ---- Cenas 2, 3 e 4: cada uma é a próxima cena travada da fila ----
+  //
+  // A seção inteira roda no regime de cena travada: a tela prende no topo do
+  // trilho e cada arrasto toca uma cena por inteiro, do zoom de saída da
+  // anterior até a última linha da nova. Nada aqui é raspado pelo scroll, e
+  // por isso o trilho não tem mais percurso nenhum.
 
-  linha.add(cena1, { scale: 1.16, opacity: 0, duration: 720 }, 7300);
-  linha.add(cena2, { opacity: 1, duration: 650 }, 7450);
+  const novaCena = () =>
+    createTimeline({
+      defaults: { ease: EASE_INOUT, duration: PASSO },
+      autoplay: false,
+    });
+
+  // A cena que entra começa a aparecer ainda durante o zoom da que sai.
+  const ENTRADA = 150;
+  const DEPOIS_DA_TROCA = PASSO + ENTRADA;
 
   // ---- Cena 2: "Com esse volume... até R$ 6.000" ----
 
-  linha.add(s2Intro, { opacity: 1, y: 0, duration: 560 }, 8100);
-  linha.add(s2Pill, { opacity: 1, scale: 1, duration: 680 }, 8700);
-  linha.add(
+  const linhaCena2 = novaCena();
+  linhaCena2.add(cena1, { scale: 1.16, opacity: 0 }, 0);
+  linhaCena2.add(cena2, { opacity: 1 }, ENTRADA);
+  linhaCena2.add(s2Intro, { opacity: 1, y: 0 }, DEPOIS_DA_TROCA);
+  linhaCena2.add(s2Pill, { opacity: 1, scale: 1 }, DEPOIS_DA_TROCA + PASSO);
+  linhaCena2.add(
     contadorS2,
-    { valor: 6000, duration: 680, onUpdate: escreverS2 },
-    8700,
+    { valor: 6000, onUpdate: escreverS2 },
+    DEPOIS_DA_TROCA + PASSO,
   );
-  linha.add(s2Legenda, { opacity: 1, y: 0, duration: 560 }, 9420);
+  linhaCena2.add(s2Legenda, { opacity: 1, y: 0 }, DEPOIS_DA_TROCA + 2 * PASSO);
 
-  // ---- Transição 2 → 3 ----
+  // ---- Cena 3: o bônus a cada dez contas ----
 
-  linha.add(cena2, { scale: 1.16, opacity: 0, duration: 720 }, 10320);
-  linha.add(cena3, { opacity: 1, duration: 650 }, 10470);
+  const linhaCena3 = novaCena();
+  linhaCena3.add(cena2, { scale: 1.16, opacity: 0 }, 0);
+  linhaCena3.add(cena3, { opacity: 1 }, ENTRADA);
 
-  // ---- Cena 3: bônus a cada dez contas ----
-
-  // A chamada começa grande e centralizada, letra por letra, e depois sobe
-  // para o lugar que já ocupa no layout — o mesmo truque do título da cena 1.
-  linha.add(
+  // A chamada entra grande e centralizada, letra por letra, e só sobe para o
+  // lugar dela no layout quando a última letra chega — o mesmo da abertura.
+  const fimLetrasS3Header =
+    DEPOIS_DA_TROCA + PASSO + 16 * (letrasS3Header.length - 1);
+  linhaCena3.add(
     letrasS3Header,
-    { opacity: 1, y: 0, duration: 560, delay: stagger(16) },
-    11120,
+    { opacity: 1, y: 0, delay: stagger(16) },
+    DEPOIS_DA_TROCA,
   );
-  linha.add(s3Header, { y: 0, scale: 1, duration: 620 }, 12664);
+  linhaCena3.add(s3Header, { y: 0, scale: 1 }, fimLetrasS3Header);
 
-  // A partir daqui os três blocos (a frase, as 10 contas e a comissão) ficam
-  // quase colados — pedido para acontecerem "quase juntos", mais fluido.
-  linha.add(s3Linha, { opacity: 1, y: 0, duration: 500 }, 13564);
-  linha.add(
+  const s3Bloco = fimLetrasS3Header + PASSO;
+  const fimIconesS3 = s3Bloco + 2 * PASSO + 18 * (s3Icones.length - 1);
+  linhaCena3.add(s3Linha, { opacity: 1, y: 0 }, s3Bloco);
+  linhaCena3.add(
     s3Icones,
-    { opacity: 1, scale: 1, duration: 300, delay: stagger(18) },
-    13814,
+    { opacity: 1, scale: 1, delay: stagger(18) },
+    s3Bloco + PASSO,
   );
-  linha.add(s3BonusValor, { opacity: 1, y: 0, duration: 480 }, 14214);
-  linha.add(
+  linhaCena3.add(s3BonusValor, { opacity: 1, y: 0 }, fimIconesS3);
+  linhaCena3.add(
     contadorS3Bonus,
-    { valor: 1000, duration: 620, onUpdate: escreverS3Bonus },
-    14334,
+    { valor: 1000, onUpdate: escreverS3Bonus },
+    fimIconesS3,
   );
-  linha.add(s3Ouseja, { opacity: 1, y: 0, duration: 480 }, 15336);
+  linhaCena3.add(s3Ouseja, { opacity: 1, y: 0 }, fimIconesS3 + PASSO);
 
-  // "40 contas cadastradas são" aparece, "4 ciclos de 10 contas" digita
-  // letra por letra e só então a coluna do resultado entra: o valor sobe em
-  // contador e, assim que ele termina, "em bônus" também digita letra por
-  // letra — a mesma lógica que já usamos nos outros números da seção.
-  linha.add(s3Coluna1Label, { opacity: 1, y: 0, duration: 480 }, 16196);
-  linha.add(s3PillCiclos, { opacity: 1, duration: 260 }, 16476);
-  linha.add(
+  // "40 contas cadastradas são" aparece, "4 ciclos de 10 contas" digita letra
+  // por letra, e só então entra a coluna do resultado: o valor sobe em
+  // contador e "em bônus" digita logo atrás.
+  const s3Coluna = fimIconesS3 + 2 * PASSO;
+  const s3Resultado = s3Coluna + 2 * PASSO + 26 * (letrasS3Pill.length - 1);
+  linhaCena3.add(s3Coluna1Label, { opacity: 1, y: 0 }, s3Coluna);
+  linhaCena3.add(s3PillCiclos, { opacity: 1 }, s3Coluna + PASSO);
+  linhaCena3.add(
     letrasS3Pill,
-    { opacity: 1, y: 0, duration: 420, delay: stagger(26) },
-    16556,
+    { opacity: 1, y: 0, delay: stagger(26) },
+    s3Coluna + PASSO,
   );
-  linha.add(s3Coluna2Label, { opacity: 1, y: 0, duration: 480 }, 17870);
-  linha.add(s3Coluna2Pill, { opacity: 1, duration: 260 }, 18150);
-  linha.add(
+  linhaCena3.add(s3Coluna2Label, { opacity: 1, y: 0 }, s3Resultado);
+  linhaCena3.add(s3Coluna2Pill, { opacity: 1 }, s3Resultado + PASSO);
+  linhaCena3.add(
     contadorS3Total,
-    { valor: 4000, duration: 680, onUpdate: escreverS3Total },
-    18150,
+    { valor: 4000, onUpdate: escreverS3Total },
+    s3Resultado + PASSO,
   );
-  linha.add(
+  linhaCena3.add(
     letrasS3EmBonus,
-    { opacity: 1, y: 0, duration: 340, delay: stagger(30) },
-    18980,
+    { opacity: 1, y: 0, delay: stagger(30) },
+    s3Resultado + 2 * PASSO,
   );
-
-  // ---- Transição 3 → 4: o fade em si é quem troca o fundo pro claro ----
-
-  linha.add(cena3, { scale: 1.16, opacity: 0, duration: 720 }, 19950);
-  linha.add(cena4, { opacity: 1, duration: 650 }, 20100);
-
-  const numerosNoMobile = window.matchMedia("(max-width: 57.999rem)").matches;
-
-  // No mobile a cena final participa da mesma timeline raspada das três
-  // anteriores. A antiga trava por eventos de toque podia ser atravessada
-  // pela inércia do navegador antes que os listeners fossem ligados, o que
-  // deixava toda a soma no estado invisível. Assim mantemos exatamente a
-  // narrativa do desktop, mas vinculada diretamente ao gesto de rolagem:
-  // título, primeiro valor, soma, segundo valor e total.
-  if (numerosNoMobile) {
-    const pausaFinalMobile = { progresso: 0 };
-
-    linha.add(
-      letrasS4Titulo,
-      {
-        opacity: 1,
-        y: 0,
-        duration: 620,
-        delay: stagger(14),
-      },
-      20750,
-    );
-    linha.add(s4Titulo, { y: 0, scale: 1, duration: 760 }, 22050);
-
-    linha.add(s4Card1, { opacity: 1, y: 0, duration: 620 }, 22950);
-    linha.add(
-      contadoresS4[0],
-      {
-        valor: contadoresS4[0].alvo,
-        duration: 760,
-        onUpdate: () => escreverS4Card(contadoresS4[0]),
-      },
-      22950,
-    );
-    linha.add(
-      letrasS4Card1Label,
-      { opacity: 1, y: 0, duration: 540, delay: stagger(16) },
-      23100,
-    );
-
-    linha.add(s4Plus, { scale: 1, rotate: 0, duration: 680 }, 24250);
-    linha.add(s4Card2, { opacity: 1, y: 0, duration: 620 }, 24250);
-    linha.add(
-      contadoresS4[1],
-      {
-        valor: contadoresS4[1].alvo,
-        duration: 760,
-        onUpdate: () => escreverS4Card(contadoresS4[1]),
-      },
-      24250,
-    );
-    linha.add(
-      letrasS4Card2Label,
-      { opacity: 1, y: 0, duration: 540, delay: stagger(16) },
-      24400,
-    );
-
-    linha.add(s4TotalValor, { opacity: 1, y: 0, duration: 720 }, 25650);
-    linha.add(
-      contadorTotal,
-      {
-        valor: 10000,
-        duration: 1500,
-        ease: EASE_CONTAGEM,
-        onUpdate: escreverTotal,
-      },
-      25650,
-    );
-    linha.add(
-      letrasS4TotalLabel,
-      { opacity: 1, y: 0, duration: 560, delay: stagger(16) },
-      26000,
-    );
-    linha.add(
-      pausaFinalMobile,
-      { progresso: 1, duration: 1100, ease: EASE_LINEAR },
-      27450,
-    );
-
-    vincular(linha, trilho, { inicio: 0, fim: 1.55, usaFundo: true });
-    return;
-  }
-
-  vincular(linha, trilho, { inicio: 0, fim: 1.55, usaFundo: true });
 
   // ---- Cena 4: a soma final, sobre o fundo claro ----
   //
-  // Daqui em diante não é mais raspado pelo scroll — é uma sequência de
-  // etapas travadas: ao entrar na cena, a tela trava, o título aparece
-  // grande e centralizado (letra por letra) e sobe para o lugar do layout.
-  // A partir daí, cada rolagem dispara a etapa seguinte por inteiro; a tela
-  // só destrava de novo depois que a última etapa termina (e um respiro).
-  // Ver `sequenciaFinalTravada`.
+  // O fade desta troca **é** a mudança de fundo escuro → claro: a cena 4
+  // carrega o próprio `background`. Não existe tween em `background-color`.
 
-  sequenciaFinalTravada({
-    trilho,
-    linha,
-    pontoMs: 20750,
-    etapas: [
-      // Etapa 0 — dispara sozinha, assim que a cena 4 termina de entrar: as
-      // letras digitam e só depois o título sobe (uma coisa de cada vez).
-      () =>
-        novaPromessa((r) =>
-          animate(letrasS4Titulo, {
-            opacity: 1,
-            y: 0,
-            duration: 520,
-            ease: EASE_SCROLL,
-            delay: stagger(14),
-            onComplete: r,
-          }),
-        ).then(() =>
-          novaPromessa((r) =>
-            animate(s4Titulo, {
-              y: 0,
-              scale: 1,
-              duration: 620,
-              ease: EASE_SCROLL,
-              onComplete: r,
-            }),
-          ),
-        ),
-      // Etapa 1 — o cartão do 6.000 e o rótulo dele, juntos.
-      () =>
-        Promise.all([
-          novaPromessa((r) =>
-            animate(s4Card1, {
-              opacity: 1,
-              y: 0,
-              duration: 500,
-              ease: EASE_SCROLL,
-              onComplete: r,
-            }),
-          ),
-          novaPromessa((r) =>
-            animate(contadoresS4[0], {
-              valor: contadoresS4[0].alvo,
-              duration: 620,
-              ease: EASE_SCROLL,
-              onUpdate: () => escreverS4Card(contadoresS4[0]),
-              onComplete: r,
-            }),
-          ),
-          novaPromessa((r) =>
-            animate(letrasS4Card1Label, {
-              opacity: 1,
-              y: 0,
-              duration: 460,
-              ease: EASE_SCROLL,
-              delay: stagger(16),
-              onComplete: r,
-            }),
-          ),
-        ]).then(() => {}),
-      // Etapa 2 — o "+" (girando), o cartão do 4.000 e o rótulo, juntos.
-      () =>
-        Promise.all([
-          novaPromessa((r) =>
-            animate(s4Plus, {
-              scale: 1,
-              rotate: 0,
-              duration: 620,
-              ease: EASE_SCROLL,
-              onComplete: r,
-            }),
-          ),
-          novaPromessa((r) =>
-            animate(s4Card2, {
-              opacity: 1,
-              y: 0,
-              duration: 500,
-              ease: EASE_SCROLL,
-              onComplete: r,
-            }),
-          ),
-          novaPromessa((r) =>
-            animate(contadoresS4[1], {
-              valor: contadoresS4[1].alvo,
-              duration: 620,
-              ease: EASE_SCROLL,
-              onUpdate: () => escreverS4Card(contadoresS4[1]),
-              onComplete: r,
-            }),
-          ),
-          novaPromessa((r) =>
-            animate(letrasS4Card2Label, {
-              opacity: 1,
-              y: 0,
-              duration: 460,
-              ease: EASE_SCROLL,
-              delay: stagger(16),
-              onComplete: r,
-            }),
-          ),
-        ]).then(() => {}),
-      // Etapa 3 — os R$ 10 mil contando, a caixa subindo e a legenda final
-      // digitando, tudo junto: a última etapa da sequência.
-      () =>
-        Promise.all([
-          novaPromessa((r) =>
-            animate(s4TotalValor, {
-              opacity: 1,
-              y: 0,
-              duration: 620,
-              ease: EASE_SCROLL,
-              onComplete: r,
-            }),
-          ),
-          novaPromessa((r) =>
-            animate(contadorTotal, {
-              valor: 10000,
-              duration: 1500,
-              ease: EASE_CONTAGEM,
-              onUpdate: escreverTotal,
-              onComplete: r,
-            }),
-          ),
-          novaPromessa((r) =>
-            animate(letrasS4TotalLabel, {
-              opacity: 1,
-              y: 0,
-              duration: 460,
-              ease: EASE_SCROLL,
-              delay: stagger(16),
-              onComplete: r,
-            }),
-          ),
-        ]).then(() => {}),
-    ],
-    reiniciar: () => {
-      utils.set(s4Titulo, {
-        y: deslocamentoInicialS4Titulo,
-        scale: 1.3,
-      });
-      utils.set(letrasS4Titulo, { opacity: 0, y: 26 });
-      utils.set(s4Card1, { opacity: 0, y: 24 });
-      utils.set(letrasS4Card1Label, { opacity: 0, y: 16 });
-      utils.set(s4Plus, { scale: 0, rotate: 360 });
-      utils.set(s4Card2, { opacity: 0, y: 24 });
-      utils.set(letrasS4Card2Label, { opacity: 0, y: 16 });
-      utils.set(s4TotalValor, { opacity: 0, y: 24 });
-      utils.set(letrasS4TotalLabel, { opacity: 0, y: 18 });
-      contadoresS4.forEach((item) => {
-        item.valor = 0;
-        escreverS4Card(item);
-      });
-      contadorTotal.valor = 0;
-      escreverTotal();
+  const linhaCena4 = novaCena();
+  linhaCena4.add(cena3, { scale: 1.16, opacity: 0 }, 0);
+  linhaCena4.add(cena4, { opacity: 1 }, ENTRADA);
+
+  const fimLetrasS4Titulo =
+    DEPOIS_DA_TROCA + PASSO + 14 * (letrasS4Titulo.length - 1);
+  linhaCena4.add(
+    letrasS4Titulo,
+    { opacity: 1, y: 0, delay: stagger(14) },
+    DEPOIS_DA_TROCA,
+  );
+  linhaCena4.add(s4Titulo, { y: 0, scale: 1 }, fimLetrasS4Titulo);
+
+  // Primeiro cartão, o "+" girando com o segundo, e então o total.
+  const s4Cartao1 = fimLetrasS4Titulo + PASSO;
+  const s4Cartao2 = s4Cartao1 + PASSO + 16 * (letrasS4Card1Label.length - 1);
+  const s4Total = s4Cartao2 + PASSO + 16 * (letrasS4Card2Label.length - 1);
+
+  linhaCena4.add(s4Card1, { opacity: 1, y: 0 }, s4Cartao1);
+  linhaCena4.add(
+    contadoresS4[0],
+    {
+      valor: contadoresS4[0].alvo,
+      onUpdate: () => escreverS4Card(contadoresS4[0]),
     },
+    s4Cartao1,
+  );
+  linhaCena4.add(
+    letrasS4Card1Label,
+    { opacity: 1, y: 0, delay: stagger(16) },
+    s4Cartao1,
+  );
+
+  linhaCena4.add(s4Plus, { scale: 1, rotate: 0 }, s4Cartao2);
+  linhaCena4.add(s4Card2, { opacity: 1, y: 0 }, s4Cartao2);
+  linhaCena4.add(
+    contadoresS4[1],
+    {
+      valor: contadoresS4[1].alvo,
+      onUpdate: () => escreverS4Card(contadoresS4[1]),
+    },
+    s4Cartao2,
+  );
+  linhaCena4.add(
+    letrasS4Card2Label,
+    { opacity: 1, y: 0, delay: stagger(16) },
+    s4Cartao2,
+  );
+
+  linhaCena4.add(s4TotalValor, { opacity: 1, y: 0 }, s4Total);
+  linhaCena4.add(
+    contadorTotal,
+    { valor: 10000, onUpdate: escreverTotal },
+    s4Total,
+  );
+  linhaCena4.add(
+    letrasS4TotalLabel,
+    { opacity: 1, y: 0, delay: stagger(16) },
+    s4Total,
+  );
+
+  cenasTravadasEmSequencia({
+    gatilho: trilho,
+    linhas: [linhaAbertura, linhaCena2, linhaCena3, linhaCena4],
+    inicio: "top top",
   });
-}
-
-/** Envolve uma chamada com `onComplete` num `Promise` — só açúcar sintático. */
-function novaPromessa(executor: (resolver: () => void) => unknown) {
-  return new Promise<void>((resolver) => {
-    executor(resolver);
-  });
-}
-
-/* ------------------------------------------------------------------ *
- * Sequência final da seção de números — não raspa com o scroll.
- * ------------------------------------------------------------------ */
-
-/**
- * Ao alcançar `pontoMs` da timeline raspada, a tela trava por completo: cada
- * rolagem (roda, toque ou teclado) dispara a próxima etapa da lista, do
- * início ao fim — nunca duas de uma vez, e a etapa sempre termina por
- * inteiro antes de aceitar a próxima rolagem. Depois de cada etapa fica um
- * respiro travado (`RESPIRO_ENTRE_ETAPAS`); depois da última, mais um
- * respiro antes de devolver o scroll de vez, para a transição para a seção
- * seguinte não vir colada.
- *
- * A primeira etapa dispara sozinha, assim que a cena alcança `pontoMs` — as
- * demais só avançam com uma rolagem para frente.
- */
-function sequenciaFinalTravada(opcoes: {
-  trilho: HTMLElement;
-  linha: ReturnType<typeof createTimeline>;
-  pontoMs: number;
-  etapas: Array<() => Promise<void>>;
-  reiniciar: () => void;
-}) {
-  const { trilho, linha, pontoMs, etapas, reiniciar } = opcoes;
-
-  const RESPIRO_ENTRE_ETAPAS = 650;
-
-  const caixa = trilho.getBoundingClientRect();
-  const topo = caixa.top + window.scrollY;
-  const altura = caixa.height;
-
-  function scrollDoGatilho() {
-    const fim = topo + altura - window.innerHeight * 1.55;
-    return topo + (pontoMs / linha.duration) * (fim - topo);
-  }
-
-  let entrou = false;
-  let etapaAtual = -1;
-  let tocando = false;
-  let podeAvancar = false;
-
-  function bloquear(evento: Event) {
-    evento.preventDefault();
-  }
-
-  function avancar(direcao: 1 | -1) {
-    if (!entrou || tocando || !podeAvancar || direcao < 0) return;
-    const proxima = etapaAtual + 1;
-    if (proxima >= etapas.length) return;
-    tocarEtapa(proxima);
-  }
-
-  function bloquearComGesto(evento: WheelEvent) {
-    evento.preventDefault();
-    avancar(evento.deltaY > 0 ? 1 : -1);
-  }
-
-  let toqueInicioY = 0;
-  function tocarInicioToque(evento: TouchEvent) {
-    toqueInicioY = evento.touches[0]?.clientY ?? 0;
-  }
-  function tocarFimToque(evento: TouchEvent) {
-    const fimY = evento.changedTouches[0]?.clientY ?? toqueInicioY;
-    const delta = toqueInicioY - fimY; // arrastar pra cima = intenção de ir pra frente
-    if (Math.abs(delta) > 24) avancar(delta > 0 ? 1 : -1);
-  }
-
-  const teclasBloqueadas = new Set([
-    "ArrowDown",
-    "ArrowUp",
-    "PageDown",
-    "PageUp",
-    " ",
-    "Home",
-    "End",
-  ]);
-
-  function bloquearTeclado(evento: KeyboardEvent) {
-    if (!teclasBloqueadas.has(evento.key)) return;
-    evento.preventDefault();
-    if (evento.key === "ArrowDown" || evento.key === "PageDown" || evento.key === " ") {
-      avancar(1);
-    }
-  }
-
-  function ligarBloqueio() {
-    // O Lenis tem a própria animação de rolagem: sem pará-lo aqui, ele
-    // continua interpolando o scroll por conta própria e a pessoa passa
-    // batido pela sequência inteira, apesar do `preventDefault` abaixo.
-    pausarRolagemSuave();
-    window.addEventListener("wheel", bloquearComGesto, { passive: false });
-    window.addEventListener("touchmove", bloquear, { passive: false });
-    window.addEventListener("touchstart", tocarInicioToque, { passive: true });
-    window.addEventListener("touchend", tocarFimToque);
-    window.addEventListener("keydown", bloquearTeclado);
-  }
-
-  function desligarBloqueio() {
-    retomarRolagemSuave();
-    window.removeEventListener("wheel", bloquearComGesto);
-    window.removeEventListener("touchmove", bloquear);
-    window.removeEventListener("touchstart", tocarInicioToque);
-    window.removeEventListener("touchend", tocarFimToque);
-    window.removeEventListener("keydown", bloquearTeclado);
-  }
-
-  // Rede de segurança: se por algum motivo a Promise de uma etapa nunca se
-  // resolver (uma animação que não dispara o `onComplete`, por exemplo), a
-  // sequência travaria pra sempre — a tela presa, sem reagir a mais nenhuma
-  // rolagem. Isso força a continuação de qualquer forma depois de um tempo.
-  const FAILSAFE_MS = 3500;
-
-  function tocarEtapa(indice: number) {
-    etapaAtual = indice;
-    tocando = true;
-    podeAvancar = false;
-
-    const comFailsafe = new Promise<void>((resolver) => {
-      window.setTimeout(resolver, FAILSAFE_MS);
-    });
-
-    Promise.race([etapas[indice](), comFailsafe]).then(() => {
-      window.setTimeout(() => {
-        tocando = false;
-        if (etapaAtual < etapas.length - 1) {
-          podeAvancar = true;
-        } else {
-          desligarBloqueio();
-        }
-      }, RESPIRO_ENTRE_ETAPAS);
-    });
-  }
-
-  function verificarEntrada() {
-    if (entrou) return;
-    if (window.scrollY >= scrollDoGatilho()) {
-      entrou = true;
-      ligarBloqueio();
-      tocarEtapa(0);
-    }
-  }
-
-  // Se a pessoa recarregar a página já rolada para depois deste ponto (ou
-  // voltar por aqui vindo de uma âncora), a sequência entra travada direto
-  // no estado inicial — sem isso ela ficaria destravada com o conteúdo
-  // final ainda invisível.
-  if (window.scrollY < scrollDoGatilho()) reiniciar();
-
-  window.addEventListener("scroll", verificarEntrada, { passive: true });
-  verificarEntrada();
 }
 
 /* ------------------------------------------------------------------ *
@@ -1591,20 +1268,38 @@ function esconderDica() {
  * `once: true` porque a cena conta uma história: repetir a cada passagem
  * prenderia a pessoa de novo num conteúdo que ela já viu.
  */
-function cenaTravada(opcoes: {
+type LinhaTocavel = {
+  play: () => unknown;
+  duration: number;
+  seek: (tempo: number) => unknown;
+};
+
+/**
+ * Toca uma fila de cenas com a rolagem presa, uma por gesto.
+ *
+ * Ao cruzar o gatilho a tela trava e a primeira linha do tempo roda por
+ * inteiro. Quando ela acaba aparece a dica "Arraste para continuar" e o
+ * primeiro gesto depois disso **não devolve a rolagem**: ele toca a próxima
+ * cena da fila. A rolagem só volta depois da última.
+ *
+ * A trava é uma só do começo ao fim — nada de soltar e retravar entre cenas,
+ * o que deixaria a inércia do Lenis atravessar a troca.
+ */
+function cenasTravadasEmSequencia(opcoes: {
   gatilho: HTMLElement;
-  linha: { play: () => unknown; duration: number; seek: (t: number) => unknown };
+  linhas: LinhaTocavel[];
   inicio?: string;
-  /** Chamado quando a pessoa arrasta e a cena devolve a rolagem. */
+  /** Chamado quando a última cena termina e a rolagem é devolvida. */
   aoLiberar?: () => void;
 }) {
-  const { gatilho, linha, inicio = "center center", aoLiberar } = opcoes;
+  const { gatilho, linhas, inicio = "center center", aoLiberar } = opcoes;
+  if (!linhas.length) return;
 
-  // Recarregar a página numa âncora abaixo desta seção deixaria a cena
-  // presa no estado inicial, invisível para sempre — o gatilho só dispara
-  // ao ser cruzado. Aqui ela já nasce montada, sem travar nada.
+  // Recarregar a página numa âncora abaixo desta seção deixaria as cenas
+  // presas no estado inicial, invisíveis para sempre — o gatilho só dispara
+  // ao ser cruzado. Aqui elas já nascem montadas, sem travar nada.
   if (gatilho.getBoundingClientRect().bottom < 0) {
-    linha.seek(linha.duration);
+    for (const linha of linhas) linha.seek(linha.duration);
     aoLiberar?.();
     return;
   }
@@ -1616,41 +1311,64 @@ function cenaTravada(opcoes: {
     onEnter: () => {
       const soltarRolagem = travarRolagem();
 
-      let liberado = false;
-      const liberar = () => {
-        if (liberado) return;
-        liberado = true;
-        window.removeEventListener("wheel", liberar);
-        window.removeEventListener("touchmove", liberar);
-        window.removeEventListener("keydown", liberar);
-        esconderDica();
-        soltarRolagem();
-        aoLiberar?.();
+      const tocar = (indice: number) => {
+        const linha = linhas[indice];
+
+        let avancou = false;
+        const avancar = () => {
+          if (avancou) return;
+          avancou = true;
+          window.removeEventListener("wheel", avancar);
+          window.removeEventListener("touchmove", avancar);
+          window.removeEventListener("keydown", avancar);
+          esconderDica();
+
+          if (indice + 1 < linhas.length) {
+            tocar(indice + 1);
+            return;
+          }
+          soltarRolagem();
+          aoLiberar?.();
+        };
+
+        let terminou = false;
+        const aoTerminar = () => {
+          if (terminou) return;
+          terminou = true;
+          mostrarDica();
+          // A cena continua presa. O primeiro gesto depois da dica é que
+          // avança — é ele o "arraste para continuar".
+          window.addEventListener("wheel", avancar, { passive: true });
+          window.addEventListener("touchmove", avancar, { passive: true });
+          window.addEventListener("keydown", avancar, { passive: true });
+        };
+
+        // Rede de segurança: se a linha não avisar que terminou, a dica
+        // aparece assim mesmo. Prender para sempre seria pior que o defeito.
+        const resgate = window.setTimeout(aoTerminar, linha.duration + 4000);
+
+        Promise.resolve(linha.play() as PromiseLike<unknown>).then(() => {
+          window.clearTimeout(resgate);
+          // Um respiro com a cena montada antes de convidar a seguir.
+          window.setTimeout(aoTerminar, 500);
+        });
       };
 
-      let terminou = false;
-      const aoTerminar = () => {
-        if (terminou) return;
-        terminou = true;
-        mostrarDica();
-        // A cena continua presa. O primeiro gesto depois da dica é que
-        // devolve a rolagem — é ele o "arraste para continuar".
-        window.addEventListener("wheel", liberar, { passive: true });
-        window.addEventListener("touchmove", liberar, { passive: true });
-        window.addEventListener("keydown", liberar, { passive: true });
-      };
-
-      // Rede de segurança: se a linha não avisar que terminou, a dica
-      // aparece assim mesmo. Prender para sempre seria pior que o defeito.
-      const resgate = window.setTimeout(aoTerminar, linha.duration + 4000);
-
-      Promise.resolve(linha.play() as PromiseLike<unknown>).then(() => {
-        window.clearTimeout(resgate);
-        // Um respiro com a cena montada antes de convidar a seguir.
-        window.setTimeout(aoTerminar, 500);
-      });
+      tocar(0);
     },
   });
+}
+
+/** Uma cena travada só — o caso de uma fila de um item. */
+function cenaTravada(opcoes: {
+  gatilho: HTMLElement;
+  linha: LinhaTocavel;
+  inicio?: string;
+  /** Chamado quando a pessoa arrasta e a cena devolve a rolagem. */
+  aoLiberar?: () => void;
+}) {
+  const { linha, ...resto } = opcoes;
+  cenasTravadasEmSequencia({ ...resto, linhas: [linha] });
 }
 
 /* ------------------------------------------------------------------ *
@@ -1661,9 +1379,6 @@ function recorrenciaInterativa() {
   const secao = document.querySelector<HTMLElement>("[data-rec-section]");
   if (!secao) return;
 
-  const cabecalho = secao.querySelector<HTMLElement>("[data-rec-header]");
-  const textosCabecalho = $$<HTMLElement>("[data-rec-header-text]", secao);
-  const trilhoCard = secao.querySelector<HTMLElement>("[data-rec-card-track]");
   const card = secao.querySelector<HTMLElement>("[data-rec-card]");
   const label = secao.querySelector<HTMLElement>("[data-rec-label]");
   const pill = secao.querySelector<HTMLElement>("[data-rec-pill]");
@@ -1686,9 +1401,6 @@ function recorrenciaInterativa() {
   const renew = ilustracao?.querySelector<SVGGraphicsElement>("#renew");
 
   if (
-    !cabecalho ||
-    !textosCabecalho.length ||
-    !trilhoCard ||
     !card ||
     !label ||
     !pill ||
@@ -1711,7 +1423,6 @@ function recorrenciaInterativa() {
     return;
   }
 
-  const letrasCabecalho = textosCabecalho.map(dividirEmLetras);
   const letrasLabel = dividirEmLetras(label);
   const letrasPill = palavrasPill.flatMap(dividirEmLetras);
   const letrasParagrafos = paragrafos.map(dividirEmLetras);
@@ -1719,11 +1430,9 @@ function recorrenciaInterativa() {
   const letrasTituloVirada = dividirEmLetras(tituloVirada);
   const letrasTextosVirada = textosVirada.map(dividirEmLetras);
 
-  utils.set(textosCabecalho, { opacity: 1 });
   utils.set([label, pill, ...paragrafos, tituloEscala, tituloVirada], { opacity: 1 });
   utils.set(
     [
-      ...letrasCabecalho.flat(),
       ...letrasLabel,
       ...letrasPill,
       ...letrasParagrafos.flat(),
@@ -1747,26 +1456,7 @@ function recorrenciaInterativa() {
   utils.set(energia, { opacity: 1, scale: 0, y: -10 });
   utils.set(renew, { opacity: 0, scale: 0, rotate: 360 });
 
-  /* 1. Pré-título, título e apoio, todos letra por letra. */
-  const linhaCabecalho = createTimeline({
-    autoplay: false,
-    defaults: { ease: EASE_SCROLL },
-  });
-
-  let cursorCabecalho = 0;
-  letrasCabecalho.forEach((letras, indice) => {
-    const passo = indice === 1 ? 8 : 10;
-    linhaCabecalho.add(
-      letras,
-      { y: "0%", duration: 680, delay: stagger(passo) },
-      cursorCabecalho,
-    );
-    cursorCabecalho += 680 + passo * Math.max(0, letras.length - 1) + 100;
-  });
-
-  vincular(linhaCabecalho, cabecalho, { inicio: 0.88, fim: 0.3 });
-
-  /* 2. Card branco, narrativa e troca energia → recorrência. */
+  /* Card branco, narrativa e troca energia → recorrência. */
   const linhaCard = createTimeline({
     autoplay: false,
     defaults: { ease: EASE_SCROLL },
@@ -1774,23 +1464,23 @@ function recorrenciaInterativa() {
 
   linhaCard.add(
     card,
-    { opacity: 1, y: 0, scale: 1, duration: 720 },
+    { opacity: 1, y: 0, scale: 1, duration: DURACAO_ENTRADA },
     0,
   );
   linhaCard.add(
     letrasLabel,
-    { y: "0%", duration: 680, delay: stagger(10) },
+    { y: "0%", duration: DURACAO_ENTRADA, delay: stagger(10) },
     700,
   );
 
   linhaCard.add(
     pill,
-    { scale: 1, duration: 760, ease: EASE_SUAVE },
+    { scale: 1, duration: DURACAO_ENTRADA, ease: EASE_SUAVE },
     1900,
   );
   linhaCard.add(
     letrasPill,
-    { y: "0%", duration: 650, delay: stagger(9) },
+    { y: "0%", duration: DURACAO_ENTRADA, delay: stagger(9) },
     2000,
   );
 
@@ -1798,36 +1488,36 @@ function recorrenciaInterativa() {
   // revela o novo cliente ao lado no mesmo instante.
   linhaCard.add(
     letrasParagrafos[0],
-    { y: "0%", duration: 680, delay: stagger(9) },
+    { y: "0%", duration: DURACAO_ENTRADA, delay: stagger(9) },
     3200,
   );
   linhaCard.add(
     base,
-    { scale: 1, rotate: 0, duration: 900, ease: EASE_SUAVE },
+    { scale: 1, rotate: 0, duration: DURACAO_ENTRADA, ease: EASE_SUAVE },
     3300,
   );
-  linhaCard.add(user, { scale: 1, duration: 760, ease: EASE_SUAVE }, 3420);
+  linhaCard.add(user, { scale: 1, duration: DURACAO_ENTRADA, ease: EASE_SUAVE }, 3420);
   linhaCard.add(
     energia,
-    { scale: 1, y: 0, duration: 720, ease: EASE_SUAVE },
+    { scale: 1, y: 0, duration: DURACAO_ENTRADA, ease: EASE_SUAVE },
     3540,
   );
 
   linhaCard.add(
     letrasParagrafos[1],
-    { y: "0%", duration: 680, delay: stagger(8) },
+    { y: "0%", duration: DURACAO_ENTRADA, delay: stagger(8) },
     5200,
   );
 
   // "No outro também…": o raio sai e o símbolo de renovação o substitui.
   linhaCard.add(
     letrasParagrafos[2],
-    { y: "0%", duration: 680, delay: stagger(9) },
+    { y: "0%", duration: DURACAO_ENTRADA, delay: stagger(9) },
     7000,
   );
   linhaCard.add(
     energia,
-    { opacity: 0, scale: 0, duration: 460, ease: EASE_SUAVE },
+    { opacity: 0, scale: 0, duration: DURACAO_ENTRADA, ease: EASE_SUAVE },
     7000,
   );
   linhaCard.add(
@@ -1836,7 +1526,7 @@ function recorrenciaInterativa() {
       opacity: 1,
       scale: 1,
       rotate: 0,
-      duration: 820,
+      duration: DURACAO_ENTRADA,
       ease: EASE_SUAVE,
     },
     7250,
@@ -1844,48 +1534,18 @@ function recorrenciaInterativa() {
 
   linhaCard.add(
     letrasParagrafos[3],
-    { y: "0%", duration: 700, delay: stagger(7) },
+    { y: "0%", duration: DURACAO_ENTRADA, delay: stagger(7) },
     8500,
   );
 
-  // O card só fica preso no desktop — o `position: sticky` e a altura extra
-  // do trilho vivem num `@media (min-width: 68.0625rem)`. Abaixo disso o
-  // trilho é do tamanho do próprio card, e raspar a história nele daria
-  // ~256px de rolagem para quase 9s de animação: um toque do dedo atravessa
-  // tudo antes de qualquer texto terminar de entrar.
-  //
-  // Prender o card no celular não resolve: ele tem ~762px e num aparelho de
-  // 667px de altura sobrariam 627px úteis — cortaria 135px. Então no mobile
-  // a história é **disparada** e roda no tempo dela, como as frases de
-  // abertura da segunda dobra.
-  const CARD_PRESO = window.matchMedia("(min-width: 68.0625rem)");
-
-  if (CARD_PRESO.matches) {
-    // O trilho mantém o card fixo no centro até o último texto terminar. A
-    // cena só devolve a rolagem à seção quando a história ficou inteira visível.
-    vincular(linhaCard, trilhoCard, {
-      inicio: 0.22,
-      fim: 0.83,
-      usaFundo: true,
-    });
-  } else {
-    // No celular a história roda travada: o gatilho espera o card ficar
-    // centralizado, prende a rolagem, toca a linha inteira e só devolve o
-    // scroll no fim. Sem isso a pessoa atravessava a cena no meio dela.
-    ScrollTrigger.create({
-      trigger: card,
-      start: "center center",
-      once: true,
-      onEnter: () => {
-        const soltar = travarRolagem();
-        const resgate = window.setTimeout(soltar, linhaCard.duration + 4000);
-        linhaCard.play().then(() => {
-          window.clearTimeout(resgate);
-          window.setTimeout(soltar, 600);
-        });
-      },
-    });
-  }
+  // Esta é a única cena travada da seção em todos os breakpoints. A abertura
+  // permanece fixa; ao chegar no card a pessoa assiste à narrativa completa
+  // e só avança depois de "Arraste para continuar".
+  cenaTravada({
+    gatilho: card,
+    linha: linhaCard,
+    inicio: "center center",
+  });
 
   /* 3. Um único palco para a escala e as duas viradas do Figma. Assim o
      primeiro bloco não gruda no teto e todas as trocas preservam exatamente
@@ -1907,7 +1567,7 @@ function recorrenciaInterativa() {
 
   linhaConclusao.add(
     letrasTituloEscala,
-    { y: "0%", duration: 680, delay: stagger(9) },
+    { y: "0%", duration: DURACAO_ENTRADA, delay: stagger(9) },
     0,
   );
   linhaConclusao.add(
@@ -1916,7 +1576,7 @@ function recorrenciaInterativa() {
       opacity: 1,
       y: 0,
       scale: 1,
-      duration: 620,
+      duration: DURACAO_ENTRADA,
       delay: stagger(340),
     },
     1050,
@@ -1925,7 +1585,7 @@ function recorrenciaInterativa() {
   // O conjunto 10–200 sai como uma única composição, com zoom e fade.
   linhaConclusao.add(
     escala,
-    { opacity: 0, scale: 1.12, duration: 900, ease: EASE_SUAVE },
+    { opacity: 0, scale: 1.12, duration: DURACAO_ENTRADA, ease: EASE_SUAVE },
     3200,
   );
 
@@ -1933,23 +1593,23 @@ function recorrenciaInterativa() {
   // final do Figma, antes de revelar pergunta e resposta.
   linhaConclusao.add(
     letrasTituloVirada,
-    { y: "0%", duration: 720, delay: stagger(10) },
+    { y: "0%", duration: DURACAO_ENTRADA, delay: stagger(10) },
     3650,
   );
   linhaConclusao.add(
     tituloVirada,
-    { y: 0, scale: 1, duration: 1100, ease: EASE_SUAVE },
+    { y: 0, scale: 1, duration: DURACAO_ENTRADA, ease: EASE_SUAVE },
     5200,
   );
-  linhaConclusao.add(partesVirada[0], { opacity: 1, duration: 180 }, 6350);
+  linhaConclusao.add(partesVirada[0], { opacity: 1, duration: DURACAO_ENTRADA }, 6350);
   linhaConclusao.add(
     letrasTextosVirada[0],
-    { y: "0%", duration: 680, delay: stagger(10) },
+    { y: "0%", duration: DURACAO_ENTRADA, delay: stagger(10) },
     6400,
   );
   linhaConclusao.add(
     letrasTextosVirada[1],
-    { y: "0%", duration: 720, delay: stagger(9) },
+    { y: "0%", duration: DURACAO_ENTRADA, delay: stagger(9) },
     7250,
   );
 
@@ -1957,35 +1617,35 @@ function recorrenciaInterativa() {
   // mesmo título permanece no alto enquanto a nova ideia surge no centro.
   linhaConclusao.add(
     partesVirada[0],
-    { opacity: 0, scale: 1.08, duration: 850, ease: EASE_SUAVE },
+    { opacity: 0, scale: 1.08, duration: DURACAO_ENTRADA, ease: EASE_SUAVE },
     9000,
   );
   linhaConclusao.add(
     fundoFinal,
-    { opacity: 1, duration: 900, ease: EASE_SUAVE },
+    { opacity: 1, duration: DURACAO_ENTRADA, ease: EASE_SUAVE },
     9250,
   );
   linhaConclusao.add(
     tituloVirada,
-    { color: "#ffffff", duration: 900, ease: EASE_SUAVE },
+    { color: "#ffffff", duration: DURACAO_ENTRADA, ease: EASE_SUAVE },
     9250,
   );
-  linhaConclusao.add(partesVirada[1], { opacity: 1, duration: 180 }, 10100);
+  linhaConclusao.add(partesVirada[1], { opacity: 1, duration: DURACAO_ENTRADA }, 10100);
   linhaConclusao.add(
     letrasTextosVirada[2],
-    { y: "0%", duration: 680, delay: stagger(10) },
+    { y: "0%", duration: DURACAO_ENTRADA, delay: stagger(10) },
     10150,
   );
   linhaConclusao.add(
     letrasTextosVirada[3],
-    { y: "0%", duration: 760, delay: stagger(8) },
+    { y: "0%", duration: DURACAO_ENTRADA, delay: stagger(8) },
     11000,
   );
 
-  vincular(linhaConclusao, trilhoConclusao, {
-    inicio: 0.08,
-    fim: 0.88,
-    usaFundo: true,
+  cenaTravada({
+    gatilho: trilhoConclusao,
+    linha: linhaConclusao,
+    inicio: "top top",
   });
 }
 
@@ -2002,7 +1662,7 @@ function titulosPorLetra() {
 
     const entrada = animate(letras, {
       y: ["110%", "0%"],
-      duration: 700,
+      duration: DURACAO_ENTRADA,
       ease: EASE_SCROLL,
       delay: stagger(12),
       autoplay: false,
@@ -2055,9 +1715,9 @@ function cabecalhosEditoriais() {
         linha.to(letrasPre, {
           autoAlpha: 1,
           yPercent: 0,
-          duration: 1,
+          duration: DURACAO_GSAP,
           stagger: .018,
-          ease: "power1.out",
+          ease: EASE_GSAP,
         });
       }
 
@@ -2066,15 +1726,15 @@ function cabecalhosEditoriais() {
         {
           autoAlpha: 1,
           yPercent: 0,
-          duration: 1.15,
+          duration: DURACAO_GSAP,
           stagger: .014,
-          ease: "power1.out",
+          ease: EASE_GSAP,
         },
         letrasPre.length ? ">.18" : 0,
       );
 
       if (apoio) {
-        linha.to(apoio, { autoAlpha: 1, y: 0, duration: .9, ease: "power1.out" }, ">.18");
+        linha.to(apoio, { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.18");
       }
     });
   }
@@ -2111,9 +1771,9 @@ function movimentosSequenciais() {
         invalidateOnRefresh: true,
       },
     })
-      .to(letrasPre, { autoAlpha: 1, yPercent: 0, duration: 1, stagger: .02, ease: "power1.out" })
-      .to(letrasHeadline, { autoAlpha: 1, yPercent: 0, duration: 1.2, stagger: .014, ease: "power1.out" }, ">.2")
-      .to(sub, { autoAlpha: 1, y: 0, duration: .9, ease: "power1.out" }, ">.2");
+      .to(letrasPre, { autoAlpha: 1, yPercent: 0, duration: DURACAO_GSAP, stagger: .02, ease: EASE_GSAP })
+      .to(letrasHeadline, { autoAlpha: 1, yPercent: 0, duration: DURACAO_GSAP, stagger: .014, ease: EASE_GSAP }, ">.2")
+      .to(sub, { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.2");
   }
 
   const bento = secao.querySelector<HTMLElement>(".bento");
@@ -2137,10 +1797,10 @@ function movimentosSequenciais() {
       gsap.set([icon, title, texto].filter(Boolean), { autoAlpha: 0, y: 20 });
 
       linhaCards
-        .to(card, { autoAlpha: 1, y: 0, scale: 1, duration: .8, ease: "power1.out" })
-        .to(icon, { autoAlpha: 1, y: 0, duration: .55, ease: "power1.out" }, ">.08")
-        .to(title, { autoAlpha: 1, y: 0, duration: .65, ease: "power1.out" }, ">.06")
-        .to(texto, { autoAlpha: 1, y: 0, duration: .8, ease: "power1.out" }, ">.06");
+        .to(card, { autoAlpha: 1, y: 0, scale: 1, duration: DURACAO_GSAP, ease: EASE_GSAP })
+        .to(icon, { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.08")
+        .to(title, { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.06")
+        .to(texto, { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.06");
     });
   }
 
@@ -2169,10 +1829,10 @@ function movimentosSequenciais() {
     });
 
     linhaFecho
-      .to(frase, { autoAlpha: 1, y: 0, duration: 1, ease: "power1.out" })
-      .to(bullets, { autoAlpha: 1, y: 0, duration: .75, stagger: .22, ease: "power1.out" }, ">.16")
-      .to(fluxo, { autoAlpha: 1, y: 0, scale: 1, duration: .8, ease: "power1.out" }, ">.18")
-      .to(fluxoItens, { autoAlpha: 1, y: 0, duration: .65, stagger: .16, ease: "power1.out" }, ">.1");
+      .to(frase, { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, ease: EASE_GSAP })
+      .to(bullets, { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, stagger: .22, ease: EASE_GSAP }, ">.16")
+      .to(fluxo, { autoAlpha: 1, y: 0, scale: 1, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.18")
+      .to(fluxoItens, { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, stagger: .16, ease: EASE_GSAP }, ">.1");
   }
 }
 
@@ -2204,9 +1864,9 @@ function experienciaSequencial() {
         invalidateOnRefresh: true,
       },
     })
-      .to(pre, { autoAlpha: 1, y: 0, duration: .7, ease: "power1.out" })
+      .to(pre, { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, ease: EASE_GSAP })
       .to(letras, { autoAlpha: 1, duration: .08, stagger: .04, ease: "none" }, ">.12")
-      .to(cursor, { autoAlpha: 0, scaleY: .65, duration: .3, ease: "power1.out" }, ">.12");
+      .to(cursor, { autoAlpha: 0, scaleY: .65, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.12");
   }
 
   const resposta = document.querySelector<HTMLElement>("[data-s9-topicos]");
@@ -2228,8 +1888,8 @@ function experienciaSequencial() {
         invalidateOnRefresh: true,
       },
     })
-      .to(respostaIntro, { autoAlpha: 1, y: 0, duration: .85, ease: "power1.out" })
-      .to(topicos, { autoAlpha: 1, y: 0, duration: .75, stagger: .28, ease: "power1.out" }, ">.18");
+      .to(respostaIntro, { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, ease: EASE_GSAP })
+      .to(topicos, { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, stagger: .28, ease: EASE_GSAP }, ">.18");
   }
 
   const fecho = document.querySelector<HTMLElement>("[data-s9-fecho]");
@@ -2254,10 +1914,10 @@ function experienciaSequencial() {
         invalidateOnRefresh: true,
       },
     })
-      .to(fechoTitulo, { autoAlpha: 1, y: 0, duration: .8, ease: "power1.out" })
-      .to(fechoTexto, { autoAlpha: 1, y: 0, duration: .7, ease: "power1.out" }, ">.14")
-      .to(fluxo, { autoAlpha: 1, y: 0, scale: 1, duration: .65, ease: "power1.out" }, ">.14")
-      .to(itensFluxo, { autoAlpha: 1, y: 0, duration: .55, stagger: .2, ease: "power1.out" }, ">.08");
+      .to(fechoTitulo, { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, ease: EASE_GSAP })
+      .to(fechoTexto, { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.14")
+      .to(fluxo, { autoAlpha: 1, y: 0, scale: 1, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.14")
+      .to(itensFluxo, { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, stagger: .2, ease: EASE_GSAP }, ">.08");
   }
 }
 
@@ -2289,9 +1949,9 @@ function primeirosClientesSequencial() {
         invalidateOnRefresh: true,
       },
     })
-      .to(letrasChamada, { autoAlpha: 1, yPercent: 0, duration: .9, stagger: .018, ease: "power1.out" })
-      .to(letrasApoio, { autoAlpha: 1, yPercent: 0, duration: .85, stagger: .014, ease: "power1.out" }, ">.18")
-      .to(contatos, { autoAlpha: 1, y: 0, scale: 1, duration: .65, stagger: .2, ease: "power1.out" }, ">.2");
+      .to(letrasChamada, { autoAlpha: 1, yPercent: 0, duration: DURACAO_GSAP, stagger: .018, ease: EASE_GSAP })
+      .to(letrasApoio, { autoAlpha: 1, yPercent: 0, duration: DURACAO_GSAP, stagger: .014, ease: EASE_GSAP }, ">.18")
+      .to(contatos, { autoAlpha: 1, y: 0, scale: 1, duration: DURACAO_GSAP, stagger: .2, ease: EASE_GSAP }, ">.2");
   }
 
   const mensagem = document.querySelector<HTMLElement>("[data-s10-mensagem]");
@@ -2342,14 +2002,14 @@ function primeirosClientesSequencial() {
   });
 
   linha
-    .to(frame, { autoAlpha: 1, scale: 1, duration: .45, ease: "power1.out" })
-    .to(chatPassos, { autoAlpha: 1, y: 0, scale: 1, duration: .45, stagger: .1, ease: "power1.out" }, ">.08")
-    .to(letrasTitulo, { autoAlpha: 1, yPercent: 0, duration: .85, stagger: .016, ease: "power1.out" }, ">.22")
-    .to(letrasTextoUm, { autoAlpha: 1, yPercent: 0, duration: .9, stagger: .011, ease: "power1.out" }, ">.16")
-    .to(letrasTextoDois, { autoAlpha: 1, yPercent: 0, duration: .8, stagger: .014, ease: "power1.out" }, ">.14")
-    .to(pagarMenos, { autoAlpha: 1, y: 0, duration: .75, ease: "power1.out" }, ">.16")
-    .to(mudaTudo, { autoAlpha: 1, y: 0, duration: .75, ease: "power1.out" }, ">.14")
-    .to(pausa, { progresso: 1, duration: 1.2, ease: "none" }, ">.2");
+    .to(frame, { autoAlpha: 1, scale: 1, duration: DURACAO_GSAP, ease: EASE_GSAP })
+    .to(chatPassos, { autoAlpha: 1, y: 0, scale: 1, duration: DURACAO_GSAP, stagger: .1, ease: EASE_GSAP }, ">.08")
+    .to(letrasTitulo, { autoAlpha: 1, yPercent: 0, duration: DURACAO_GSAP, stagger: .016, ease: EASE_GSAP }, ">.22")
+    .to(letrasTextoUm, { autoAlpha: 1, yPercent: 0, duration: DURACAO_GSAP, stagger: .011, ease: EASE_GSAP }, ">.16")
+    .to(letrasTextoDois, { autoAlpha: 1, yPercent: 0, duration: DURACAO_GSAP, stagger: .014, ease: EASE_GSAP }, ">.14")
+    .to(pagarMenos, { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.16")
+    .to(mudaTudo, { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.14")
+    .to(pausa, { progresso: 1, duration: DURACAO_GSAP, ease: "none" }, ">.2");
 }
 
 /* ------------------------------------------------------------------ *
@@ -2365,9 +2025,9 @@ function rotinaSequencial() {
     gsap.to(frases, {
       autoAlpha: 1,
       y: 0,
-      duration: .75,
+      duration: DURACAO_GSAP,
       stagger: .28,
-      ease: "power1.out",
+      ease: EASE_GSAP,
       scrollTrigger: {
         trigger: apoio,
         start: "top 80%",
@@ -2401,10 +2061,10 @@ function rotinaSequencial() {
         invalidateOnRefresh: true,
       },
     })
-      .to(label, { autoAlpha: 1, y: 0, duration: .7, ease: "power1.out" })
-      .to(fluxo, { autoAlpha: 1, y: 0, scale: 1, duration: .7, ease: "power1.out" }, ">.14")
-      .to(itens, { autoAlpha: 1, y: 0, duration: .55, stagger: .2, ease: "power1.out" }, ">.08")
-      .to(fim, { autoAlpha: 1, y: 0, duration: .7, ease: "power1.out" }, ">.16");
+      .to(label, { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, ease: EASE_GSAP })
+      .to(fluxo, { autoAlpha: 1, y: 0, scale: 1, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.14")
+      .to(itens, { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, stagger: .2, ease: EASE_GSAP }, ">.08")
+      .to(fim, { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.16");
   }
 }
 
@@ -2417,11 +2077,8 @@ function dozeMesesSequencial() {
   const estados = transicao ? $$<HTMLElement>("[data-doze-estado]", transicao) : [];
   if (!transicao || estados.length !== 2) return;
 
-  const barra = document.querySelector<HTMLElement>(".bar");
-  const alturaBarra = () => barra?.getBoundingClientRect().height ?? 0;
-  // A narrativa de cenários usa o mesmo palco preso em desktop e mobile.
-  // O único limite é uma altura mínima segura para o conteúdo não ser
-  // recortado em aparelhos usados na horizontal.
+  // A narrativa usa o mesmo palco em desktop e mobile. O conteúdo de cada
+  // cena roda por completo antes de aceitar o próximo gesto.
   const podePrender = window.matchMedia("(min-height: 520px)").matches;
   const [estadoUm, estadoDois] = estados;
   const cabecalhoUm = estadoUm.querySelector<HTMLElement>("[data-doze-cabecalho]");
@@ -2483,47 +2140,32 @@ function dozeMesesSequencial() {
   gsap.set([...letrasEtiqueta, ...letrasParagrafos.flat()], { autoAlpha: 0 });
   gsap.set([...letrasEtiquetaDois, ...letrasParagrafosDois.flat()], { autoAlpha: 0 });
 
-  const pausaInicial = { progresso: 0 };
-  const pausaCenarioUm = { progresso: 0 };
-  const pausaCenarioDois = { progresso: 0 };
-  const linha = gsap.timeline({
-    scrollTrigger: {
-      trigger: transicao,
-      start: podePrender ? () => `top top+=${alturaBarra()}` : "top 80%",
-      end: podePrender ? "+=7200" : "bottom 20%",
-      pin: podePrender,
-      pinSpacing: podePrender,
-      scrub: 1.2,
-      anticipatePin: podePrender ? 1 : 0,
-      invalidateOnRefresh: true,
-    },
-  });
+  const linhaCenarioUm = gsap.timeline({ paused: true });
 
-  linha
-    .to(cabecalhoUm, { autoAlpha: 1, duration: .75, ease: "power1.out" })
-    .to(pausaInicial, { progresso: 1, duration: .55, ease: "none" }, ">.08")
-    .to(cabecalhoUm, { y: 0, scale: 1, duration: 1.15, ease: "power1.out" }, ">.12")
-    .to(etiquetaUm, { autoAlpha: 1, scale: 1, duration: .45, ease: "power1.out" }, ">.22")
+  linhaCenarioUm
+    .to(cabecalhoUm, { autoAlpha: 1, duration: DURACAO_GSAP, ease: EASE_GSAP })
+    .to({}, { duration: DURACAO_GSAP }, ">.08")
+    .to(cabecalhoUm, { y: 0, scale: 1, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.12")
+    .to(etiquetaUm, { autoAlpha: 1, scale: 1, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.22")
     .to(letrasEtiqueta, { autoAlpha: 1, duration: .08, stagger: .04, ease: "none" }, "<.04");
 
   letrasParagrafos.forEach((letras) => {
-    linha.to(letras, { autoAlpha: 1, duration: .08, stagger: .018, ease: "none" }, ">.2");
+    linhaCenarioUm.to(letras, { autoAlpha: 1, duration: .08, stagger: .018, ease: "none" }, ">.2");
   });
 
-  linha
-    .to(pausaCenarioUm, { progresso: 1, duration: 1.05, ease: "none" }, ">.2")
-    .to(estadoUm, { autoAlpha: 0, scale: .985, duration: 1.15, ease: "power1.inOut" }, ">.08")
-    .to(estadoDois, { autoAlpha: 1, scale: 1, duration: 1.15, ease: "power1.inOut" }, "<")
-    .to(pausaCenarioDois, { progresso: .25, duration: .7, ease: "none" }, ">.12")
-    .to(cabecalhoDois, { y: 0, scale: 1, duration: 1.15, ease: "power1.out" }, ">.1")
-    .to(etiquetaDois, { autoAlpha: 1, scale: 1, duration: .45, ease: "power1.out" }, ">.22")
+  const linhaCenarioDois = gsap.timeline({ paused: true });
+
+  linhaCenarioDois
+    .to(estadoUm, { autoAlpha: 0, scale: .985, duration: DURACAO_GSAP, ease: "power1.inOut" }, ">.08")
+    .to(estadoDois, { autoAlpha: 1, scale: 1, duration: DURACAO_GSAP, ease: "power1.inOut" }, "<")
+    .to({}, { duration: DURACAO_GSAP }, ">.12")
+    .to(cabecalhoDois, { y: 0, scale: 1, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.1")
+    .to(etiquetaDois, { autoAlpha: 1, scale: 1, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.22")
     .to(letrasEtiquetaDois, { autoAlpha: 1, duration: .08, stagger: .04, ease: "none" }, "<.04");
 
   letrasParagrafosDois.forEach((letras) => {
-    linha.to(letras, { autoAlpha: 1, duration: .08, stagger: .018, ease: "none" }, ">.2");
+    linhaCenarioDois.to(letras, { autoAlpha: 1, duration: .08, stagger: .018, ease: "none" }, ">.2");
   });
-
-  linha.to(pausaCenarioDois, { progresso: 1, duration: 1.35, ease: "none" }, ">.2");
 
   const painelResultado = document.querySelector<HTMLElement>(".doze__painel--tres");
   const resultado = painelResultado?.querySelector<HTMLElement>("[data-doze-resultado]");
@@ -2556,35 +2198,23 @@ function dozeMesesSequencial() {
     valor.textContent = indice === 3 ? "Até mesmo R$ 0 mil" : "R$ 0 mil";
   });
 
-  const pausaResultado = { progresso: 0 };
-  const linhaResultado = gsap.timeline({
-    scrollTrigger: {
-      trigger: painelResultado,
-      start: podePrender ? () => `top top+=${alturaBarra()}` : "top 80%",
-      end: podePrender ? "+=3400" : "bottom 20%",
-      pin: podePrender,
-      pinSpacing: podePrender,
-      scrub: 1.2,
-      anticipatePin: podePrender ? 1 : 0,
-      invalidateOnRefresh: true,
-    },
-  });
+  const linhaResultado = gsap.timeline({ paused: true });
 
   linhaResultado
-    .to(tituloResultado, { autoAlpha: 1, duration: .75, ease: "power1.out" })
-    .to(pausaResultado, { progresso: .25, duration: .5, ease: "none" }, ">.08")
-    .to(tituloResultado, { y: 0, duration: 1.05, ease: "power1.out" }, ">.12");
+    .to(tituloResultado, { autoAlpha: 1, duration: DURACAO_GSAP, ease: EASE_GSAP })
+    .to({}, { duration: .5 }, ">.08")
+    .to(tituloResultado, { y: 0, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.12");
 
   valores.forEach((valor, indice) => {
     const contador = contadoresResultado[indice];
     linhaResultado
-      .to(valor, { autoAlpha: 1, y: 0, scale: 1, duration: .65, ease: "power1.out" }, ">.16")
+      .to(valor, { autoAlpha: 1, y: 0, scale: 1, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.16")
       .to(
         contador,
         {
           valor: alvos[indice],
-          duration: .8,
-          ease: "power1.out",
+          duration: DURACAO_GSAP,
+          ease: EASE_GSAP,
           onUpdate: () => {
             const numero = Math.round(contador.valor);
             valor.textContent = indice === 3 ? `Até mesmo R$ ${numero} mil` : `R$ ${numero} mil`;
@@ -2598,7 +2228,27 @@ function dozeMesesSequencial() {
     linhaResultado.to(letras, { autoAlpha: 1, yPercent: 0, duration: .08, stagger: .016, ease: "none" }, ">.2");
   });
 
-  linhaResultado.to(pausaResultado, { progresso: 1, duration: 1, ease: "none" }, ">.2");
+  const adaptarLinhaGsap = (linha: gsap.core.Timeline): LinhaTocavel => ({
+    duration: Math.max(1, linha.duration() * 1000),
+    seek: (tempo) => linha.pause().seek(tempo / 1000),
+    play: () =>
+      new Promise<void>((resolver) => {
+        linha.eventCallback("onComplete", resolver);
+        linha.play(0);
+      }),
+  });
+
+  cenasTravadasEmSequencia({
+    gatilho: transicao,
+    linhas: [adaptarLinhaGsap(linhaCenarioUm), adaptarLinhaGsap(linhaCenarioDois)],
+    inicio: "top top",
+  });
+
+  cenaTravada({
+    gatilho: painelResultado,
+    linha: adaptarLinhaGsap(linhaResultado),
+    inicio: "center center",
+  });
 }
 
 /* ------------------------------------------------------------------ *
@@ -2701,8 +2351,8 @@ function revelacoes() {
       {
         autoAlpha: 1,
         y: 0,
-        duration: 1,
-        ease: "power1.out",
+        duration: DURACAO_GSAP,
+        ease: EASE_GSAP,
         scrollTrigger: { trigger: el, ...gatilho },
       },
     );
@@ -2721,12 +2371,12 @@ function revelacoes() {
       .fromTo(
         filhos[0],
         { autoAlpha: 0, y: 28 },
-        { autoAlpha: 1, y: 0, duration: 1, ease: "power1.out" },
+        { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, ease: EASE_GSAP },
       )
       .fromTo(
         filhos[1],
         { autoAlpha: 0, y: 28 },
-        { autoAlpha: 1, y: 0, duration: 1, ease: "power1.out" },
+        { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, ease: EASE_GSAP },
         ">0.18",
       );
   });
@@ -2746,11 +2396,11 @@ function revelacoes() {
     });
 
     sequencia
-      .fromTo(filhos[0], { autoAlpha: 0, y: 34 }, { autoAlpha: 1, y: 0, duration: 1, ease: "power1.out" })
-      .fromTo(filhos[1], { autoAlpha: 0, scale: .72 }, { autoAlpha: 1, scale: 1, duration: .65, ease: "power1.out" }, ">.12")
-      .fromTo(filhos[2], { autoAlpha: 0, y: 34 }, { autoAlpha: 1, y: 0, duration: 1, ease: "power1.out" }, ">.16")
-      .fromTo(filhos[3], { autoAlpha: 0, scale: .72 }, { autoAlpha: 1, scale: 1, duration: .65, ease: "power1.out" }, ">.12")
-      .fromTo(filhos[4], { autoAlpha: 0, y: 42, scale: .975 }, { autoAlpha: 1, y: 0, scale: 1, duration: 1.2, ease: "power1.out" }, ">.16");
+      .fromTo(filhos[0], { autoAlpha: 0, y: 34 }, { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, ease: EASE_GSAP })
+      .fromTo(filhos[1], { autoAlpha: 0, scale: .72 }, { autoAlpha: 1, scale: 1, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.12")
+      .fromTo(filhos[2], { autoAlpha: 0, y: 34 }, { autoAlpha: 1, y: 0, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.16")
+      .fromTo(filhos[3], { autoAlpha: 0, scale: .72 }, { autoAlpha: 1, scale: 1, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.12")
+      .fromTo(filhos[4], { autoAlpha: 0, y: 42, scale: .975 }, { autoAlpha: 1, y: 0, scale: 1, duration: DURACAO_GSAP, ease: EASE_GSAP }, ">.16");
   });
 
   $$("[data-stagger]")
@@ -2771,9 +2421,9 @@ function revelacoes() {
         {
           autoAlpha: 1,
           y: 0,
-          duration: 1,
+          duration: DURACAO_GSAP,
           stagger: .14,
-          ease: "power1.out",
+          ease: EASE_GSAP,
           scrollTrigger: { trigger: grupo, ...gatilho },
         },
       );
@@ -2807,7 +2457,7 @@ function contadores() {
 
     const entrada = animate(contador, {
       valor: [0, alvo],
-      duration: 1100,
+      duration: DURACAO_ENTRADA,
       ease: EASE_CONTAGEM,
       autoplay: false,
       onUpdate: () => escrever(Math.round(contador.valor)),
