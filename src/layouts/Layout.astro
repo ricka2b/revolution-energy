@@ -69,6 +69,36 @@ const canonical = Astro.site
     <!-- End Google Tag Manager -->
 
     {/*
+      Recarregar a página começa no topo.
+
+      Por padrão o navegador devolve o visitante à posição onde ele estava.
+      Aqui isso cai no meio das sequências presas ao scroll e a cena reabre
+      num estado inconsistente — os palcos medem posição no carregamento.
+
+      Vale mesmo sem animação: é o comportamento esperado de um refresh.
+      Link com âncora (#reconhecimento) continua funcionando: só forçamos o
+      topo quando a URL não pede um destino.
+    */}
+    <script is:inline>
+      (function () {
+        if ("scrollRestoration" in history) {
+          history.scrollRestoration = "manual";
+        }
+        if (window.location.hash) return;
+        window.addEventListener(
+          "load",
+          function () {
+            if (window.scrollY === 0) return;
+            // `instant` porque o `scroll-behavior: smooth` do CSS faria a
+            // página deslizar sozinha na abertura.
+            window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+          },
+          { once: true },
+        );
+      })();
+    </script>
+
+    {/*
       Marca o documento antes da primeira pintura, para os elementos animados
       já nascerem no estado inicial e não haver flash de conteúdo.
       Se o módulo de animação não carregar, o timeout devolve tudo à vista.
