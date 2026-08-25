@@ -383,7 +383,7 @@ const naoPrecisa = [
   .process-track {
     position: relative;
     width: min(calc(100% + 3.25rem), 71.25rem);
-    margin-top: 50px;
+    margin-top: 18rem;
     height: calc(41.0625rem + 115rem);
   }
 
@@ -552,7 +552,7 @@ const naoPrecisa = [
     .process-track {
       width: 100%;
       height: auto;
-      margin-top: 50px;
+      margin-top: 4rem;
     }
 
     .process {
@@ -624,36 +624,6 @@ const naoPrecisa = [
       height: auto;
       min-height: auto;
       margin-inline: auto;
-      /* Os 2.5rem do desktop não cabem: a linha mais longa do título a 24px
-         pede ~268px, e com 40px (ou mesmo 28px) de padding de cada lado ela
-         quebraria numa terceira linha já em 360px, largura comum de Android. */
-      padding: 1.25rem;
-    }
-
-    /* 24px no celular. O tracking vem em `em` para acompanhar o corpo menor
-       (em px ele ficaria proporcionalmente apertado demais).
-
-       Sem `nowrap` aqui: a quebra desejada já vem do `<br>` do markup, e o
-       `nowrap` do desktop criava uma largura mínima de ~326px no card. Como
-       `1fr` não encolhe abaixo do conteúdo, a coluna estourava o container
-       de 280px e o `overflow: clip` da seção cortava a borda direita do card
-       em telas de 320px. */
-    .not-needed h3 {
-      font-size: 24px;
-      line-height: 1.05;
-      letter-spacing: -0.021em;
-      white-space: normal;
-    }
-
-    .not-needed li {
-      font-size: 0.9rem;
-    }
-
-    /* Trava de segurança do grid: `1fr` é `minmax(auto, 1fr)`, e o `auto`
-       mínimo é o min-content — que pode ser maior que a coluna. */
-    .mechanism,
-    .bridge {
-      grid-template-columns: minmax(0, 1fr);
     }
 
     .continuity {

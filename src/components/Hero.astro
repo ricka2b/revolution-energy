@@ -2,7 +2,6 @@
 import hero from "../assets/hive-hero.jpg";
 import heroVideo from "../assets/hero-landing-optimized.webm";
 import Icon from "./Icon.astro";
-import { CTA_ANCHOR } from "../site.config";
 
 const naoPrecisa = [
   "Sem instalar placa solar.",
@@ -51,7 +50,9 @@ const naoPrecisa = [
         }
       </ul>
 
-      <a class="btn hero__cta" href={CTA_ANCHOR} data-hero-item>
+      {/* Leva para a segunda dobra, não para o formulário: o papel deste
+          botão é iniciar a leitura, não pular direto para a inscrição. */}
+      <a class="btn hero__cta" href="#reconhecimento" data-hero-item>
         Quero entender essa oportunidade
         <Icon name="arrow-right" size={18} />
       </a>
