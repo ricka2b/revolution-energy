@@ -1,0 +1,97 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/hive-logo.png";
+import { LINKS } from "../site.config";
+
+const ano = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <a class="footer__brand" href="#inicio">
+      <Image src={logo} alt="Hive" widths={[118, 236]} sizes="118px" loading="lazy" />
+    </a>
+
+    <nav aria-label="Links institucionais">
+      <ul>
+        <li>
+          {
+            LINKS.privacidade ? (
+              <a href={LINKS.privacidade}>Política de privacidade</a>
+            ) : (
+              <span aria-disabled="true">Política de privacidade</span>
+            )
+          }
+        </li>
+        <li>
+          {
+            LINKS.termos ? (
+              <a href={LINKS.termos}>Termos de uso</a>
+            ) : (
+              <span aria-disabled="true">Termos de uso</span>
+            )
+          }
+        </li>
+        <li><a href={LINKS.site} rel="noopener">behive.global</a></li>
+      </ul>
+    </nav>
+
+    <p class="footer__copy">© {ano} Hive&amp;Co</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-block: var(--space-7);
+    background: var(--dark-sunken);
+    color: var(--on-dark);
+  }
+
+  .footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-5);
+  }
+
+  .footer__brand {
+    display: block;
+    border-radius: var(--radius-sm);
+  }
+
+  .footer__brand :global(img) {
+    width: 118px;
+    height: auto;
+    filter: brightness(0) invert(1);
+  }
+
+  .footer nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    font-size: var(--text-sm);
+  }
+
+  .footer nav a {
+    color: var(--on-dark-muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 160ms var(--ease-out);
+  }
+
+  .footer nav span[aria-disabled] {
+    color: var(--on-dark-faint);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .footer nav a:hover {
+      color: var(--on-dark);
+    }
+  }
+
+  .footer__copy {
+    font-size: var(--text-sm);
+    color: var(--on-dark-faint);
+  }
+</style>

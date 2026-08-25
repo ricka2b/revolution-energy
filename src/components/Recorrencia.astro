@@ -1,0 +1,780 @@
+---
+import novoClienteSvg from "../assets/figma-section-7/novo-cliente.svg?raw";
+
+const escala = [
+  { numero: "10", fundo: "#f5f5ff" },
+  { numero: "20", fundo: "#eeedff" },
+  { numero: "50", fundo: "#e6e5fe" },
+  { numero: "100", fundo: "#deddfe" },
+  { numero: "200", fundo: "#d6d5fd" },
+];
+---
+
+<section class="recorrencia" id="recorrencia" data-node-id="1048:11466" data-rec-section>
+  <div class="recorrencia__inner">
+    <header class="recorrencia__header" data-rec-header>
+      <div class="recorrencia__heading">
+        <p class="recorrencia__intro" data-rec-header-text>
+          Mas ganhar na aquisição é só uma parte.
+        </p>
+        <h2 data-rec-header-text>
+          <span>Porque é aqui que o</span>
+          <span>negócio começa a ficar</span>
+          <span>realmente interessante.</span>
+        </h2>
+      </div>
+
+      <p class="recorrencia__subhead" data-rec-header-text>
+        Você não precisa depender apenas de conquistar clientes novos para sempre.
+      </p>
+    </header>
+
+    <div class="recorrencia__card-track" data-rec-card-track>
+      <article class="recorrencia__card" data-rec-card>
+        <div class="recorrencia__copy">
+        <div class="recorrencia__destaque">
+          <p class="recorrencia__label" data-rec-label>
+            Existe um segundo lado dessa oportunidade.
+          </p>
+          <p class="recorrencia__pill" data-rec-pill>
+            <span data-rec-pill-word>A renda</span>
+            <span data-rec-pill-word>recorrente.</span>
+          </p>
+        </div>
+
+        <div class="recorrencia__texto" data-rec-copy>
+          <p data-rec-paragraph>Imagine que você conquistou um cliente este mês…</p>
+          <p data-rec-paragraph>
+            Ele entra para sua carteira, e no próximo mês, ele continua utilizando energia.
+          </p>
+          <p data-rec-paragraph><strong>No outro também… E no outro também…</strong></p>
+          <p data-rec-paragraph>
+            Enquanto esse cliente estiver utilizando a energia com desconto, você também
+            continua recebendo comissões todos os meses sobre esse desconto.
+          </p>
+        </div>
+        </div>
+
+        <div
+          class="recorrencia__ilustracao"
+          aria-hidden="true"
+          data-rec-illustration
+          set:html={novoClienteSvg}
+        />
+      </article>
+    </div>
+
+    <div class="recorrencia__conclusao-track" data-rec-conclusion-track>
+      <div class="recorrencia__conclusao-palco" data-rec-conclusion-stage>
+        <div class="recorrencia__fundo-final" data-rec-final-bg aria-hidden="true"></div>
+
+        <div class="recorrencia__escala" data-rec-scale>
+          <p class="recorrencia__escala-titulo" data-rec-scale-title>
+            Agora imagine fazer isso com:
+          </p>
+          <ul data-rec-boxes>
+            {
+              escala.map((item) => (
+                <li style={`--fundo-item: ${item.fundo}`}>
+                  <span class="recorrencia__numero">{item.numero}</span>
+                  <span class="recorrencia__unidade">Clientes...</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <h3 class="recorrencia__virada-titulo" data-rec-turn-title>
+          É nesse momento que tudo muda.
+        </h3>
+
+        <div class="recorrencia__virada-copy" data-rec-turn-part="2">
+          <p class="recorrencia__virada-intro" data-rec-turn-text>
+            Você deixa de pensar apenas:
+          </p>
+          <p class="recorrencia__virada-frase recorrencia__virada-frase--parte2" data-rec-turn-text>
+            “Quanto eu consigo ganhar este mês?”
+          </p>
+        </div>
+
+        <div class="recorrencia__virada-copy" data-rec-turn-part="3">
+          <p class="recorrencia__virada-intro" data-rec-turn-text>
+            E começa a pensar:
+          </p>
+          <p class="recorrencia__virada-frase recorrencia__virada-frase--parte3" data-rec-turn-text>
+            <span>“Quanto a minha carteira pode</span>
+            <span>me pagar todos os meses?”</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .recorrencia {
+    background: #eeeafd;
+    color: #0e0a15;
+    /* O palco final usa 100vw para sair do container de 1040px. O recorte
+       fica nesta seção e `clip` preserva os elementos sticky da animação. */
+    overflow-x: clip;
+  }
+
+  .recorrencia__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: min(calc(100% - 40px), 1040px);
+    margin-inline: auto;
+    padding-block: 80px;
+  }
+
+  .recorrencia__header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+    width: 908px;
+    max-width: 100%;
+  }
+
+  .recorrencia__heading {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+    width: 100%;
+  }
+
+  .recorrencia__intro,
+  .recorrencia h2,
+  .recorrencia__subhead,
+  .recorrencia__label,
+  .recorrencia__pill,
+  .recorrencia__texto p,
+  .recorrencia__escala-titulo,
+  .recorrencia__numero,
+  .recorrencia__unidade {
+    text-box-trim: trim-both;
+    text-box-edge: cap alphabetic;
+  }
+
+  .recorrencia__intro {
+    font-size: 34.403px;
+    font-weight: 400;
+    letter-spacing: -0.7338px;
+    line-height: 38.532px;
+    white-space: nowrap;
+  }
+
+  .recorrencia h2 {
+    width: 100%;
+    font-size: 83.551px;
+    font-weight: 700;
+    letter-spacing: -2.7101px;
+    line-height: 87.728px;
+    text-wrap: nowrap;
+  }
+
+  .recorrencia h2 span {
+    display: block;
+  }
+
+  .recorrencia__subhead {
+    color: #514b5e;
+    font-size: 25.251px;
+    font-weight: 400;
+    letter-spacing: -0.7575px;
+    line-height: 33.51px;
+    white-space: nowrap;
+  }
+
+  .recorrencia__card {
+    display: grid;
+    grid-template-columns: 602.956px 335.52px;
+    align-items: center;
+    column-gap: 21.524px;
+    width: 100%;
+    height: 545.224px;
+    padding-inline: 40px;
+    border-radius: 24px;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .recorrencia__card-track {
+    width: 100%;
+    margin-top: 60px;
+  }
+
+  /* O trilho só ganha altura extra quando há animação. O card fica preso no
+     centro útil da viewport durante a história inteira e volta ao fluxo ao
+     terminar, sem mudar o layout estático ou o mobile. */
+  @media (min-width: 68.0625rem) {
+    :global(.anim) .recorrencia__card-track {
+      position: relative;
+      height: calc(545.224px + 170svh);
+    }
+
+    :global(.anim) .recorrencia__card {
+      position: sticky;
+      top: calc(var(--bar-h) + max(1rem, (100svh - var(--bar-h) - 545.224px) / 2));
+    }
+
+    :global(.anim) .recorrencia__conclusao-track {
+      position: relative;
+      height: 620svh;
+    }
+
+    :global(.anim) .recorrencia__conclusao-palco {
+      position: sticky;
+      top: var(--bar-h);
+      height: calc(100svh - var(--bar-h));
+      min-height: 0;
+    }
+  }
+
+  .recorrencia__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 28.124px;
+    width: 602.956px;
+  }
+
+  .recorrencia__destaque {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14.625px;
+    width: 100%;
+  }
+
+  .recorrencia__label {
+    font-size: 25.35px;
+    font-weight: 700;
+    letter-spacing: -0.7605px;
+    line-height: 46.559px;
+    white-space: nowrap;
+  }
+
+  .recorrencia__pill {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 94.458px;
+    padding-inline: 24.978px;
+    border-radius: 24.978px;
+    background: #7355e8;
+    color: #fff;
+    font-size: 64.225px;
+    font-weight: 700;
+    letter-spacing: -3.2113px;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    gap: 0.18em;
+  }
+
+  .recorrencia__pill :global([data-rec-pill-word]) {
+    display: inline-block;
+  }
+
+  .recorrencia__texto {
+    display: flex;
+    flex-direction: column;
+    gap: 28.124px;
+    width: 100%;
+    color: #514b5e;
+    font-size: 20.624px;
+    font-weight: 400;
+    letter-spacing: -0.6187px;
+    line-height: 32.584px;
+  }
+
+  .recorrencia__texto p {
+    width: 100%;
+  }
+
+  .recorrencia__ilustracao {
+    position: relative;
+    width: 335.52px;
+    height: 310.969px;
+  }
+
+  .recorrencia__ilustracao :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .recorrencia__ilustracao :global(#base),
+  .recorrencia__ilustracao :global(#user),
+  .recorrencia__ilustracao :global(#energia),
+  .recorrencia__ilustracao :global(#renew) {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .recorrencia__escala {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    width: min(calc(100% - 40px), 1040px);
+    margin-inline: auto;
+  }
+
+  .recorrencia__conclusao-track {
+    width: 100vw;
+    margin-top: 60px;
+    margin-left: calc(50% - 50vw);
+  }
+
+  .recorrencia__conclusao-palco {
+    position: relative;
+    width: 100%;
+    min-height: 889px;
+    overflow: hidden;
+    background: #eeeafd;
+    isolation: isolate;
+  }
+
+  .recorrencia__fundo-final {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background:
+      radial-gradient(circle at 90% 15%, rgba(255, 255, 255, 0.2), transparent 32%),
+      #7355e8;
+  }
+
+  .recorrencia__virada-titulo {
+    position: absolute;
+    z-index: 4;
+    top: 15.46%;
+    right: 0;
+    left: 0;
+    width: 776px;
+    margin: 0 auto;
+    color: #0e0a15;
+    font-size: 51.364px;
+    font-weight: 700;
+    letter-spacing: -2.5682px;
+    line-height: 82.182px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .recorrencia__virada-copy {
+    position: absolute;
+    z-index: 3;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    width: min(calc(100% - 40px), 1040px);
+    height: 100%;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .recorrencia__virada-intro {
+    color: #514b5e;
+    font-size: 35.048px;
+    font-weight: 400;
+    letter-spacing: 4.2058px;
+    line-height: 56.077px;
+    text-transform: uppercase;
+  }
+
+  .recorrencia__virada-frase {
+    color: #0e0a15;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .recorrencia__virada-frase--parte2 {
+    font-size: 56px;
+    letter-spacing: -2.8px;
+    line-height: 70px;
+    white-space: nowrap;
+  }
+
+  .recorrencia__virada-frase--parte3 {
+    color: #fff;
+    font-size: 70px;
+    letter-spacing: -3.8621px;
+    line-height: 96.552px;
+  }
+
+  .recorrencia__virada-frase--parte3 span {
+    display: block;
+  }
+
+  [data-rec-turn-part="3"] .recorrencia__virada-intro {
+    color: #fff;
+  }
+
+  .recorrencia__escala-titulo {
+    width: 100%;
+    font-size: 58.323px;
+    font-weight: 700;
+    letter-spacing: -2.9161px;
+    line-height: 93.316px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .recorrencia__escala ul {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    width: 100%;
+  }
+
+  .recorrencia__escala li {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    height: 98px;
+    padding: 24px;
+    border: 1px solid rgba(115, 85, 232, 0.1);
+    border-radius: 16px;
+    background: var(--fundo-item);
+  }
+
+  .recorrencia__numero {
+    color: #7355e8;
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: -1.1489px;
+    line-height: 38px;
+  }
+
+  .recorrencia__unidade {
+    color: #514b5e;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -0.1504px;
+    line-height: 22.4px;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 68rem) {
+    .recorrencia__inner {
+      padding-block: clamp(56px, 7.7vw, 80px);
+    }
+
+    .recorrencia__card-track,
+    .recorrencia__conclusao-track {
+      margin-top: clamp(40px, 5.77vw, 60px);
+    }
+
+    .recorrencia__intro {
+      font-size: clamp(22px, 3.31vw, 34.403px);
+      white-space: normal;
+    }
+
+    .recorrencia h2 {
+      font-size: clamp(44px, 8.03vw, 83.551px);
+      letter-spacing: clamp(-2.7101px, -0.26vw, -1.4px);
+      line-height: 1.05;
+      text-wrap: balance;
+    }
+
+    .recorrencia__subhead {
+      font-size: clamp(18px, 2.43vw, 25.251px);
+      line-height: 1.32;
+      white-space: normal;
+    }
+
+    .recorrencia__card {
+      grid-template-columns: minmax(0, 1fr) minmax(220px, 32.26%);
+      column-gap: 20px;
+      height: auto;
+      padding: 48px 40px;
+    }
+
+    .recorrencia__copy {
+      width: 100%;
+    }
+
+    .recorrencia__label {
+      font-size: clamp(20px, 2.44vw, 25.35px);
+      line-height: 1.35;
+      white-space: normal;
+    }
+
+    .recorrencia__pill {
+      width: 100%;
+      height: auto;
+      padding: 22px 20px;
+      font-size: clamp(38px, 6.18vw, 64.225px);
+      white-space: normal;
+    }
+
+    .recorrencia__texto {
+      font-size: clamp(17px, 1.98vw, 20.624px);
+      line-height: 1.55;
+    }
+
+    .recorrencia__ilustracao {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 335.52 / 310.969;
+    }
+
+    .recorrencia__escala-titulo {
+      font-size: clamp(38px, 5.61vw, 58.323px);
+      line-height: 1.15;
+      white-space: normal;
+    }
+
+    .recorrencia__conclusao-palco {
+      display: flex;
+      flex-direction: column;
+      gap: 72px;
+      min-height: auto;
+      padding-block: 80px;
+      overflow: visible;
+    }
+
+    .recorrencia__escala,
+    .recorrencia__virada-titulo,
+    .recorrencia__virada-copy {
+      position: relative;
+      inset: auto;
+      transform: none;
+    }
+
+    .recorrencia__escala {
+      width: min(calc(100% - 40px), 1040px);
+    }
+
+    .recorrencia__virada-titulo {
+      width: min(calc(100% - 40px), 776px);
+      margin-inline: auto;
+      font-size: clamp(34px, 4.94vw, 51.364px);
+      line-height: 1.2;
+      white-space: normal;
+    }
+
+    .recorrencia__virada-copy {
+      margin-inline: auto;
+    }
+
+    .recorrencia__virada-intro {
+      font-size: clamp(20px, 3.37vw, 35.048px);
+      line-height: 1.4;
+    }
+
+    .recorrencia__virada-frase--parte2,
+    .recorrencia__virada-frase--parte3 {
+      font-size: clamp(38px, 6vw, 62px);
+      line-height: 1.15;
+      white-space: normal;
+    }
+  }
+
+  @media (max-width: 48rem) {
+    .recorrencia__inner {
+      width: min(calc(100% - 32px), 1040px);
+      padding-block: 56px;
+    }
+
+    /* A conclusão volta a ser um único palco no mobile. O trilho fornece o
+       espaço de rolagem e o palco permanece preso por uma viewport inteira,
+       mantendo cada estado da animação no centro da área realmente visível
+       abaixo da barra superior. */
+    :global(.anim) .recorrencia__conclusao-track {
+      position: relative;
+      height: 620svh;
+    }
+
+    :global(.anim) .recorrencia__conclusao-palco {
+      position: sticky;
+      top: var(--bar-h);
+      display: block;
+      width: 100%;
+      height: calc(100svh - var(--bar-h));
+      min-height: 0;
+      padding-block: 0;
+      overflow: hidden;
+    }
+
+    :global(.anim) .recorrencia__escala {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: min(340px, calc(100% - 32px));
+      height: 100%;
+      margin: auto;
+    }
+
+    :global(.anim) .recorrencia__virada-titulo {
+      position: absolute;
+      inset: 15.46% 0 auto;
+      margin-inline: auto;
+    }
+
+    .recorrencia__virada-titulo {
+      width: min(340px, calc(100% - 32px));
+      max-width: 340px;
+      font-size: 20px;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    :global(.anim) .recorrencia__virada-copy {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: min(340px, calc(100% - 32px));
+      height: 100%;
+      margin: auto;
+    }
+
+    .recorrencia__virada-copy {
+      width: min(340px, calc(100% - 32px));
+    }
+
+    .recorrencia__virada-intro {
+      width: 100%;
+      max-width: 100%;
+      font-size: clamp(0.875rem, 4vw, 1rem);
+      letter-spacing: 0.08em;
+      line-height: 1.2;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .recorrencia__virada-frase--parte3 {
+      width: min(340px, 100%);
+      max-width: 340px;
+      margin-inline: auto;
+      font-size: 40px;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      text-wrap: balance;
+    }
+
+    .recorrencia__virada-frase--parte3 span {
+      display: inline;
+    }
+
+    .recorrencia__virada-frase--parte3 span + span::before {
+      content: " ";
+    }
+
+    .recorrencia__header,
+    .recorrencia__heading {
+      gap: 24px;
+    }
+
+    .recorrencia__intro {
+      width: 80%;
+      max-width: 340px;
+    }
+
+    .recorrencia h2 {
+      width: min(340px, 100%);
+      max-width: 340px;
+      font-size: clamp(1.75rem, 8vw, 2.125rem);
+      line-height: 1.05;
+      text-wrap: nowrap;
+    }
+
+    .recorrencia h2 span {
+      display: block;
+      white-space: nowrap;
+    }
+
+    .recorrencia h2 span + span::before {
+      content: none;
+    }
+
+    .recorrencia__pill {
+      width: min(340px, 100%);
+      max-width: 340px;
+      font-size: clamp(2rem, 8.9vw, 2.15rem);
+      white-space: nowrap;
+    }
+
+    .recorrencia__escala-titulo {
+      width: min(340px, 100%);
+      max-width: 340px;
+      margin-inline: auto;
+      font-size: clamp(1.15rem, 5.2vw, 1.25rem);
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      white-space: nowrap;
+    }
+
+    .recorrencia__card {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding: 32px 24px;
+      border-radius: 20px;
+    }
+
+    .recorrencia__copy {
+      gap: 24px;
+    }
+
+    .recorrencia__texto {
+      gap: 20px;
+    }
+
+    .recorrencia__ilustracao {
+      width: min(100%, 260px);
+      justify-self: center;
+    }
+
+    .recorrencia__escala ul {
+      grid-template-columns: repeat(2, 1fr);
+      width: min(340px, 100%);
+      margin-inline: auto;
+      justify-items: center;
+    }
+
+    .recorrencia__escala li {
+      width: 100%;
+      align-items: center;
+      text-align: center;
+    }
+
+    .recorrencia__escala li:last-child {
+      grid-column: 1 / -1;
+      width: calc((100% - 10px) / 2);
+      justify-self: center;
+    }
+  }
+
+  :global(.anim) [data-rec-header-text],
+  :global(.anim) [data-rec-label],
+  :global(.anim) [data-rec-pill],
+  :global(.anim) [data-rec-paragraph],
+  :global(.anim) [data-rec-scale-title],
+  :global(.anim) [data-rec-card],
+  :global(.anim) [data-rec-boxes] > li,
+  :global(.anim) [data-rec-turn-title],
+  :global(.anim) [data-rec-turn-part],
+  :global(.anim) [data-rec-final-bg],
+  :global(.anim) [data-rec-illustration] :global(#base),
+  :global(.anim) [data-rec-illustration] :global(#user),
+  :global(.anim) [data-rec-illustration] :global(#energia),
+  :global(.anim) [data-rec-illustration] :global(#renew) {
+    opacity: 0;
+  }
+</style>

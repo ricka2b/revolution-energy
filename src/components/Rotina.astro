@@ -1,0 +1,132 @@
+---
+import chevron from "../assets/figma-section-11/chevron.svg";
+
+const semana = [
+  { dia: "Segunda", tarefa: "5 novos contatos." },
+  { dia: "Terça", tarefa: "5 novos contatos." },
+  { dia: "Quarta", tarefa: "Follow-up com quem demonstrou interesse." },
+  { dia: "Quinta", tarefa: "5 novos contatos." },
+  { dia: "Sexta", tarefa: "Cadastros e acompanhamento." },
+];
+const escala = [
+  { n: "5", label: "Abordagens por dia." },
+  { n: "25", label: "Por semana." },
+  { n: "100", label: "Novas oportunidades no mês" },
+];
+const etapas = ["Prospecção", "Apresentação", "Cadastro", "Acompanhamento"];
+---
+
+<section class="rotina" id="rotina" data-node-id="1048:7611">
+  <div class="rotina__inner">
+    <div class="rotina__principal">
+      <header class="rotina__intro reveal">
+        <p>Agora imagine transformar isso em uma rotina</p>
+        <h2>Você não precisa falar<br />com 500 pessoas amanhã.</h2>
+        <div class="rotina__apoio" data-s11-apoio>
+          <p>Não precisa abandonar seu trabalho.</p>
+          <p>Não precisa resolver sua vida inteira em sete dias.</p>
+          <p>Você precisa criar uma rotina.</p>
+        </div>
+      </header>
+      <ol class="semana" data-stagger>
+        {semana.map((item) => <li><strong>{item.dia}</strong><span>{item.tarefa}</span></li>)}
+      </ol>
+    </div>
+
+    <div class="rotina__mes reveal">
+      <h3>Agora faça isso durante quatro semanas.</h3>
+      <ul class="escala" data-stagger>
+        {escala.map((item) => <li><strong data-count>{item.n}</strong><span>{item.label}</span></li>)}
+      </ul>
+      <p class="rotina__realidade">Algumas pessoas não vão responder. Algumas não vão se interessar. Algumas contas não vão se enquadrar.</p>
+      <div class="rotina__avanco">
+        <h3>Mas algumas vão avançar.</h3>
+        <p>E cada cliente conquistado começa a construir sua carteira.</p>
+      </div>
+    </div>
+
+    <div class="ciclo reveal" data-s11-ciclo>
+      <p class="ciclo__label">É assim que você transforma uma oportunidade em negócio:</p>
+      <div class="ciclo__flow" data-s11-fluxo>
+        {etapas.map((etapa, index) => <><strong>{etapa}</strong>{index < etapas.length - 1 && <img src={chevron.src} alt="" />}</>)}
+      </div>
+      <p class="ciclo__end">Depois você repete.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .rotina { overflow-x: clip; background: #f7f6f9; padding: 90px var(--gutter); color: #0e0a15; }
+  .rotina__inner { width: min(100%, 1040px); margin-inline: auto; display: flex; flex-direction: column; align-items: center; gap: 60px; }
+  .rotina__principal { width: 100%; display: grid; gap: 60px; }
+  .rotina__intro { width: min(100%, 775px); display: grid; gap: 35px; }
+  .rotina__intro > p { font-size: 27.159px; line-height: 30.418px; letter-spacing: -.5792px; }
+  .rotina__intro h2 { font-size: 62.348px; line-height: 65.465px; letter-spacing: -2.0224px; font-weight: 700; }
+  .rotina__apoio { font-size: 21.722px; line-height: 32.583px; color: #514b5e; letter-spacing: -.0955px; }
+  .semana { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; }
+  .semana li { grid-column: span 2; min-width: 0; padding: 40px 24px; display: flex; flex-direction: column; gap: 30px; border: 1px solid rgba(14,10,21,.07); border-radius: 24px; background: linear-gradient(165deg,#fff 6%,#faf8ff 94%); box-shadow: 0 16px 20px rgba(14,10,21,.05); }
+  .semana li:nth-child(4), .semana li:nth-child(5) { grid-column: span 3; }
+  .semana strong { color: #7355e8; font-size: 12px; line-height: 1.6; letter-spacing: .12em; text-transform: uppercase; }
+  .semana span { font-size: 14px; line-height: 20.8px; letter-spacing: -.42px; }
+  .rotina__mes { width: 100%; display: grid; justify-items: center; gap: 40px; }
+  .rotina__mes > h3 { font-weight: 700; font-size: 41.136px; line-height: 65.817px; letter-spacing: -1.2341px; text-align: center; }
+  .rotina__avanco h3 { font-weight: 700; font-size: 42.031px; line-height: 67.25px; letter-spacing: -1.2609px; text-align: center; }
+  .escala { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; width: 100%; }
+  .escala li { display: grid; gap: 15px; padding: 24px 32px; border-radius: 24px; background: #0e0a15; box-shadow: 0 20px 24px rgba(14,10,21,.1); color: #fff; }
+  .escala li:last-child { background: radial-gradient(circle at 88% 20%,rgba(255,255,255,.22),transparent 34%),#7355e8; }
+  .escala strong { font-size: 36px; line-height: 36px; letter-spacing: -1.2509px; }
+  .escala span { font-size: 14px; line-height: 22.4px; letter-spacing: -.1504px; color: rgba(255,255,255,.76); }
+  .rotina__realidade { color: #514b5e; font-size: 20px; line-height: 32px; letter-spacing: -.6px; text-align: center; }
+  .rotina__avanco { display: grid; justify-items: center; gap: 20px; }
+  .rotina__avanco p { color: #514b5e; font-size: 19px; line-height: 30.4px; letter-spacing: -.57px; }
+  .ciclo { width: 100%; padding: 67.075px 53.66px; border-radius: 32px; background: #7f60fd; color: #fff; display: grid; justify-items: center; gap: 26.83px; }
+  .ciclo__label { font-size: 22px; line-height: 35.2px; letter-spacing: 2.2px; text-transform: uppercase; font-weight: 700; text-align: center; }
+  .ciclo__flow { width: 100%; min-height: 94px; padding: 24.183px; border-radius: 55px; background: #fff; color: #0e0a15; display: flex; align-items: center; justify-content: center; gap: 15px; }
+  .ciclo__flow strong { font-size: 28.53px; line-height: 45.649px; letter-spacing: -.696px; white-space: nowrap; }
+  .ciclo__flow img { width: 5px; height: 11px; }
+  .ciclo__end { font-size: 29.57px; line-height: 47.313px; letter-spacing: -.6931px; color: rgba(255,255,255,.7); }
+  @media (max-width: 1100px) {
+    .rotina__intro > p { font-size: clamp(20px,2.47vw,27.159px); }
+    .rotina__intro h2 { font-size: clamp(39px,5.67vw,62.348px); }
+    .rotina__apoio { font-size: clamp(17px,1.97vw,21.722px); }
+    .rotina__mes > h3, .rotina__avanco h3 { font-size: clamp(28px,3.82vw,42.031px); }
+    .rotina__realidade { font-size: clamp(16px,1.82vw,20px); }
+    .ciclo__label { font-size: clamp(14px,2vw,22px); }
+    .ciclo__flow strong { font-size: clamp(17px,2.59vw,28.53px); }
+    .ciclo__end { font-size: clamp(20px,2.69vw,29.57px); }
+  }
+  @media (max-width: 760px) {
+    .rotina { padding-block: 72px; }
+    .rotina__inner, .rotina__principal { gap: 44px; }
+
+    .rotina__intro h2 {
+      width: min(340px, 100%);
+      max-width: 340px;
+      font-size: clamp(28px, 8vw, 32px);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+    }
+
+    .rotina__intro h2 br {
+      display: initial;
+    }
+
+    .rotina__mes > h3 {
+      line-height: 1.3em;
+    }
+
+    .semana { grid-template-columns: 1fr; }
+    .semana li, .semana li:nth-child(4), .semana li:nth-child(5) { grid-column: auto; padding: 28px 22px; }
+    .escala { grid-template-columns: 1fr; }
+    .ciclo { padding: 40px 20px; }
+    .ciclo__flow { border-radius: 24px; flex-direction: column; }
+
+    .ciclo__flow strong {
+      width: 100%;
+      text-align: center;
+    }
+
+    .ciclo__flow img { transform: rotate(90deg); }
+  }
+</style>

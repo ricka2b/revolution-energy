@@ -1,0 +1,206 @@
+---
+import checkIcon from "../assets/figma-section-9/icon-1.svg";
+import arrowOne from "../assets/figma-section-9/icon-10.svg";
+import arrowTwo from "../assets/figma-section-9/icon-11.svg";
+
+const aprende = [
+  "Encontrar potenciais clientes.",
+  "Fazer a abordagem.",
+  "Apresentar a oportunidade.",
+  "Explicar a economia.",
+  "Solicitar a conta de energia.",
+  "Conduzir o cadastro.",
+  "Acompanhar o processo.",
+  "Construir sua carteira.",
+  "Aumentar seu volume.",
+];
+---
+
+<section class="experiencia" id="aprendizado" data-node-id="1048:7336">
+  <div class="experiencia__inner">
+    <header class="experiencia__pergunta reveal" data-s9-typing>
+      <p>Talvez você esteja pensando:</p>
+      <div class="experiencia__typing">
+        <h2>“Mas eu não entendo nada de energia.”</h2>
+        <span class="experiencia__cursor" aria-hidden="true"></span>
+      </div>
+    </header>
+
+    <div class="experiencia__resposta reveal" data-s9-topicos>
+      <p><strong>Ótimo.</strong> Você não precisa chegar entendendo.</p>
+      <ul>
+        <li><p>Você não precisa ser engenheiro.</p></li>
+        <li><p>Não precisa entender de instalação solar.</p></li>
+        <li><p>Não precisa dominar o mercado energético.</p></li>
+      </ul>
+    </div>
+
+    <article class="experiencia__painel reveal">
+      <header>
+        <p>Existe um processo para ensinar você.</p>
+        <h3>Você aprende como:</h3>
+      </header>
+      <ul class="experiencia__check" data-stagger>
+        {aprende.map((item) => (
+          <li>
+            <img src={checkIcon.src} alt="" width="16" height="16" />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </article>
+
+    <div class="experiencia__apoio reveal" data-stagger>
+      <p>Você recebe o método.</p>
+      <p>Recebe as ferramentas.</p>
+      <p>E recebe acompanhamento de pessoas que já conhecem o processo.</p>
+    </div>
+
+    <footer class="experiencia__fecho reveal" data-s9-fecho>
+      <h3>Você não precisa descobrir sozinho como fazer.</h3>
+      <p>Seu trabalho é muito mais simples.</p>
+      <div class="experiencia__fluxo" data-s9-fluxo>
+        <strong>Aprender</strong>
+        <img src={arrowOne.src} alt="" width="25" height="25" />
+        <strong>Aplicar</strong>
+        <img src={arrowTwo.src} alt="" width="25" height="25" />
+        <strong>Repetir</strong>
+      </div>
+    </footer>
+  </div>
+</section>
+
+<style>
+  .experiencia { overflow-x: clip; background: #0e0a15; color: #fff; }
+  .experiencia__inner { display: flex; flex-direction: column; align-items: center; gap: 60px; width: min(calc(100% - 40px), 1040px); margin-inline: auto; padding-block: 79.847px; }
+  .experiencia p, .experiencia h2, .experiencia h3 { text-box-trim: trim-both; text-box-edge: cap alphabetic; }
+
+  .experiencia__pergunta { display: flex; flex-direction: column; align-items: center; gap: 24.984px; width: 100%; height: 90.984px; text-align: center; white-space: nowrap; }
+  .experiencia__pergunta p { color: rgba(255,255,255,.72); font-size: 30.43px; font-weight: 400; letter-spacing: -.9129px; line-height: 34.081px; }
+  .experiencia__typing { display: inline-flex; align-items: center; justify-content: center; max-width: 100%; }
+  .experiencia__pergunta h2 { font-size: 60.664px; font-weight: 700; letter-spacing: -3.0332px; line-height: 63.697px; white-space: nowrap; }
+  .experiencia__cursor { flex: none; width: 3px; height: 52px; margin-left: 8px; background: #c6b5ff; transform-origin: center; }
+
+  .experiencia__resposta { display: flex; flex-direction: column; align-items: center; gap: 35px; width: 100%; height: 104.11px; }
+  .experiencia__resposta > p { color: #fff; font-size: 38px; font-weight: 400; letter-spacing: -.48px; line-height: 60.8px; text-align: center; }
+  .experiencia__resposta strong { color: #c6b5ff; }
+  .experiencia__resposta ul { display: flex; align-items: center; justify-content: center; width: 100%; height: 41.11px; color: rgba(255,255,255,.72); font-size: 18.313px; letter-spacing: -.5494px; line-height: 29.3px; }
+  .experiencia__resposta li { display: flex; align-items: center; height: 41.11px; padding-inline: 21.082px; white-space: nowrap; }
+  .experiencia__resposta li + li { border-left: 2.811px solid #c7c7c7; }
+
+  .experiencia__painel { display: flex; flex-direction: column; gap: 20.228px; width: 1039.257px; height: 325.336px; padding: 40.456px; border-radius: 30.915px; background: #eeeafd; color: #0e0a15; }
+  .experiencia__painel header { display: flex; flex-direction: column; gap: 19.232px; }
+  .experiencia__painel header p { font-size: 20.979px; font-weight: 400; letter-spacing: -.0922px; line-height: 33.566px; }
+  .experiencia__painel h3 { font-size: 48.72px; font-weight: 700; letter-spacing: -1.2294px; line-height: 51.156px; }
+  .experiencia__check { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 11.593px; }
+  .experiencia__check li { display: flex; align-items: center; gap: 11.593px; min-height: 44.05px; padding: 11.593px 15.457px; border-radius: 11.593px; background: rgba(255,255,255,.66); font-size: 15.457px; letter-spacing: -.3019px; line-height: 20.867px; white-space: nowrap; }
+  .experiencia__check img { flex: none; width: 15.457px; height: 15.457px; }
+
+  .experiencia__apoio { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 776px; }
+  .experiencia__apoio p { display: flex; align-items: center; justify-content: center; height: 65px; padding: 22.331px 44.662px; border: 1.396px solid rgba(255,255,255,.12); border-radius: 999px; font-size: 22px; letter-spacing: -.66px; line-height: 35.676px; white-space: nowrap; }
+  .experiencia__apoio p:last-child { grid-column: 1 / -1; }
+
+  .experiencia__fecho { display: flex; flex-direction: column; align-items: center; gap: 40px; width: 1041px; height: 215.875px; text-align: center; }
+  .experiencia__fecho h3 { font-size: 47.374px; font-weight: 700; letter-spacing: -1.4212px; line-height: 75.799px; white-space: nowrap; }
+  .experiencia__fecho > p { width: 100%; color: rgba(255,255,255,.72); font-size: 33.103px; letter-spacing: -.9931px; line-height: 52.964px; }
+  .experiencia__fluxo { display: inline-flex; align-items: center; gap: 18.69px; width: 510.396px; height: 77.875px; padding-inline: 49.84px; border: 1.558px solid rgba(255,255,255,.12); border-radius: 999px; }
+  .experiencia__fluxo strong { display: block; font-size: 24.92px; font-weight: 700; letter-spacing: -.4867px; line-height: 39.872px; white-space: nowrap; text-box-trim: trim-both; text-box-edge: cap alphabetic; }
+  .experiencia__fluxo img { width: 24.92px; height: 24.92px; }
+
+  @media (max-width: 68rem) {
+    .experiencia__pergunta, .experiencia__resposta, .experiencia__painel, .experiencia__fecho, .experiencia__fluxo { width: 100%; height: auto; }
+    .experiencia__pergunta { white-space: normal; }
+    .experiencia__pergunta p { font-size: clamp(22px, 2.93vw, 30.43px); }
+    .experiencia__pergunta h2 { font-size: clamp(42px, 5.83vw, 60.664px); line-height: 1.08; white-space: normal; }
+    .experiencia__cursor { height: clamp(36px, 5vw, 52px); }
+    .experiencia__resposta > p { font-size: clamp(29px, 3.65vw, 38px); }
+    .experiencia__resposta ul { flex-wrap: wrap; }
+    .experiencia__painel { padding: clamp(28px, 3.89vw, 40.456px); }
+    .experiencia__check li { white-space: normal; }
+    .experiencia__fecho h3 { font-size: clamp(36px, 4.56vw, 47.374px); line-height: 1.25; white-space: normal; }
+  }
+
+  @media (max-width: 48rem) {
+    .experiencia__inner { width: min(calc(100% - 32px), 1040px); gap: 48px; padding-block: 64px; }
+
+    .experiencia__typing {
+      width: min(340px, 100%);
+      max-width: 340px;
+    }
+
+    .experiencia__pergunta h2 {
+      width: 100%;
+      max-width: 340px;
+      font-size: 32px;
+      line-height: 1.06;
+      letter-spacing: -0.03em;
+      text-wrap: balance;
+    }
+
+    .experiencia__resposta ul { display: grid; grid-template-columns: minmax(0, 1fr); height: auto; }
+    .experiencia__resposta li { width: 100%; padding: 10px 0; text-align: center; white-space: normal; }
+    .experiencia__resposta li p { width: 100%; white-space: normal; }
+    .experiencia__resposta li + li { border-top: 1px solid rgba(255,255,255,.18); border-left: 0; }
+
+    .experiencia__painel header p {
+      font-size: 16px;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+    }
+
+    .experiencia__painel h3 {
+      font-size: 22px;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+    }
+
+    .experiencia__check { grid-template-columns: 1fr; }
+    .experiencia__apoio { grid-template-columns: 1fr; width: 100%; }
+    .experiencia__apoio p,
+    .experiencia__apoio p:last-child {
+      grid-column: auto;
+      height: auto;
+      min-height: 60px;
+      padding: 16px 10px;
+      font-size: 16px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .experiencia__apoio p:last-child {
+      padding-inline: 10px;
+      font-size: 16px;
+      letter-spacing: -0.03em;
+      line-height: 1.25;
+      text-wrap: balance;
+      white-space: normal;
+    }
+
+    .experiencia__fecho { gap: 28px; }
+    .experiencia__fecho > p {
+      font-size: 17px;
+      line-height: 1.25;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+    }
+
+    .experiencia__fluxo {
+      flex-wrap: nowrap;
+      justify-content: center;
+      gap: 10px;
+      width: min(340px, 100%);
+      padding: 18px 16px;
+      white-space: nowrap;
+    }
+
+    .experiencia__fluxo strong {
+      font-size: 16px;
+    }
+
+    .experiencia__fluxo img {
+      width: 18px;
+      height: 18px;
+    }
+  }
+</style>

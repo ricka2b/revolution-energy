@@ -1,0 +1,988 @@
+---
+import contaIcon from "../assets/conta.svg?url";
+import iconHexAccount from "../assets/figma-section-6/icon-hex-account.svg?url";
+import iconPlusCircle from "../assets/figma-section-6/icon-plus-circle.svg?url";
+---
+
+<section class="section section--dark numeros" id="numeros">
+  <div class="numeros__track" data-num-track>
+    <div class="numeros__stage">
+      {/*
+        Quatro cenas empilhadas no mesmo palco. A rolagem raspa uma única
+        timeline: cada cena que sai dá zoom e some, a seguinte aparece por
+        cima — a troca da 3 para a 4 é a própria cor de fundo mudando de
+        escuro para claro, sem tween à parte em `background-color`.
+      */}
+      <div class="numeros__scene" data-num-scene="1">
+        <div class="container numeros__stage-inner">
+          <div class="numeros__composition">
+            <div class="numeros__intro">
+              <h2 class="head" data-num-title>
+                <span class="head__initial" data-num-title-initial>Vamos colocar<br />números nisso?</span>
+                <span class="head__final" data-num-title-final aria-hidden="true">Vamos colocar números nisso?</span>
+              </h2>
+
+              <p class="premissa__forte" data-num-accounts>
+                Imagine que você cadastre <span data-num-highlight>40 contas.</span>
+              </p>
+            </div>
+
+            <div class="contas-grid" data-num-icons aria-label="40 contas cadastradas">
+              {
+                Array.from({ length: 40 }, (_, index) => (
+                  <img src={contaIcon} alt="" aria-hidden="true" data-num-icon data-index={index} />
+                ))
+              }
+            </div>
+
+            <div class="consumo-final" data-num-consumption>
+              <p class="premissa__linha">E juntas essas contas representam aproximadamente:</p>
+              <p class="premissa__valor">
+                <span data-num-counter>R$ 0 mil</span>
+                <span>em consumo mensal.</span>
+              </p>
+
+              <p class="aquisicao--palco" data-num-commission>
+                Em cima desse consumo você recebe <em>40% de comissão</em> já na aquisição desse novo cliente.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="numeros__scene" data-num-scene="2">
+        <div class="s6-frame s6-frame--2" data-s6-frame>
+          <p class="s6-2__intro" data-s6-2-intro>
+            Com esse volume, recebendo <em>40% de comissão</em> você pode alcançar até
+          </p>
+          <div class="s6-2__pill" data-s6-2-pill>
+            <p class="s6-2__pill-valor"><span data-s6-2-counter>R$ 0</span></p>
+          </div>
+          <p class="s6-2__legenda" data-s6-2-legenda>
+            em <strong>comissão</strong> relacionada ao <strong>volume cadastrado.</strong>
+          </p>
+        </div>
+      </div>
+
+      <div class="numeros__scene" data-num-scene="3">
+        <div class="s6-frame s6-frame--3" data-s6-frame>
+          <div class="s6-3__header" data-s6-3-header>
+            <p class="s6-3__eyebrow">Só que não para por ai…</p>
+            <p class="s6-3__title">Ainda tem um bônus exclusivo:</p>
+          </div>
+
+          <div class="s6-3__bonus" data-s6-3-bonus>
+            <p class="s6-3__linha" data-s6-3-linha>
+              A cada <em>dez contas cadastradas</em>, você recebe instantaneamente
+            </p>
+            <div class="s6-3__icones" data-s6-3-icones aria-label="Dez contas cadastradas">
+              {
+                Array.from({ length: 10 }, (_, index) => (
+                  <img src={iconHexAccount} alt="" aria-hidden="true" data-index={index} />
+                ))
+              }
+            </div>
+            <p class="s6-3__bonus-valor" data-s6-3-bonus-valor>
+              +<span data-s6-3-bonus-counter>R$ 0</span> de comissão.
+            </p>
+          </div>
+
+          <div class="s6-3__resumo" data-s6-3-resumo>
+            <p class="s6-3__ouseja" data-s6-3-ouseja>Ou seja:</p>
+            <div class="s6-3__pills" data-s6-3-pills>
+              <div class="s6-3__coluna" data-s6-3-coluna="1">
+                <p>40 contas cadastradas são</p>
+                <div class="s6-3__pill" data-s6-3-pill-ciclos>4 ciclos de 10 contas</div>
+              </div>
+              <div class="s6-3__coluna" data-s6-3-coluna="2">
+                <p>Resultando em</p>
+                <div class="s6-3__pill">
+                  +<span data-s6-3-bonus-total-counter>R$ 0</span>{" "}
+                  <span data-s6-3-em-bonus>em bônus</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="numeros__scene numeros__scene--claro" data-num-scene="4">
+        <div class="s6-frame s6-frame--4" data-s6-frame>
+          <p class="s6-4__titulo" data-s6-4-titulo>Agora faça a conta comigo:</p>
+
+          <div class="s6-4__group" data-s6-4-group>
+            <div class="s6-4__cards" data-s6-4-cards>
+              <div class="s6-4__card" data-s6-4-card="1">
+                <p class="s6-4__card-valor"><span data-s6-4-counter="6000">R$ 0</span></p>
+                <p class="s6-4__card-label" data-s6-4-card-label="1">
+                  De comissão gerada pelo volume cadastrado
+                </p>
+              </div>
+              <img
+                class="s6-4__plus"
+                src={iconPlusCircle}
+                alt=""
+                aria-hidden="true"
+                data-s6-4-plus
+              />
+              <div class="s6-4__card" data-s6-4-card="2">
+                <p class="s6-4__card-valor"><span data-s6-4-counter="4000">R$ 0</span></p>
+                <p class="s6-4__card-label" data-s6-4-card-label="2">
+                  De bônus extra das 10 contas
+                </p>
+              </div>
+            </div>
+
+            <div class="s6-4__total" data-s6-4-total>
+              <p class="s6-4__total-valor" data-s6-4-total-valor>
+                <span data-s6-4-counter-total>R$ 0</span>
+              </p>
+              <p class="s6-4__total-label" data-s6-4-total-label>
+                De <strong>comissões recebidas</strong> nesse ciclo.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .numeros {
+    padding-block: 0;
+    overflow: clip;
+  }
+
+  .numeros__track {
+    position: relative;
+  }
+
+  .numeros__stage {
+    position: relative;
+    background: var(--dark);
+  }
+
+  .numeros__scene {
+    display: flex;
+  }
+
+  :global(.anim) .numeros__track {
+    height: calc(100svh + 921rem);
+  }
+
+  :global(.anim) .numeros__stage {
+    position: sticky;
+    top: var(--bar-h);
+    height: calc(100svh - var(--bar-h));
+    overflow: clip;
+  }
+
+  :global(.anim) .numeros__scene {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+  }
+
+  /* A cena 4 carrega o fundo claro consigo: como só uma cena por vez está
+     visível (as demais em `opacity: 0`), o próprio fade entre a 3 e a 4 é
+     quem troca a cor — sem animar `background-color` à parte. */
+  .numeros__scene--claro {
+    background: var(--lavender);
+  }
+
+  /* ---------- Cena 1: já existente ---------- */
+
+  .numeros__stage-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-7);
+    width: 100%;
+    max-width: none;
+    margin-inline: 0;
+    padding-block: var(--section-y);
+  }
+
+  .numeros__composition,
+  .numeros__intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .numeros__composition {
+    gap: var(--space-7);
+    width: 100%;
+  }
+
+  .numeros__intro {
+    gap: var(--space-3);
+  }
+
+  :global(.anim) .numeros__stage-inner {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    padding-block: 0;
+  }
+
+  .head {
+    position: relative;
+    z-index: 4;
+    max-width: 100%;
+    color: #fff;
+    font-size: clamp(2.5rem, 5vw, 5.25rem);
+    font-weight: 700;
+    letter-spacing: -0.055em;
+    line-height: 0.95;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .head__initial,
+  .head__final {
+    display: block;
+    width: 100%;
+  }
+
+  .head__initial br {
+    display: none;
+  }
+
+  .head__final {
+    position: absolute;
+    inset: 0;
+  }
+
+  .premissa__forte {
+    z-index: 3;
+    max-width: none;
+    color: #fff;
+    text-align: center;
+    font-size: clamp(2rem, 5.2vw, 5rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  :global([data-num-highlight]) {
+    color: var(--purple-soft);
+    font-size: 1.13em;
+    font-weight: 700;
+  }
+
+  .contas-grid {
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    gap: clamp(0.35rem, 0.8vw, 0.75rem);
+    width: min(92vw, 43rem);
+  }
+
+  .contas-grid img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 776 / 719;
+  }
+
+  .consumo-final {
+    z-index: 3;
+    display: grid;
+    justify-items: center;
+    gap: var(--space-3);
+    width: min(94vw, 70rem);
+    text-align: center;
+  }
+
+  .premissa__linha {
+    color: var(--on-dark-muted);
+    font-size: clamp(1rem, 1.8vw, 1.35rem);
+    line-height: 1.25;
+  }
+
+  .premissa__valor {
+    width: 100%;
+    min-width: 0;
+    color: #fff;
+    font-size: clamp(1.35rem, 4vw, 4.25rem);
+    font-weight: 400;
+    letter-spacing: -0.055em;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .premissa__valor [data-num-counter] {
+    color: var(--purple-soft);
+    font-weight: 700;
+  }
+
+  .aquisicao--palco {
+    z-index: 3;
+    width: min(96vw, 74rem);
+    color: #fff;
+    font-size: clamp(1.1rem, 1.8vw, 1.45rem);
+    line-height: 1.3;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .aquisicao--palco em {
+    color: var(--purple-soft);
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  @media (min-width: 58rem) {
+    .numeros__composition {
+      --num-scale: min(
+        1,
+        calc(100vw / 1920px),
+        calc((100svh - var(--bar-h)) / 889px)
+      );
+      position: relative;
+      display: block;
+      flex: 0 0 auto;
+      width: 897px;
+      height: 623.618px;
+      transform: scale(var(--num-scale));
+      transform-origin: center;
+    }
+
+    .numeros__intro {
+      position: absolute;
+      top: 0;
+      left: 8px;
+      display: block;
+      width: 881px;
+      height: 111.327px;
+    }
+
+    .head {
+      position: absolute;
+      top: 0;
+      left: 106.744px;
+      width: 667.512px;
+      height: 54.327px;
+      font-size: 48.037px;
+      letter-spacing: -2.642px;
+      line-height: 45.635px;
+    }
+
+    .premissa__forte {
+      position: absolute;
+      top: 69.327px;
+      left: 0;
+      width: 881px;
+      height: 42px;
+      font-size: 51.2px;
+      letter-spacing: -2.56px;
+      line-height: 51.2px;
+    }
+
+    :global([data-num-highlight]) {
+      font-size: 57.856px;
+    }
+
+    .contas-grid {
+      position: absolute;
+      top: 151.327px;
+      left: 24.611px;
+      grid-template-columns: repeat(10, 71.47px);
+      grid-template-rows: repeat(4, 66.21px);
+      gap: 14.787px;
+      width: 847.777px;
+      height: 309.291px;
+    }
+
+    .contas-grid img {
+      width: 71.47px;
+      height: 66.541px;
+      aspect-ratio: auto;
+    }
+
+    .consumo-final {
+      position: absolute;
+      top: 500.618px;
+      left: 0;
+      display: block;
+      width: 897px;
+      height: 123px;
+    }
+
+    .premissa__linha {
+      position: absolute;
+      top: 0;
+      left: 131.5px;
+      width: 634px;
+      height: 19px;
+      font-size: 25.564px;
+      letter-spacing: -0.355px;
+      line-height: 31.954px;
+      white-space: nowrap;
+    }
+
+    .premissa__valor {
+      position: absolute;
+      top: 39px;
+      left: 0;
+      width: 897px;
+      height: 49px;
+      font-size: 68px;
+      letter-spacing: -3.566px;
+      line-height: 68px;
+    }
+
+    .aquisicao--palco {
+      position: absolute;
+      top: 108px;
+      left: 0.084px;
+      width: 896.832px;
+      height: 15px;
+      font-size: 20.807px;
+      letter-spacing: -0.061px;
+      line-height: 27.048px;
+    }
+  }
+
+  @media (max-width: 57.999rem) {
+    .numeros__stage-inner {
+      width: 90vw;
+      max-width: 90vw;
+      padding-inline: 0;
+    }
+
+    .numeros__composition,
+    .s6-frame {
+      width: 90vw;
+      max-width: 90vw;
+    }
+
+    .head {
+      width: 100%;
+      max-width: 100%;
+      height: 48px;
+      font-size: 24px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .head__initial br {
+      display: block;
+    }
+
+    .premissa__forte {
+      width: min(340px, 90vw);
+      max-width: min(340px, 90vw);
+      margin-inline: auto;
+      font-size: clamp(1rem, 4.65vw, 1.15rem);
+      white-space: nowrap;
+    }
+
+    .contas-grid,
+    .consumo-final,
+    .aquisicao--palco {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .aquisicao--palco {
+      white-space: normal;
+    }
+
+  }
+
+  /* ---------- Cenas 2 a 4: frame único, escalado como bloco ----------
+     Mesma técnica da cena 1 — os valores em px são os do Figma, a 800px de
+     largura de referência (o desenho inteiro cabe em 1710×889); abaixo do
+     breakpoint de desktop o frame sai do transform e vira fluido. */
+
+  .s6-frame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: min(94vw, 55rem);
+  }
+
+  @media (min-width: 58rem) {
+    .s6-frame {
+      --s6-scale: min(
+        1,
+        calc(100vw / 1710px),
+        calc((100svh - var(--bar-h)) / 889px)
+      );
+      width: 880px;
+      transform: scale(var(--s6-scale));
+      transform-origin: center;
+    }
+  }
+
+  /* Cena 2 */
+
+  .s6-frame--2 {
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 58rem) {
+    .s6-frame--2 {
+      gap: 30px;
+    }
+  }
+
+  .s6-2__intro,
+  .s6-2__legenda {
+    color: var(--on-dark-muted);
+    font-weight: 400;
+    line-height: 1.35;
+  }
+
+  .s6-2__intro {
+    font-size: clamp(1.15rem, 3vw, 1.565rem);
+  }
+
+  .s6-2__intro em {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--purple-soft);
+  }
+
+  .s6-2__legenda {
+    font-size: clamp(1.05rem, 2.2vw, 1.885rem);
+  }
+
+  .s6-2__legenda strong {
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .s6-2__pill {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    padding: 1.5rem 2.5rem;
+    border-radius: 999px;
+    background: var(--purple);
+  }
+
+  .s6-2__pill-valor {
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: -0.075em;
+    line-height: 0.95;
+    font-size: clamp(2.5rem, 11vw, 6rem);
+    white-space: nowrap;
+  }
+
+  @media (min-width: 58rem) {
+    .s6-2__pill {
+      padding: 35px 60px;
+      border-radius: 624px;
+    }
+
+    .s6-2__pill-valor {
+      font-size: 190px;
+      letter-spacing: -14.1017px;
+      line-height: 177.898px;
+    }
+  }
+
+  /* Cena 3 */
+
+  .s6-frame--3 {
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 58rem) {
+    .s6-frame--3 {
+      gap: 50px;
+    }
+  }
+
+  .s6-3__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .s6-3__eyebrow {
+    color: #fff;
+    font-size: clamp(1rem, 2vw, 1.32rem);
+    font-weight: 400;
+  }
+
+  .s6-3__title {
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    font-size: clamp(1.75rem, 5.6vw, 3.05rem);
+  }
+
+  .s6-3__bonus {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-5);
+    width: 100%;
+  }
+
+  .s6-3__linha {
+    color: var(--on-dark-muted);
+    font-size: clamp(1.05rem, 2.4vw, 1.235rem);
+    line-height: 1.45;
+  }
+
+  .s6-3__linha em {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--purple-soft);
+  }
+
+  .s6-3__icones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    width: 100%;
+  }
+
+  .s6-3__icones img {
+    width: clamp(2rem, 6.5vw, 3.7rem);
+    height: auto;
+    aspect-ratio: 74.018 / 68.914;
+  }
+
+  .s6-3__bonus-valor {
+    color: var(--purple-soft);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+    font-size: clamp(1.5rem, 4.3vw, 2.32rem);
+  }
+
+  .s6-3__resumo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-5);
+    width: 100%;
+  }
+
+  .s6-3__ouseja {
+    color: var(--on-dark-muted);
+    font-size: clamp(1.15rem, 2.6vw, 1.47rem);
+  }
+
+  .s6-3__pills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-5);
+    width: 100%;
+  }
+
+  .s6-3__coluna {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    width: min(100%, 21.5rem);
+  }
+
+  .s6-3__coluna p {
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    font-size: clamp(1.05rem, 2.2vw, 1.15rem);
+  }
+
+  .s6-3__pill {
+    width: 100%;
+    padding: 0.9rem 1.6rem;
+    border-radius: 999px;
+    background: var(--action);
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+    white-space: nowrap;
+  }
+
+  @media (min-width: 58rem) {
+    .s6-3__icones {
+      flex-wrap: nowrap;
+      gap: 15.535px;
+    }
+
+    .s6-3__icones img {
+      width: 74.018px;
+      height: 68.914px;
+    }
+
+    .s6-3__pills {
+      flex-wrap: nowrap;
+      gap: 20px;
+    }
+
+    .s6-3__coluna {
+      width: 430.086px;
+      gap: 20px;
+    }
+
+    .s6-3__coluna p {
+      font-size: 23px;
+      letter-spacing: -0.1011px;
+    }
+
+    .s6-3__pill {
+      padding: 18.021px 36.043px;
+      font-size: 31.98px;
+      letter-spacing: -0.9594px;
+    }
+  }
+
+  /* Cena 4 (fundo claro) */
+
+  .s6-frame--4 {
+    gap: var(--space-7);
+  }
+
+  @media (min-width: 58rem) {
+    .s6-frame--4 {
+      gap: 40px;
+    }
+  }
+
+  .s6-4__titulo {
+    color: var(--dark);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    font-size: clamp(1.75rem, 6.3vw, 3.4rem);
+  }
+
+  /* Agrupa cards + total: no Figma esse par tem seu próprio gap (45px),
+     diferente do gap entre o título e o grupo (40px). */
+  .s6-4__group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
+    width: 100%;
+  }
+
+  @media (min-width: 58rem) {
+    .s6-4__group {
+      gap: 45px;
+    }
+  }
+
+  .s6-4__cards {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    width: 100%;
+  }
+
+  .s6-4__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    flex: 1 1 0;
+    padding: 1.25rem 0.9rem;
+    border: 1px solid var(--lavender-deep);
+    border-radius: 1.1rem;
+    background: #fff;
+  }
+
+  .s6-4__card-valor {
+    color: var(--action);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 1;
+    font-size: clamp(1.65rem, 6.2vw, 4.5rem);
+    white-space: nowrap;
+  }
+
+  .s6-4__card-label {
+    color: var(--dark);
+    text-align: center;
+    line-height: 1.3;
+    font-size: clamp(0.7rem, 1.6vw, 0.9rem);
+  }
+
+  .s6-4__plus {
+    flex: none;
+    align-self: center;
+    width: clamp(1.3rem, 3vw, 1.7rem);
+    height: clamp(1.3rem, 3vw, 1.7rem);
+  }
+
+  .s6-4__total {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-5);
+  }
+
+  .s6-4__total-valor {
+    color: var(--action);
+    font-weight: 800;
+    letter-spacing: -0.08em;
+    line-height: 0.82;
+    font-size: clamp(3rem, 13.5vw, 10.2rem);
+    white-space: nowrap;
+  }
+
+  .s6-4__total-label {
+    color: var(--dark);
+    line-height: 1.3;
+    font-size: clamp(1.05rem, 2.6vw, 1.6rem);
+  }
+
+  .s6-4__total-label strong {
+    font-weight: 700;
+  }
+
+  @media (min-width: 58rem) {
+    .s6-4__titulo {
+      font-size: 68px;
+      letter-spacing: -1.0376px;
+      line-height: 1.15;
+      white-space: nowrap;
+    }
+
+    .s6-4__cards {
+      align-items: stretch;
+      gap: 9.568px;
+    }
+
+    /* Larguras exatas do Figma — os dois cards não têm o mesmo tamanho. */
+    .s6-4__card {
+      flex: 0 0 414.016px;
+      gap: 22.953px;
+      padding: 30px 17.508px;
+      border-radius: 17.223px;
+    }
+
+    .s6-4__card:last-child {
+      flex-basis: 411.44px;
+    }
+
+    .s6-4__card-valor {
+      font-size: 90.13px;
+      letter-spacing: -4.2754px;
+    }
+
+    .s6-4__card-label {
+      font-size: 18px;
+      letter-spacing: -0.03em;
+      line-height: 1.6;
+      white-space: nowrap;
+    }
+
+    .s6-4__plus {
+      width: 35.169px;
+      height: 35.169px;
+    }
+
+    .s6-4__total {
+      gap: 30px;
+    }
+
+    .s6-4__total-valor {
+      font-size: 204.058px;
+      letter-spacing: -20.4058px;
+    }
+
+    .s6-4__total-label {
+      font-size: 32.545px;
+      letter-spacing: -0.48px;
+    }
+  }
+
+  @media (max-width: 27rem) {
+    .s6-4__cards {
+      flex-direction: column;
+    }
+
+    .s6-4__plus {
+      transform: rotate(90deg);
+    }
+  }
+
+  @media (max-width: 57.999rem) {
+    .s6-frame {
+      width: 90vw;
+      max-width: 90vw;
+    }
+
+    .s6-2__pill {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .s6-2__pill-valor {
+      font-size: clamp(4rem, 18vw, 6rem);
+    }
+
+    .s6-3__icones {
+      flex-wrap: nowrap;
+      gap: 0.3rem;
+    }
+
+    .s6-3__icones img {
+      width: min(7.25vw, 2rem);
+      flex: 0 0 auto;
+    }
+
+    .s6-3__pills {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      gap: 0.9rem;
+    }
+
+    .s6-3__coluna {
+      width: 100%;
+    }
+
+    .s6-4__cards {
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .s6-4__card {
+      flex: none;
+      width: 100%;
+    }
+
+    .s6-4__titulo,
+    .s6-4__total-label {
+      max-width: 100%;
+    }
+
+    .s6-4__titulo {
+      width: min(340px, 90vw);
+      max-width: min(340px, 90vw);
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .s6-4__card-valor,
+    .s6-4__total-valor {
+      font-size: clamp(3rem, 6.2vw, 4.5rem);
+    }
+
+    .s6-4__plus {
+      transform: rotate(90deg);
+    }
+  }
+</style>

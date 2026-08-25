@@ -1,0 +1,98 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import Reconhecimento from "../components/Reconhecimento.astro";
+import ComoFunciona from "../components/ComoFunciona.astro";
+import Movimentos from "../components/Movimentos.astro";
+import Carteira from "../components/Carteira.astro";
+import Numeros from "../components/Numeros.astro";
+import Recorrencia from "../components/Recorrencia.astro";
+import Provas from "../components/Provas.astro";
+import SemExperiencia from "../components/SemExperiencia.astro";
+import PrimeirosClientes from "../components/PrimeirosClientes.astro";
+import Rotina from "../components/Rotina.astro";
+import Timing from "../components/Timing.astro";
+import DozeMeses from "../components/DozeMeses.astro";
+import Fechamento from "../components/Fechamento.astro";
+---
+
+<Layout>
+  <main id="conteudo">
+    {/* Sessão 01 */}
+    <Hero />
+
+    {/* Sessão 02 */}
+    <Reconhecimento />
+
+    <div class="figma-sections">
+      <ComoFunciona />
+      {/* Sessão 03 */}
+      <Movimentos />
+      {/* Sessão 04 */}
+      <Carteira />
+      {/* Sessão 05 */}
+      <Numeros />
+      {/* Sessão 06 */}
+      <Recorrencia />
+      {/* Sessão 07 */}
+      <Provas />
+      {/* Sessão 08 — só renderiza quando houver caso real */}
+      <SemExperiencia />
+      {/* Sessão 09 */}
+      <PrimeirosClientes />
+      {/* Sessão 11 */}
+      <Rotina />
+      {/* Sessão 12 */}
+      <Timing />
+      {/* Sessão 14 */}
+      <DozeMeses />
+    </div>
+
+    {/* Sessão 15 */}
+    <Fechamento />
+  </main>
+</Layout>
+
+<script>
+  import "../scripts/smooth-scroll";
+  import "../scripts/motion";
+</script>
+
+<style is:global>
+  /* O Figma usa quebras determinadas pela largura do frame. Remove o
+     balance/pretty global apenas das seções importadas do arquivo de design. */
+  .figma-sections :where(h1, h2, h3, h4, p, li),
+  .fechamento :where(h1, h2, h3, h4, p, li) {
+    text-wrap: wrap;
+  }
+
+  /* Padrão editorial mobile das headlines principais: o tamanho continua
+     responsivo, mas todas compartilham a mesma densidade e ritmo de linha. */
+  @media (max-width: 47.5rem) {
+    .figma-sections :where(
+      .movimentos__header h2,
+      .carteira__header h2,
+      .provas__cabecalho h2,
+      .primeiros__cabecalho h2,
+      .rotina__intro h2,
+      .timing__top h2,
+      .doze__cabecalho h2
+    ) {
+      font-size: clamp(36px, 7.3vw, 80.359px);
+      line-height: 100%;
+      letter-spacing: -0.05em;
+    }
+
+    /* Quebras desenhadas no desktop continuam sendo quebras autorais no
+       mobile; linhas embrulhadas em spans diretos não voltam a refluir. */
+    .figma-sections br,
+    .fechamento br {
+      display: initial !important;
+    }
+
+    .figma-sections :where(h1, h2, h3, h4) > span,
+    .fechamento :where(h1, h2, h3, h4) > span {
+      white-space: nowrap;
+    }
+  }
+</style>

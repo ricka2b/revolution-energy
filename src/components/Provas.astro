@@ -1,0 +1,63 @@
+---
+/** Sessão 08 — o Figma ainda reserva três espaços sem conteúdo. */
+---
+
+<section class="provas" id="provas" data-node-id="1048:7335">
+  <div class="provas__inner">
+    <header class="provas__cabecalho reveal">
+      <p>E você não precisa acreditar apenas no que eu estou te falando!</p>
+      <h2>Veja exemplos reais de quem já está tendo resultados com essa oportunidade:</h2>
+    </header>
+
+    <ul class="provas__grid reveal" data-stagger aria-label="Espaços reservados para depoimentos">
+      <li aria-label="Depoimento 1 ainda não publicado"></li>
+      <li aria-label="Depoimento 2 ainda não publicado"></li>
+      <li aria-label="Depoimento 3 ainda não publicado"></li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .provas { overflow-x: clip; background: #fff; color: #0e0a15; }
+  .provas__inner { width: min(calc(100% - 40px), 1305px); margin-inline: auto; padding-block: 80px; }
+  .provas__cabecalho { display: flex; flex-direction: column; align-items: center; gap: 37.812px; width: 100%; text-align: center; }
+  .provas__cabecalho p, .provas__cabecalho h2 { width: 100%; text-box-trim: trim-both; text-box-edge: cap alphabetic; }
+  .provas__cabecalho p { font-size: 34.448px; font-weight: 400; letter-spacing: -1.0334px; line-height: 38.582px; }
+  .provas__cabecalho h2 { font-size: 70.583px; font-weight: 700; letter-spacing: -4.235px; line-height: 1.2; }
+  .provas__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; width: 100%; margin-top: 50px; }
+  .provas__grid li { height: 672px; background: #d9d9d9; }
+
+  @media (max-width: 72rem) {
+    .provas__inner { padding-block: clamp(56px, 7vw, 80px); }
+    .provas__cabecalho p { font-size: clamp(24px, 3vw, 34.448px); line-height: 1.2; }
+    .provas__cabecalho h2 { font-size: clamp(44px, 6.1vw, 70.583px); letter-spacing: -0.05em; }
+    .provas__grid li { height: auto; aspect-ratio: 421.66 / 672; }
+  }
+
+  @media (max-width: 44rem) {
+    .provas__inner { width: min(calc(100% - 32px), 1305px); }
+    .provas__cabecalho { gap: 24px; }
+
+    .provas__cabecalho p {
+      width: 80%;
+      max-width: 340px;
+      margin-inline: auto;
+      font-size: clamp(10px, 3vw, 12px);
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+    }
+
+    .provas__cabecalho h2 {
+      width: 90%;
+      max-width: 340px;
+      margin-inline: auto;
+      font-size: clamp(16px, 4.5vw, 18px);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      text-wrap: balance;
+    }
+
+    .provas__grid { grid-template-columns: 1fr; gap: 16px; margin-top: 40px; }
+    .provas__grid li { aspect-ratio: 4 / 5; }
+  }
+</style>

@@ -1,0 +1,207 @@
+---
+import loja from "../assets/figma-section-10/asset-1.svg";
+import restaurante from "../assets/figma-section-10/asset-2.svg";
+import academia from "../assets/figma-section-10/asset-3.svg";
+import mercado from "../assets/figma-section-10/asset-4.svg";
+import oficina from "../assets/figma-section-10/asset-5.svg";
+import clinica from "../assets/figma-section-10/asset-6.svg";
+import casa from "../assets/figma-section-10/asset-7.svg";
+import empresa from "../assets/figma-section-10/asset-8.svg";
+import telefone from "../assets/figma-section-10/asset-9.svg";
+
+const contatos = [
+  { icon: loja, label: "Uma loja" },
+  { icon: restaurante, label: "Um restaurante" },
+  { icon: academia, label: "Uma academia" },
+  { icon: mercado, label: "Um mercado" },
+  { icon: empresa, label: "Uma empresa" },
+  { icon: oficina, label: "Uma oficina" },
+  { icon: clinica, label: "Uma clínica" },
+  { icon: casa, label: "Uma casa" },
+];
+---
+
+<section class="primeiros" id="primeiros-clientes" data-node-id="1048:7610">
+  <div class="primeiros__inner">
+    <header class="primeiros__cabecalho reveal">
+      <div>
+        <p>E sabe onde seus primeiros clientes podem estar?</p>
+        <h2>No seu próprio celular.</h2>
+      </div>
+      <p>Faz um exercício rápido comigo:</p>
+    </header>
+
+    <div class="primeiros__exercicio reveal" data-s10-exercicio>
+      <header>
+        <h3>Pegue seu telefone.... Abra seus contatos.</h3>
+        <p>E veja se você rapidamente identifica alguém que tenha:</p>
+      </header>
+
+      <ul class="primeiros__contatos" data-s10-contatos>
+        {contatos.map((contato) => (
+          <li>
+            <img src={contato.icon.src} alt="" width="22" height="22" />
+            <span>{contato.label}</span>
+          </li>
+        ))}
+      </ul>
+
+      <p class="primeiros__resumo">
+        Talvez você conheça <strong>dezenas</strong>, ou até mesmo
+        <strong>centenas dessas pessoas.</strong>
+      </p>
+    </div>
+
+    <div class="primeiros__mensagem reveal" data-s10-mensagem>
+      <h3>Agora imagine mandar uma mensagem:</h3>
+      <div class="primeiros__mensagem-grid">
+        <div class="primeiros__telefone">
+          <img class="primeiros__telefone-frame" src={telefone.src} alt="" width="510" height="1028" />
+          <div class="primeiros__conversa" data-s10-conversa>
+            <div class="primeiros__bolha primeiros__bolha--enviada">“Quanto você paga de energia por mês?”</div>
+            <div class="primeiros__resposta-chat">
+              <p>A pessoa responde o valor.</p>
+              <div class="primeiros__bolha primeiros__bolha--recebida">”Pago R$400,00 por que?</div>
+            </div>
+            <div class="primeiros__envio">
+              <p>Então você diz:</p>
+              <div class="primeiros__bolha primeiros__bolha--enviada">
+                “Estou trabalhando com uma solução<br />que pode gerar economia nessa conta.
+              </div>
+              <div class="primeiros__bolha primeiros__bolha--enviada">
+                Posso verificar se funciona para você?”
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="primeiros__fecho" data-s10-fecho>
+          <h4>É disso que estamos falando.</h4>
+          <div class="primeiros__texto">
+            <p>Você não precisa encontrar uma pessoa extremamente interessada em comprar alguma coisa.</p>
+            <p>Você só precisa encontrar alguém que queira:</p>
+          </div>
+          <p class="primeiros__destaque">
+            <strong>Pagar Menos!</strong>
+            <span>E isso <b>muda tudo.</b></span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .primeiros { min-height: 1327px; overflow-x: clip; background: #fff; color: #0e0a15; }
+  .primeiros__inner { display: flex; flex-direction: column; width: min(calc(100% - 40px), 1040px); margin-inline: auto; padding-block: 138.62px 100px; }
+  .primeiros p, .primeiros h2, .primeiros h3, .primeiros h4 { text-box-trim: trim-both; text-box-edge: cap alphabetic; }
+
+  .primeiros__cabecalho { display: flex; flex-direction: column; gap: 35px; width: 100%; height: 151.428px; white-space: nowrap; }
+  .primeiros__cabecalho > div { display: flex; flex-direction: column; gap: 24.428px; }
+  .primeiros__cabecalho > div p { font-size: 22.361px; letter-spacing: -.6708px; line-height: 25.044px; }
+  .primeiros__cabecalho h2 { font-size: 78.519px; font-weight: 700; letter-spacing: -3.926px; line-height: 82.445px; }
+  .primeiros__cabecalho > p { color: #514b5e; font-size: 26.662px; letter-spacing: -.7999px; line-height: 35.382px; }
+
+  .primeiros__exercicio { display: flex; flex-direction: column; align-items: center; gap: 40px; width: 100%; height: 300.969px; margin-top: 60px; }
+  .primeiros__exercicio header { display: flex; flex-direction: column; gap: 23.969px; width: 100%; color: #514b5e; white-space: nowrap; }
+  .primeiros__exercicio h3 { font-size: 39.434px; font-weight: 700; letter-spacing: -.9242px; line-height: 63.094px; }
+  .primeiros__exercicio header p { font-size: 28.873px; letter-spacing: -.6767px; line-height: 46.196px; }
+
+  .primeiros__contatos { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px 20px; width: 100%; }
+  .primeiros__contatos li { display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 16px; border: 1px solid rgba(14,10,21,.07); border-radius: 16px; background: linear-gradient(170.27deg,#fff 6.17%,#f7f6f9 93.83%); box-shadow: 0 12px 16px rgba(14,10,21,.04); font-size: 16px; letter-spacing: -.3125px; line-height: 25.6px; white-space: nowrap; }
+  .primeiros__contatos img { flex: none; width: 22px; height: 22px; object-fit: contain; }
+  .primeiros__contatos li:nth-child(5) img { width: 18.104px; height: 17.188px; margin-inline: 1.948px; }
+  .primeiros__resumo { color: #514b5e; font-size: 23.217px; letter-spacing: -.5441px; line-height: 37.147px; white-space: nowrap; }
+
+  .primeiros__mensagem { display: flex; flex-direction: column; gap: 40px; width: 100%; min-height: 606px; margin-top: 70px; }
+  .primeiros__mensagem > h3 { font-size: 58.833px; font-weight: 700; letter-spacing: -2.9416px; line-height: 61.775px; white-space: nowrap; }
+  .primeiros__mensagem-grid { display: grid; grid-template-columns: 510px 510px; align-items: center; gap: 20px; }
+
+  .primeiros__telefone { position: relative; width: 510px; height: 523px; overflow: hidden; }
+  .primeiros__telefone-frame { position: absolute; inset: 0 auto auto 0; width: 510px; height: 1028.451px; max-width: none; }
+  .primeiros__conversa { position: absolute; top: 123px; left: 59px; display: flex; flex-direction: column; gap: 20px; width: 392px; overflow: hidden; }
+  .primeiros__bolha { width: fit-content; padding: 16px 24px; color: #fff; font-size: 16px; font-weight: 700; letter-spacing: -.3125px; line-height: 23.2px; white-space: nowrap; }
+  .primeiros__bolha--enviada { border-radius: 24px 24px 24px 0; background: #7355e8; }
+  .primeiros__bolha--recebida { align-self: flex-end; border-radius: 24px 24px 0 24px; background: #646464; }
+  .primeiros__resposta-chat, .primeiros__envio { display: flex; flex-direction: column; gap: 15px; width: 100%; }
+  .primeiros__resposta-chat { align-items: flex-end; }
+  .primeiros__conversa p { width: 100%; color: rgba(0,0,0,.72); font-size: 14px; letter-spacing: -.1504px; line-height: 22.4px; }
+  .primeiros__resposta-chat p { text-align: right; }
+
+  .primeiros__fecho { display: flex; flex-direction: column; align-items: flex-start; gap: 35px; width: 510px; min-height: 288px; }
+  .primeiros__fecho h4 { width: 100%; font-size: 37.886px; font-weight: 700; letter-spacing: -1.0855px; line-height: 41.674px; white-space: nowrap; }
+  .primeiros__texto { display: flex; flex-direction: column; gap: 25px; width: 100%; min-height: 83px; color: #514b5e; font-size: 20px; letter-spacing: -.6px; line-height: 1.4; }
+  .primeiros__destaque { width: 100%; min-height: 122px; font-size: 62.752px; letter-spacing: -1.798px; line-height: .98; }
+  .primeiros__destaque strong, .primeiros__destaque b { background: linear-gradient(116.61deg,#7355e8 4.26%,#8c6eff 95.74%); background-clip: text; -webkit-background-clip: text; color: transparent; font-weight: 700; }
+  .primeiros__destaque strong, .primeiros__destaque span { display: block; }
+  .primeiros__destaque strong { padding-bottom: 8px; }
+  .primeiros__destaque span { color: #0e0a15; font-weight: 400; }
+
+  @media (max-width: 68rem) {
+    .primeiros { height: auto; }
+    .primeiros__inner { gap: 60px; padding-block: clamp(80px, 10vw, 138.62px); }
+    .primeiros__cabecalho, .primeiros__exercicio, .primeiros__mensagem, .primeiros__fecho, .primeiros__texto, .primeiros__destaque { height: auto; margin-top: 0; }
+    .primeiros__cabecalho { white-space: normal; }
+    .primeiros__cabecalho h2 { font-size: clamp(50px, 7.55vw, 78.519px); line-height: 1.06; }
+    .primeiros__exercicio header { white-space: normal; }
+    .primeiros__exercicio h3 { font-size: clamp(31px, 3.79vw, 39.434px); line-height: 1.3; }
+    .primeiros__exercicio header p { font-size: clamp(23px, 2.78vw, 28.873px); line-height: 1.4; }
+    .primeiros__resumo { white-space: normal; text-align: center; }
+    .primeiros__mensagem > h3 { font-size: clamp(42px, 5.66vw, 58.833px); line-height: 1.08; white-space: normal; }
+    .primeiros__mensagem-grid { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+    .primeiros__telefone, .primeiros__fecho { width: 100%; }
+    .primeiros__fecho h4 { height: auto; white-space: normal; }
+    .primeiros__telefone { transform-origin: top left; }
+    .primeiros__destaque { font-size: clamp(46px, 6.03vw, 62.752px); }
+  }
+
+  @media (max-width: 48rem) {
+    .primeiros { overflow-x: clip; }
+    .primeiros__inner { width: min(calc(100% - 32px), 1040px); gap: 48px; padding-block: 72px; }
+    .primeiros__cabecalho > div p { font-size: 19px; line-height: 1.35; }
+    .primeiros__cabecalho > p { font-size: 22px; }
+    .primeiros__contatos { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+    .primeiros__contatos li { white-space: normal; }
+    .primeiros__mensagem-grid { grid-template-columns: 1fr; gap: 48px; }
+    .primeiros__telefone {
+      justify-self: center;
+      width: min(100%, 510px);
+      height: auto;
+      aspect-ratio: 510 / 1028.451;
+    }
+
+    .primeiros__telefone-frame {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .primeiros__conversa {
+      top: 11.96%;
+      left: 11.57%;
+      gap: clamp(10px, 3.2vw, 16px);
+      width: 76.86%;
+      overflow: visible;
+    }
+
+    .primeiros__resposta-chat,
+    .primeiros__envio {
+      gap: clamp(8px, 2.6vw, 12px);
+    }
+
+    .primeiros__bolha {
+      max-width: 100%;
+      padding: clamp(10px, 3.2vw, 14px) clamp(12px, 4vw, 18px);
+      font-size: clamp(11px, 3.2vw, 14px);
+      line-height: 1.35;
+      white-space: normal;
+    }
+
+    .primeiros__conversa p {
+      font-size: clamp(10px, 3vw, 12px);
+      line-height: 1.35;
+    }
+
+    .primeiros__fecho { width: 100%; }
+  }
+</style>

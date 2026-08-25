@@ -1,0 +1,123 @@
+---
+/**
+ * Barra roxa fixa no topo — a sobrancelha fixa da carta.
+ *
+ * Acima de ~760px o texto cabe em uma linha e fica centralizado.
+ * Abaixo disso o trilho vira marquee, animado pelo anime.js
+ * (`data-marquee`), e o conteúdo é duplicado só para o loop ficar contínuo —
+ * a cópia é escondida de leitores de tela.
+ *
+ * O indicador de leitura mora na borda inferior da barra.
+ */
+const texto =
+  "Consultor de energia • A nova profissão que gera renda recorrente oferecendo apenas um benefício";
+---
+
+<div class="bar">
+  <div class="bar__viewport">
+    <div class="bar__track" data-marquee>
+      <p class="bar__text">{texto}</p>
+      <p class="bar__text bar__text--clone" aria-hidden="true">{texto}</p>
+    </div>
+  </div>
+  <span class="bar__progress" data-progress aria-hidden="true"></span>
+</div>
+
+<style>
+  .bar {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 60;
+    display: grid;
+    align-items: center;
+    height: var(--bar-h);
+    background: var(--purple);
+    color: #fff;
+    /* O gradiente da marca, reservado para destaque. */
+    background-image: linear-gradient(
+      92deg,
+      var(--purple) 0%,
+      var(--purple-bright) 52%,
+      var(--purple) 100%
+    );
+  }
+
+  .bar__viewport {
+    overflow: hidden;
+    padding-inline: var(--gutter);
+  }
+
+  .bar__track {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    will-change: transform;
+  }
+
+  .bar__text {
+    flex: none;
+    font-size: clamp(0.625rem, 0.35vw + 0.55rem, 0.6875rem);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .bar__text--clone {
+    display: none;
+  }
+
+  /* Modo marquee: só quando o texto não cabe. */
+  @media (max-width: 48rem) {
+    .bar__viewport {
+      padding-inline: 0;
+    }
+
+    .bar__track {
+      justify-content: flex-start;
+      gap: var(--space-6);
+      padding-inline-start: var(--space-6);
+    }
+
+    .bar__text--clone {
+      display: block;
+    }
+  }
+
+  /* Sem marquee, o texto fica legível quebrando em duas linhas. */
+  @media (max-width: 48rem) and (prefers-reduced-motion: reduce) {
+    .bar {
+      height: auto;
+      padding-block: var(--space-2);
+    }
+
+    .bar__viewport {
+      padding-inline: var(--gutter);
+    }
+
+    .bar__track {
+      justify-content: center;
+      padding-inline-start: 0;
+    }
+
+    .bar__text {
+      white-space: normal;
+      text-align: center;
+    }
+
+    .bar__text--clone {
+      display: none;
+    }
+  }
+
+  .bar__progress {
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline: 0;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.9);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+  }
+</style>

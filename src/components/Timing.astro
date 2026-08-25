@@ -1,0 +1,242 @@
+---
+import arrowDown from "../assets/figma-section-12/arrow-down.svg";
+import check from "../assets/figma-section-15/check-1.svg";
+const mercado = ["Pessoas usam todos os dias.", "Empresas precisam para funcionar.", "E todo mundo paga todos os meses"];
+const ignorar = ["Fechar esta página.", "Voltar para sua rotina.", "Continuar procurando outra forma de aumentar sua renda."];
+---
+
+<section class="timing" id="timing" data-node-id="1048:7739">
+  <div class="timing__inner">
+    <header class="timing__top reveal">
+      <h2><span>Talvez você nunca tivesse ouvido falar</span> <span>em Consultor de Energia</span> <span>antes de chegar até aqui.</span></h2>
+      <p>E isso deveria chamar sua atenção.</p>
+    </header>
+    <div class="timing__inicio reveal">
+      <div class="timing__argumento">
+        <p>Porque muitas vezes as melhores oportunidades possuem uma característica em comum.</p>
+        <h3>Elas não parecem óbvias quando ainda estão começando.</h3>
+      </div>
+      <p class="timing__amadurece">Depois que <strong>milhares de pessoas entram</strong>… Depois que todo<br />mundo começa a falar… Depois que o mercado amadurece…</p>
+      <div class="timing__quote"><p>Aí fica fácil dizer:</p><strong>“Eu deveria ter começado antes.”</strong></div>
+      <p class="timing__decisao">Mas começar antes significa tomar uma decisão enquanto a maioria ainda está tentando entender.</p>
+    </div>
+    <img class="timing__arrow reveal" src={arrowDown.src} alt="" />
+    <div class="timing__oportunidade reveal">
+      <p>E hoje você está conhecendo uma profissão que muita gente ainda nem sabe que existe.</p>
+      <h3>Uma oportunidade ligada a algo que:</h3>
+      <ul data-stagger>{mercado.map((item) => <li><img src={check.src} alt="" /><strong>{item}</strong></li>)}</ul>
+    </div>
+    <div class="timing__ignorar reveal">
+      <h3>Você pode ignorar isso agora</h3>
+      <ul data-stagger>{ignorar.map((item) => <li>{item}</li>)}</ul>
+    </div>
+    <div class="timing__possibilidade reveal">
+      <strong>E não existe problema nenhum nisso. Mas existe outra possibilidade.</strong>
+      <p>Talvez daqui a alguns meses alguém próximo de você comece a <b>trabalhar com energia.</b><br /><b>Construa uma carteira. Comece a receber comissão. Depois construa recorrência.</b></p>
+    </div>
+    <div class="timing__lembranca reveal">
+      <strong>E então você lembre:</strong><h3>“Eu vi isso antes.”</h3>
+      <p>Essa frase aparece em <b>praticamente todos os mercados.</b></p>
+    </div>
+    <footer class="timing__footer reveal">
+      <h3>O problema é que o tempo não volta.</h3>
+      <p>Você só consegue começar cedo enquanto ainda é cedo. E você está tendo contato com essa oportunidade agora.</p>
+    </footer>
+  </div>
+</section>
+
+<style>
+  .timing { padding: 100px var(--gutter); overflow-x: clip; background: #0e0a15; color: #fff; }
+  .timing__inner { width: min(100%,1040px); margin-inline: auto; display: flex; flex-direction: column; align-items: center; gap: 60px; }
+  .timing__top { display: grid; justify-items: center; gap: 35px; width: 100%; text-align: center; }
+  .timing__top h2 { font-size: 47.56px; line-height: 52.316px; letter-spacing: -1.4488px; font-weight: 700; }
+  .timing__top p { color: #c6b5ff; font-size: 29.975px; line-height: 29.975px; letter-spacing: -.8992px; font-weight: 700; }
+  .timing__inicio { width: min(100%,776px); display: grid; gap: 35px; }
+  .timing__argumento { display: grid; gap: 26px; }
+  .timing__argumento > p { font-size: 18.884px; line-height: 28.326px; letter-spacing: -.5665px; color: rgba(255,255,255,.72); }
+  .timing__argumento h3 { font-size: 49.628px; line-height: 59.554px; letter-spacing: -1.4888px; font-weight: 700; }
+  .timing__amadurece { width: min(100%,615.499px); font-size: 22.13px; line-height: 35.408px; letter-spacing: -.6639px; }
+  .timing__quote { padding: 35px; border-radius: 31px; background: #7f60fd; display: grid; gap: 19px; }
+  .timing__quote p { font-size: 25.742px; line-height: 38.613px; letter-spacing: -.7723px; }
+  .timing__quote strong { font-size: 42.847px; line-height: 42.847px; letter-spacing: -1.2854px; }
+  .timing__decisao { font-size: 17.744px; line-height: 26.616px; letter-spacing: -.5323px; }
+  .timing__arrow { width: 37px; height: 43px; }
+  .timing__oportunidade { width: 100%; display: grid; justify-items: center; gap: 40px; text-align: center; }
+  .timing__oportunidade > p { color: rgba(255,255,255,.72); font-size: 24px; line-height: 38.4px; letter-spacing: -.72px; text-align: center; }
+  .timing__oportunidade h3 { font-size: 58px; line-height: 1.2; letter-spacing: -1.74px; font-weight: 700; text-align: center; }
+  .timing__oportunidade ul { display: flex; gap: 22px; }
+  .timing__oportunidade li { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 18px; border-radius: 72px; background: #7355e8; }
+  .timing__oportunidade li img { width: 20px; height: 20px; }
+  .timing__oportunidade li strong { font-size: 17.479px; line-height: 31.962px; letter-spacing: -.5244px; white-space: nowrap; }
+  .timing__ignorar { width: min(100%,775px); display: grid; gap: 30px; }
+  .timing__ignorar h3 { font-size: 56px; line-height: 1.05; letter-spacing: -1.68px; font-weight: 700; text-align: center; }
+  .timing__ignorar ul { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .timing__ignorar li { padding: 16px 24px; border-radius: 16px; background: rgba(255,255,255,.05); font-size: 26px; line-height: 25.6px; letter-spacing: -.78px; text-align: center; }
+  .timing__ignorar li:last-child { grid-column: 1/-1; }
+  .timing__possibilidade { width: min(100%,768px); display: grid; justify-items: center; gap: 30px; text-align: center; }
+  .timing__possibilidade > strong { font-size: 22px; line-height: 1.6; letter-spacing: -.66px; text-align: center; }
+  .timing__possibilidade p { color: rgba(255,255,255,.72); font-size: 18px; line-height: 1.5; letter-spacing: -.54px; text-align: center; }
+  .timing__possibilidade b { color: #fff; }
+  .timing__lembranca { padding: 55px; border-radius: 24px; background: #fff; color: #0e0a15; display: grid; justify-items: center; gap: 30px; text-align: center; }
+  .timing__lembranca > strong { font-size: 35.035px; line-height: 1em; letter-spacing: -1.051px; }
+  .timing__lembranca h3 { color: #7f60fd; font-size: 85.268px; line-height: 1em; letter-spacing: -4.2634px; font-weight: 700; }
+  .timing__lembranca p { font-size: 25.329px; line-height: 1em; letter-spacing: -.7599px; }
+  .timing__footer { width: 100%; display: grid; gap: 32px; }
+  .timing__footer h3 { font-size: 62px; line-height: 62px; letter-spacing: -2.63px; font-weight: 700; text-align: center; }
+  @media (max-width: 1100px) {
+    .timing__top h2 { font-size: clamp(34px,4.32vw,47.56px); }
+    .timing__top p { font-size: clamp(22px,2.73vw,29.975px); }
+    .timing__argumento h3 { font-size: clamp(34px,4.51vw,49.628px); }
+    .timing__amadurece { font-size: clamp(17px,2.01vw,22.13px); }
+    .timing__quote p { font-size: clamp(20px,2.34vw,25.742px); }
+    .timing__quote strong { font-size: clamp(30px,3.9vw,42.847px); }
+    .timing__oportunidade > p { font-size: clamp(18px,2.18vw,24px); }
+    .timing__oportunidade h3 { font-size: clamp(38px,5.27vw,58px); }
+    .timing__oportunidade li strong { font-size: clamp(12px,1.59vw,17.479px); }
+    .timing__ignorar h3 { font-size: clamp(38px,5.09vw,56px); }
+    .timing__ignorar li { font-size: clamp(18px,2.36vw,26px); }
+    .timing__lembranca h3 { font-size: clamp(52px,7.75vw,85.268px); }
+    .timing__footer h3 { font-size: clamp(42px,5.64vw,62px); }
+  }
+  .timing__footer p { color: rgba(255,255,255,.72); font-size: 20.02px; line-height: 32.032px; letter-spacing: -.4692px; }
+  @media (max-width: 760px) {
+    .timing {
+      padding-block: 72px;
+      padding-inline: 12px;
+    }
+
+    .timing__inner {
+      gap: 52px;
+      width: min(350px, 100%);
+    }
+
+    .timing__top,
+    .timing__inicio,
+    .timing__oportunidade,
+    .timing__ignorar,
+    .timing__possibilidade,
+    .timing__lembranca,
+    .timing__footer {
+      width: 100%;
+      max-width: 340px;
+      margin-inline: auto;
+    }
+
+    .timing__top h2,
+    .timing__argumento h3,
+    .timing__oportunidade h3,
+    .timing__ignorar h3,
+    .timing__lembranca h3,
+    .timing__footer h3 {
+      letter-spacing: -0.03em;
+      text-align: center;
+    }
+
+    .timing__top h2 {
+      width: min(320px, 100%);
+      max-width: 320px;
+      margin-inline: auto;
+      font-size: clamp(14px, 3.8vw, 16px);
+      line-height: 1.12;
+      text-align: left;
+    }
+
+    .timing__top {
+      max-width: 350px;
+    }
+
+    .timing__top h2 span {
+      display: block;
+      white-space: nowrap;
+    }
+
+    .timing__argumento h3 {
+      width: min(340px, 100%);
+      max-width: 340px;
+      margin-inline: auto;
+      font-size: 24px;
+      line-height: 1.12;
+      text-wrap: balance;
+    }
+
+    .timing__argumento,
+    .timing__amadurece,
+    .timing__quote,
+    .timing__decisao,
+    .timing__oportunidade ul,
+    .timing__ignorar ul,
+    .timing__possibilidade > strong,
+    .timing__possibilidade > p {
+      width: 100%;
+      max-width: 340px;
+    }
+
+    .timing__oportunidade ul {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .timing__oportunidade li,
+    .timing__ignorar li {
+      width: 100%;
+    }
+
+    .timing__quote {
+      gap: 10px;
+    }
+
+    .timing__quote strong {
+      line-height: 1.3em;
+    }
+
+    .timing__oportunidade > p {
+      font-size: 14px;
+      line-height: 1.3;
+      text-wrap: balance;
+    }
+
+    .timing__possibilidade > strong {
+      font-size: 16px;
+      line-height: 1.3;
+      text-wrap: balance;
+    }
+
+    .timing__oportunidade li strong { white-space: normal; text-align: center; }
+    .timing__ignorar ul { grid-template-columns: 1fr; }
+    .timing__ignorar li:last-child { grid-column: auto; }
+    .timing__lembranca { padding: 38px 22px; gap: 30px; }
+
+    .timing__lembranca > strong,
+    .timing__lembranca h3,
+    .timing__lembranca p {
+      width: 100%;
+      line-height: 1em;
+      text-align: center;
+    }
+
+    .timing__lembranca > strong {
+      font-size: 20px;
+      white-space: nowrap;
+    }
+
+    .timing__lembranca h3 {
+      font-size: 32px;
+      white-space: nowrap;
+    }
+
+    .timing__lembranca p {
+      font-size: 18px;
+      line-height: 1.15em;
+      text-wrap: balance;
+    }
+
+    .timing__footer h3 {
+      width: min(340px, 100%);
+      max-width: 340px;
+      margin-inline: auto;
+      font-size: 32px;
+      line-height: 1.08;
+      text-wrap: balance;
+    }
+  }
+</style>

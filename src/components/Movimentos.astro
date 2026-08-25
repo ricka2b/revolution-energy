@@ -1,0 +1,114 @@
+---
+import encontrar from "../assets/figma-section-4/encontrar.svg";
+import apresentar from "../assets/figma-section-4/apresentar.svg";
+import cadastrar from "../assets/figma-section-4/cadastrar.svg";
+import expandir from "../assets/figma-section-4/expandir.svg";
+import arrow from "../assets/figma-section-4/arrow.svg";
+
+const movimentos = [
+  {
+    icon: encontrar,
+    title: "Encontrar",
+    text: "Identificar pessoas e empresas que já possuem uma conta de energia todos os meses. Você não precisa criar uma necessidade do zero. Seu trabalho começa procurando consumidores que já têm esse custo e que podem se beneficiar de uma solução para economizar.",
+  },
+  {
+    icon: apresentar,
+    title: "Apresentar",
+    text: "Mostrar ao cliente como ele pode reduzir uma despesa que já faz parte da rotina dele. Em vez de tentar vender algo novo, você apresenta uma oportunidade de economia, sem instalação de placas, sem obras e sem um grande investimento inicial.",
+  },
+  {
+    icon: cadastrar,
+    title: "Cadastrar",
+    text: "Conduzir o cliente pelo processo de adesão e transformar aquela conta em parte da sua carteira. Cada novo cadastro aprovado aumenta o seu volume e pode gerar novas comissões dentro do plano.",
+  },
+  {
+    icon: expandir,
+    title: "Expandir",
+    text: "Continuar conquistando novos clientes e indicações, aumentando o tamanho da sua carteira mês após mês. Quanto mais você constrói, maior pode se tornar seu potencial de remuneração.",
+  },
+];
+const etapas = ["Você aprende um processo", "Aplica", "Conquista clientes", "E começa a construir sua carteira."];
+---
+
+<section class="movimentos" id="movimentos" data-node-id="1048:9157">
+  <div class="movimentos__inner">
+    <header class="movimentos__header reveal">
+      <div><p>E é aqui que você entra…</p><h2>Você se torna um<br />Consultor de Energia.</h2></div>
+      <p class="movimentos__sub">E seu trabalho pode ser resumido em quatro movimentos extremamente simples:</p>
+    </header>
+
+    <ol class="bento" data-stagger>
+      {movimentos.map((item, index) => (
+        <li class:list={["bento__item", `bento__item--${index + 1}`]}>
+          <span class="bento__icon"><img src={item.icon.src} alt="" /></span>
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+        </li>
+      ))}
+    </ol>
+
+    <div class="movimentos__close reveal">
+      <p class="movimentos__frase"><strong>É isso!</strong> Você não precisa criar um <b>novo desejo de consumo</b> ou <b>produto.</b></p>
+      <ul class="movimentos__dispensa" data-stagger>
+        <li>Não precisa desenvolver uma tecnologia.</li>
+        <li>Não precisa montar uma equipe para começar.</li>
+        <li>Não precisa abrir uma loja.</li>
+      </ul>
+      <div class="movimentos__flow">
+        {etapas.map((etapa, index) => <><strong>{etapa}</strong>{index < etapas.length - 1 && <img src={arrow.src} alt="" />}</>)}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .movimentos { padding: 90px var(--gutter); overflow-x: clip; background: #fff; color: #0e0a15; }
+  .movimentos__inner { width: min(100%,1088px); margin-inline: auto; display: grid; gap: 40px; }
+  .movimentos__header { display: grid; gap: 40px; }
+  .movimentos__header > div { display: grid; gap: 25px; }
+  .movimentos__header > div > p { font-size: 33.089px; line-height: 37.06px; letter-spacing: -.9927px; }
+  .movimentos__header h2 { font-size: 80.359px; line-height: 84.377px; letter-spacing: -4.018px; font-weight: 700; }
+  .movimentos__sub { color: #514b5e; font-size: 24px; line-height: 31.849px; letter-spacing: -.72px; }
+  .bento { display: grid; grid-template-columns: repeat(12,1fr); gap: 16px; }
+  .bento__item { position: relative; grid-column: span 5; height: 280px; padding: 32px; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start; gap: 16px; border: 1px solid rgba(14,10,21,.06); border-radius: 24px; background: #f7f6f9; box-shadow: 0 20px 48px rgba(14,10,21,.06); }
+  .bento__item--1, .bento__item--4 { grid-column: span 7; }
+  .bento__item--2 { background: #eeeafd; }
+  .bento__item--3, .bento__item--4 { height: 258px; }
+  .bento__item--4 { color: #fff; background: radial-gradient(circle at 88% 14%,rgba(127,96,253,.28),transparent 34%),#0e0a15; }
+  .bento__icon { flex: none; width: 40px; height: 40px; border-radius: 999px; background: rgba(115,85,232,.12); display: grid; place-items: center; }
+  .bento__item--4 .bento__icon { background: rgba(255,255,255,.1); }
+  .bento__icon img { width: 20px; height: 20px; }
+  .bento__item h3 { font-size: 28px; line-height: 29.4px; letter-spacing: -.5972px; font-weight: 500; }
+  .bento__item > p { z-index: 1; width: min(100%,460px); color: #514b5e; font-size: 14px; line-height: 22.4px; letter-spacing: -.1504px; }
+  .bento__item--4 > p { color: rgba(255,255,255,.72); }
+  .movimentos__close { display: grid; gap: 20px; }
+  .movimentos__frase { font-size: 33.961px; line-height: 54.338px; letter-spacing: -.48px; white-space: nowrap; }
+  .movimentos__frase b { color: #7f60fd; }
+  .movimentos__dispensa { display: flex; justify-content: center; align-items: center; gap: 18.42px; color: #514b5e; font-size: 19.648px; line-height: 31.437px; letter-spacing: -.3837px; }
+  .movimentos__dispensa li { padding-block: 12.28px; white-space: nowrap; }
+  .movimentos__dispensa li:nth-child(2) { padding: 12.28px; border-inline: 2.456px solid #c7c7c7; }
+  .movimentos__flow { width: 100%; padding: 24px 32px; border-radius: 24px; background: #7355e8; color: #fff; display: flex; align-items: center; justify-content: center; gap: 12px; }
+  .movimentos__flow strong { font-size: 18px; line-height: 25.6px; letter-spacing: -.4725px; text-transform: uppercase; text-align: center; white-space: nowrap; }
+  .movimentos__flow img { width: 10px; height: 8px; }
+  @media (max-width: 1100px) {
+    .movimentos__header > div > p { font-size: clamp(23px,3vw,33.089px); }
+    .movimentos__header h2 { font-size: clamp(51px,7.3vw,80.359px); }
+    .movimentos__sub { font-size: clamp(18px,2.18vw,24px); }
+    .movimentos__frase { font-size: clamp(24px,3.08vw,33.961px); }
+    .movimentos__dispensa { font-size: clamp(15px,1.78vw,19.648px); }
+    .movimentos__flow strong { font-size: clamp(16px,1.64vw,18px); }
+  }
+  @media (max-width: 760px) {
+    .movimentos { padding-block: 72px; }
+    .movimentos__header h2 { font-size: clamp(36px,7.3vw,80.359px); line-height: 100%; letter-spacing: -.05em; }
+    .bento { grid-template-columns: 1fr; }
+    .bento__item, .bento__item--1, .bento__item--4 { grid-column: auto; height: auto; min-height: 260px; padding: 26px; }
+    .movimentos__frase { line-height: 1em; white-space: normal; }
+    .movimentos__dispensa { flex-direction: column; gap: 0; align-items: stretch; }
+    .movimentos__dispensa li { text-align: center; }
+    .movimentos__dispensa li:nth-child(2) { border-inline: 0; border-block: 1px solid #c7c7c7; }
+    .movimentos__flow { flex-direction: column; }
+    .movimentos__flow strong { white-space: normal; }
+    .movimentos__flow img { transform: rotate(90deg); }
+  }
+</style>

@@ -1,0 +1,453 @@
+/* =============================================================================
+   Hive Energy — Consultor de Energia
+   Reset mínimo + design tokens da marca (Brands-Hive.pdf).
+
+   Identidade oficial:
+     Dark              #0E0A15
+     Purple Pollen 500 #7F60FD
+     Purple bright     #8C6EFF
+     Tipografia        Inter (Light / Medium / Bold)
+     Forma             bento grid, cantos arredondados
+   ========================================================================== */
+
+/* ---------- Reset ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  /* Compensa a barra roxa fixa ao pular para uma âncora. */
+  scroll-padding-top: calc(var(--bar-h) + 1.5rem);
+}
+
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+li {
+  overflow-wrap: break-word;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ---------- Tokens ---------- */
+
+:root {
+  /* Cor — marca */
+  --dark: #0e0a15;
+  --dark-raised: #171021;
+  --dark-sunken: #0a0710;
+  --purple: #7f60fd;
+  --purple-bright: #8c6eff;
+  --purple-soft: #c6b5ff;
+  --lavender: #eeeafd;
+  --lavender-deep: #ded6ff;
+  --paper: #ffffff;
+  --paper-warm: #f7f6f9;
+
+  /* Cor — ação.
+     #7F60FD com texto branco dá 4.20:1 e reprova em AA para texto normal.
+     A ação usa um violeta da mesma família, um passo mais fundo: 5.01:1. */
+  --action: #7355e8;
+  --action-hover: #6244d6;
+  --on-action: #ffffff;
+
+  /* Cor — texto */
+  --ink: #0e0a15;
+  --ink-muted: #514b5e; /* 8.0:1 sobre branco */
+  --ink-faint: #6d6779; /* 5.4:1 sobre branco */
+  --on-dark: #ffffff;
+  --on-dark-muted: rgba(255, 255, 255, 0.72);
+  --on-dark-faint: rgba(255, 255, 255, 0.56);
+
+  /* Cor — linha */
+  --line: #e6e3ec;
+  --line-dark: rgba(255, 255, 255, 0.12);
+
+  /* Tipografia */
+  --font-body: var(--font-inter), system-ui, -apple-system, "Segoe UI", Roboto,
+    sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: clamp(1.0625rem, 0.4vw + 0.97rem, 1.1875rem);
+  --text-lg: clamp(1.1875rem, 0.7vw + 1.03rem, 1.4375rem);
+  --text-xl: clamp(1.375rem, 1.1vw + 1.13rem, 1.75rem);
+  --text-2xl: clamp(1.625rem, 1.9vw + 1.2rem, 2.375rem);
+  --text-3xl: clamp(2rem, 3.2vw + 1.28rem, 3.25rem);
+  --text-4xl: clamp(2.375rem, 4.6vw + 1.34rem, 4.25rem);
+  --text-5xl: clamp(2.75rem, 6vw + 1.4rem, 5.5rem);
+
+  /* Espaço — escala 4/8 */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.5rem;
+  --space-8: 3rem;
+  --space-9: 4rem;
+  --space-10: 5rem;
+  --section-y: clamp(4.5rem, 8vw, 8.5rem);
+
+  /* Forma */
+  --radius-sm: 0.75rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+  --radius-pill: 999px;
+
+  /* Movimento */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+
+  /* Layout */
+  --bar-h: 2.5rem;
+  --container: 74rem;
+  --container-narrow: 52rem;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+}
+
+/* ---------- Base ---------- */
+
+body {
+  min-height: 100svh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-variant-numeric: tabular-nums;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+h4,
+h5 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+/* Títulos editoriais das seções após a experiência inicial. */
+.head,
+.head2 {
+  font-weight: 700;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+strong,
+b {
+  font-weight: 700;
+}
+
+/* ---------- Utilitários compartilhados ---------- */
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.container--narrow {
+  max-width: var(--container-narrow);
+}
+
+.section {
+  padding-block: var(--section-y);
+}
+
+.section--dark {
+  background: var(--dark);
+  color: var(--on-dark);
+}
+
+.section--lavender {
+  background: var(--lavender);
+}
+
+.section--paper-warm {
+  background: var(--paper-warm);
+}
+
+/* Sobrescrita de cor de texto secundário em superfície escura. */
+.section--dark :where(.lead, .muted) {
+  color: var(--on-dark-muted);
+}
+
+.eyebrow {
+  display: block;
+  max-width: 34ch;
+  margin-bottom: 0.9rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--ink);
+  font-size: clamp(1.25rem, 1.1vw + 1rem, 1.75rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+  text-transform: none;
+}
+
+.section--dark .eyebrow {
+  color: var(--on-dark-muted);
+}
+
+.eyebrow::before {
+  content: none;
+}
+
+.lead {
+  max-width: 44ch;
+  font-size: var(--text-lg);
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+
+.muted {
+  color: var(--ink-muted);
+}
+
+.prose > * + * {
+  margin-top: var(--space-4);
+}
+
+.prose p {
+  max-width: 62ch;
+}
+
+/* ---------- Botões ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-height: 3.25rem;
+  padding: var(--space-3) var(--space-6);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--action);
+  color: var(--on-action);
+  font-size: var(--text-base);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-align: center;
+  cursor: pointer;
+  transition: background 200ms var(--ease-out), transform 160ms var(--ease-out),
+    box-shadow 200ms var(--ease-out);
+}
+
+.btn svg {
+  flex: none;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--purple-soft);
+  outline-offset: 3px;
+}
+
+.btn--light {
+  background: var(--paper);
+  color: var(--dark);
+}
+
+.btn--dark {
+  background: var(--dark);
+  color: var(--on-dark);
+}
+
+.btn--ghost {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+
+.section--dark .btn--ghost {
+  border-color: var(--line-dark);
+  color: var(--on-dark);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover {
+    background: var(--action-hover);
+    box-shadow: 0 0.75rem 2rem rgba(71, 42, 168, 0.28);
+  }
+
+  .btn--light:hover {
+    background: var(--lavender);
+    box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.24);
+  }
+
+  .btn--dark:hover {
+    background: #221830;
+    box-shadow: 0 0.75rem 2rem rgba(14, 10, 21, 0.24);
+  }
+
+  .btn--ghost:hover {
+    background: rgba(127, 96, 253, 0.08);
+  }
+}
+
+/* ---------- Cards (bento) ---------- */
+
+.card {
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.section--dark .card {
+  background: var(--dark-raised);
+  border-color: var(--line-dark);
+}
+
+/* ---------- Acessibilidade ---------- */
+
+.skip-link {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: 100;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-pill);
+  background: var(--dark);
+  color: var(--on-dark);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transform: translateY(-150%);
+  transition: transform 200ms var(--ease-out);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 3px solid var(--purple-soft);
+  outline-offset: 3px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 3px solid var(--action);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.section--dark :where(a, button, input, select, textarea):focus-visible {
+  outline-color: var(--purple-soft);
+}
+
+/* ---------- Estados iniciais das animações ----------
+
+   A classe `.anim` entra no <html> antes da primeira pintura (script inline no
+   Layout) e só quando o visitante não pediu movimento reduzido. É ela que
+   esconde o que vai ser animado por GSAP/anime.js.
+
+   Sem JavaScript, sem a classe ou se o módulo falhar (timeout do Layout),
+   nada disso se aplica e a página aparece inteira. */
+
+.anim .reveal:not([data-stagger]),
+.anim [data-hero-item],
+.anim [data-hero-chip],
+.anim [data-stagger] > * {
+  opacity: 0;
+}
+
+.anim [data-hero-title] {
+  opacity: 0;
+}
+
+.anim [data-seq-section3] :where(
+  [data-s3-eyebrow],
+  [data-s3-title],
+  [data-s3-left] > p,
+  [data-s3-card],
+  [data-s3-continuity] > *,
+  [data-s3-bridge-copy],
+  [data-s3-bridge-image],
+  [data-s3-process]
+) {
+  opacity: 0;
+}
+
+/* Máscara para a entrada por linha do título da Hero. */
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-block-end: 0.08em;
+  margin-block-end: -0.08em;
+}

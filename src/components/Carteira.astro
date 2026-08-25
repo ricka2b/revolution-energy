@@ -1,0 +1,69 @@
+---
+---
+
+<section class="carteira" id="carteira" data-node-id="1048:10316">
+  <div class="carteira__inner">
+    <header class="carteira__header reveal">
+      <p>Agora vamos falar do que provavelmente trouxe você até aqui…</p>
+      <h2>
+        <span>Como você pode gerar de</span>
+        <span>R$ 3 mil a R$ 15 mil por mês</span>
+        <span>com essa oportunidade?</span>
+      </h2>
+    </header>
+
+    <div class="carteira__conceito reveal">
+      <p>Primeiro você precisa entender uma coisa.</p>
+      <h3>O dinheiro está na construção da carteira.</h3>
+    </div>
+
+    <div class="carteira__explicacao">
+      <p class="carteira__texto reveal">
+        Você começa <strong>cadastrando contas</strong> e essas contas <strong>começam a formar sua carteira.</strong><br />
+        E esse <strong>volume cadastrado</strong> começa a <strong>gerar comissões todos os meses.</strong>
+      </p>
+      <div class="carteira__regras reveal">
+        <p>Quanto <strong>mais clientes</strong>, maior<br /><b>seu volume de contas cadastradas.</b></p>
+        <p>Quanto <strong>maior o volume</strong>, maior a<br /><b>sua remuneração todos os meses.</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .carteira { padding: 90px var(--gutter); overflow-x: clip; background: #f7f6f9; color: #0e0a15; }
+  .carteira__inner { width: min(100%,1040px); margin-inline: auto; display: flex; flex-direction: column; align-items: center; gap: 68.722px; }
+  .carteira__header { width: min(1305px, calc(100vw - (2 * var(--gutter)))); display: grid; gap: 20px; }
+  .carteira__header > p { font-size: 27.376px; line-height: 30.661px; letter-spacing: -.8213px; white-space: nowrap; }
+  .carteira__header h2 { width: 100%; font-size: 87px; line-height: 1.01; letter-spacing: -6.09px; font-weight: 700; }
+  .carteira__header h2 > span { display: block; white-space: nowrap; }
+  .carteira__conceito { width: 100%; display: grid; gap: 22.907px; }
+  .carteira__conceito > p { font-size: 29.845px; line-height: 47.752px; letter-spacing: -.8953px; font-weight: 700; }
+  .carteira__conceito h3 { width: 100%; padding: 19.889px 20.936px; border-radius: 20.936px; background: #7355e8; color: #fff; font-size: 53.833px; line-height: 53.833px; letter-spacing: -2.6916px; font-weight: 700; text-align: center; }
+  .carteira__explicacao { display: grid; justify-items: center; gap: 30px; }
+  .carteira__texto { width: min(100%,775px); color: #514b5e; font-size: 20px; line-height: 1.45; letter-spacing: -.6px; text-align: center; }
+  .carteira__regras { width: min(100%,775px); display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .carteira__regras p { padding: 24px 10px; border: 1px solid rgba(14,10,21,.06); border-radius: 24px; background: #e6e6e6; font-size: 20px; line-height: 24px; letter-spacing: -.6px; text-align: center; white-space: nowrap; }
+  .carteira__regras p:nth-child(2) { border-color: transparent; background: #7355e8; color: #fff; }
+  @media (max-width: 1100px) {
+    .carteira__header > p { font-size: clamp(20px,2.49vw,27.376px); }
+    .carteira__header h2 { font-size: clamp(52px,7.91vw,87px); }
+    .carteira__conceito > p { font-size: clamp(22px,2.71vw,29.845px); }
+    .carteira__conceito h3 { font-size: clamp(34px,4.89vw,53.833px); }
+    .carteira__texto { font-size: clamp(17px,1.82vw,20px); }
+    .carteira__header h2 > span { white-space: normal; }
+  }
+  @media (max-width: 760px) {
+    .carteira { padding-block: 72px; }
+    .carteira__inner { gap: 50px; }
+    .carteira__header > p { white-space: normal; }
+    .carteira__header h2 { font-size: clamp(32px,7.91vw,87px); letter-spacing: -.05em; }
+    .carteira__header h2 > span { white-space: nowrap; }
+    .carteira__header h2 br { display: none; }
+    .carteira__conceito > p { font-size: clamp(18px,2.71vw,29.845px); }
+    .carteira__conceito h3 { font-size: clamp(28px,4.89vw,53.833px); line-height: 1.3em; text-align: center; }
+    .carteira__texto br, .carteira__regras br { display: initial; }
+    .carteira__regras { grid-template-columns: 1fr; }
+    .carteira__regras p { white-space: normal; }
+  }
+</style>

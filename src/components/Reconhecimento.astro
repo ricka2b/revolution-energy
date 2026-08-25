@@ -1,0 +1,293 @@
+---
+import Icon from "./Icon.astro";
+import type { IconName } from "./icons";
+
+const quemPaga: Array<{ icon: IconName; text: string }> = [
+  { icon: "home", text: "Sua mãe paga…" },
+  { icon: "home", text: "Seu pai paga…" },
+  { icon: "users", text: "Seus amigos pagam…" },
+  { icon: "store", text: "A padaria que você compra pão paga…" },
+  { icon: "gym", text: "A academia onde você treina paga…" },
+  { icon: "restaurant", text: "O restaurante paga…" },
+  { icon: "market", text: "A loja paga…" },
+  { icon: "company", text: "A empresa onde você trabalha paga." },
+];
+---
+
+<section class="section--lavender reconhecimento" id="reconhecimento">
+  {/*
+    O palco fica grudado na tela enquanto o trilho passa. A rolagem só dá o
+    start de cada trecho — a animação das letras roda no tempo dela, não é
+    arrastada pelo scroll.
+
+    Sem a classe `.anim` o trilho perde a altura, o palco deixa de ser sticky
+    e isto vira uma seção comum.
+  */}
+  <div class="trilho" data-palco>
+    <div class="palco">
+      <div class="container palco__inner">
+        <div class="grupo">
+          {/* Fora do fluxo: sai de cena sem deslocar nada. */}
+          <p class="intro" data-palco-intro>Pare um pouco e pense comigo…</p>
+
+          <h2 class="pergunta" data-palco-pergunta>
+            Quantas pessoas você conhece que pagam conta de energia?
+          </h2>
+
+          <div class="lista">
+            <p class="provavelmente" data-palco-prov>Muito provavelmente:</p>
+
+            <ul class="tiles">
+              {
+                quemPaga.map((item) => (
+                  <li class="tile" data-palco-tile>
+                    <Icon name={item.icon} size={22} />
+                    <span>{item.text}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+
+          <p class="fecho" data-palco-fecho>
+            Praticamente todo mundo que você conhece possui uma conta chegando
+            todos os meses.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container resto" data-resto>
+    <div class="turn reveal">
+      <h3 data-letras>
+        Agora imagine se você pudesse transformar parte desse consumo em renda.
+      </h3>
+      <div class="turn__texto" data-stagger>
+        <p>
+          Não gerando um novo custo para essas pessoas. Mas fazendo justamente
+          o contrário: <strong>Ajudando elas a economizarem.</strong>
+        </p>
+        <p class="turn__note">E é exatamente aí que começa essa oportunidade.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ---------- Base: vale animado ou não ---------- */
+
+  .reconhecimento {
+    padding-block: var(--section-y);
+  }
+
+  .grupo {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-5);
+    text-align: center;
+  }
+
+  .intro {
+    font-size: clamp(1rem, 1.6vw, 1.375rem);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: var(--action);
+  }
+
+  /* Estado grande: cerca de 28 caracteres por linha, ou seja, duas linhas. */
+  .pergunta {
+    max-width: min(28ch, 100%);
+    font-size: clamp(2rem, 4.4vw, 3.5rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.06;
+  }
+
+  /* Estado final: o script mede este tamanho e anima a pergunta até ele.
+     A escala continua sendo decisão de CSS, não número solto no script. */
+  .pergunta.pergunta--fim {
+    max-width: 100%;
+    font-size: clamp(1.25rem, 2.4vw, 2rem);
+  }
+
+  /* "Muito provavelmente:" e os cards formam um bloco só, centralizado. */
+  .lista {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-4);
+    width: 100%;
+  }
+
+  .provavelmente {
+    font-size: clamp(1.125rem, 1.8vw, 1.5rem);
+    font-weight: 400;
+    color: var(--ink-muted);
+  }
+
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: var(--space-3);
+    width: 100%;
+  }
+
+  .tile {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: 4.25rem;
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.72);
+    font-size: var(--text-base);
+    line-height: 1.35;
+    text-align: start;
+  }
+
+  .tile :global(svg) {
+    flex: none;
+    color: var(--action);
+  }
+
+  /* 81 caracteres: neste corpo cabem em uma linha só a partir de 64rem. */
+  .fecho {
+    margin-top: var(--space-5);
+    font-size: clamp(0.9375rem, 1.5vw, 1.25rem);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  /* 40px entre a última frase e este bloco.
+     Com a sequência ligada, o palco tem 100svh e o grupo fica centralizado
+     nele — sobra um vazio embaixo que não é margem nenhuma. O script mede
+     essa sobra e a desconta aqui, via `--puxar`, para a distância visível
+     ser mesmo 40px. Sem JS, os 40px valem direto. */
+  .resto {
+    margin-top: calc(2.5rem - var(--puxar, 0px));
+  }
+
+  .turn {
+    padding: clamp(var(--space-6), 5vw, var(--space-8));
+    border-radius: var(--radius-xl);
+    background: var(--dark);
+    color: var(--on-dark);
+    text-align: center;
+  }
+
+  .turn h3 {
+    max-width: 22ch;
+    margin-inline: auto;
+    font-size: var(--text-3xl);
+  }
+
+  :global(.anim) .turn h3 {
+    opacity: 0;
+  }
+
+  .turn__texto {
+    margin-top: var(--space-5);
+  }
+
+  .turn p {
+    max-width: 56ch;
+    margin-inline: auto;
+    color: var(--on-dark-muted);
+  }
+
+  .turn p + p {
+    margin-top: var(--space-4);
+  }
+
+  .turn strong {
+    color: var(--purple-soft);
+  }
+
+  .turn__note {
+    font-weight: 500;
+    color: var(--on-dark) !important;
+  }
+
+  /* ---------- Sequência ---------- */
+
+  :global(.anim) .reconhecimento {
+    padding-block: 0 var(--section-y);
+  }
+
+  /* O trilho é o percurso da rolagem: é ele que dá espaço para os momentos
+     acontecerem sem que a seção saia da tela. */
+  :global(.anim) .trilho {
+    height: 320svh;
+  }
+
+  :global(.anim) .palco {
+    position: sticky;
+    inset-block-start: var(--bar-h);
+    /* Opaco: a seção seguinte é puxada para dentro deste vazio e precisa
+       ficar escondida atrás do palco até ele sair de cena. */
+    background: var(--lavender);
+    display: grid;
+    /* Linha que estica: sem isto o `height: 100%` do filho resolveria
+       contra a altura do conteúdo, não contra a do palco. */
+    grid-template-rows: 1fr;
+    height: calc(100svh - var(--bar-h));
+    overflow: hidden;
+  }
+
+  /* O palco centraliza a composição completa nos dois eixos. No começo o
+     script desloca temporariamente o grupo para que só a pergunta ocupe o
+     centro exato; ao encolher, ela sobe e o conjunto inteiro volta para este
+     centro, sem trocar a referência de alinhamento. */
+  :global(.anim) .palco__inner {
+    height: 100%;
+    display: grid;
+    place-items: center;
+  }
+
+  /* A chamada fica logo acima do grupo, fora do fluxo: quando ela sai,
+     nada se desloca. */
+  :global(.anim) .grupo {
+    position: relative;
+    width: 100%;
+  }
+
+  /* Espaço extra depois da pergunta: como o grupo é centralizado, é isto
+     que faz a pergunta subir e o bloco dos cards descer. */
+  :global(.anim) .lista {
+    margin-top: var(--space-7);
+  }
+
+  :global(.anim) .intro {
+    position: absolute;
+    inset-block-end: 100%;
+    inset-inline: 0;
+    margin-block-end: var(--space-5);
+    opacity: 0;
+  }
+
+  :global(.anim) .pergunta,
+  :global(.anim) .provavelmente,
+  :global(.anim) .tile,
+  :global(.anim) .fecho {
+    opacity: 0;
+  }
+
+  @media (max-width: 48rem) {
+    :global(.anim) .trilho {
+      height: 300svh;
+    }
+
+    :global(.anim) .tiles {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-2);
+    }
+
+    :global(.anim) .tile {
+      min-height: 3.5rem;
+      padding: var(--space-3);
+      font-size: var(--text-xs);
+    }
+  }
+</style>

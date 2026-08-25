@@ -1,0 +1,739 @@
+---
+import { Image } from "astro:assets";
+
+import solarFarm from "../assets/sec3-1.webp";
+import transmissionTower from "../assets/sec3-2.webp";
+import family from "../assets/sec3-3.webp";
+import phoneUser from "../assets/sec3-4.webp";
+import womenWithLaptop from "../assets/sec3-img.webp";
+
+import iconMoneyA from "../assets/figma-section-3/icon-money-a.svg?url";
+import iconMoneyB from "../assets/figma-section-3/icon-money-b.svg?url";
+import iconMoneyC from "../assets/figma-section-3/icon-money-c.svg?url";
+import iconPlug from "../assets/figma-section-3/icon-plug.svg?url";
+import iconSun from "../assets/figma-section-3/icon-sun.svg?url";
+import iconTrending from "../assets/figma-section-3/icon-trending.svg?url";
+import iconWallet from "../assets/figma-section-3/icon-wallet.svg?url";
+import iconX from "../assets/figma-section-3/icon-x.svg?url";
+
+const naoPrecisa = [
+  "Instalar placas solares.",
+  "Fazer obra.",
+  "Comprar equipamentos.",
+  "Investir milhares de reais.",
+  "Mudar a forma como utiliza energia.",
+];
+---
+
+<section class="section section--dark como" id="como-funciona" data-seq-section3>
+  <div class="container como__content">
+    <div class="story" data-s3-story>
+      <header class="intro">
+      <p class="intro__eyebrow" data-s3-eyebrow>
+        Parece ser&nbsp;<strong>bom demais</strong>&nbsp;pra&nbsp;<strong>ser verdade?</strong>
+      </p>
+      <h2 data-s3-title>
+        Então deixa eu te mostrar
+        <strong>exatamente como funciona.</strong>
+      </h2>
+      </header>
+
+      <div class="mechanism">
+      <div class="mechanism__copy" data-s3-left>
+        <p>
+          Hoje existe uma forma de conectar <strong>consumidores</strong> a
+          <strong>energia gerada por fazendas solares.</strong>
+        </p>
+        <p>
+          Essas fazendas <strong>produzem energia</strong> e injetam essa produção
+          <strong>diretamente na rede da distribuidora.</strong>
+        </p>
+        <p>
+          Onde o cliente continua recebendo energia <strong>normalmente…</strong>
+        </p>
+      </div>
+
+      <aside class="not-needed" data-s3-card>
+        <h3 data-s3-card-title>
+          E o <strong>melhor de tudo</strong>,<br />
+          pra isso <strong>ele não precisa:</strong>
+        </h3>
+        <ul data-stagger data-s3-card-list>
+          {
+            naoPrecisa.map((item) => (
+              <li>
+                <img src={iconMoneyC} alt="" width="20" height="20" aria-hidden="true" />
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </aside>
+      </div>
+
+      <div class="continuity" data-s3-continuity>
+      <p>E a rotina dele não muda.</p>
+      <strong>A energia continua chegando da mesma maneira…</strong>
+      </div>
+
+      <div class="bridge">
+      <div class="bridge__copy" data-s3-bridge-copy>
+        <p>
+          Ele simplesmente passa a ter acesso a uma solução que pode proporcionar
+          economia sobre uma despesa que já possui.
+        </p>
+        <p>
+          E você entra <strong>conectando</strong> essa <strong>oportunidade</strong>
+          às <strong>pessoas e empresas.</strong>
+        </p>
+      </div>
+
+      <figure class="bridge__image" data-s3-bridge-image>
+        <Image
+          src={womenWithLaptop}
+          alt="Duas mulheres analisando informações em um notebook"
+          loading="lazy"
+        />
+      </figure>
+      </div>
+    </div>
+
+    <div class="process-track" data-s3-process-track>
+      <div class="process" data-s3-process>
+        <h3 data-s3-process-title>O processo é <strong>simples</strong>:</h3>
+
+        <ol class="process__grid" data-stagger>
+        <li class="step step--bottom">
+          <Image src={solarFarm} alt="Fazenda solar ao nascer do sol" loading="lazy" />
+          <div class="step__shade" aria-hidden="true"></div>
+          <div class="step__label">
+            <img src={iconPlug} alt="" width="28" height="28" aria-hidden="true" />
+            <h4>A fazenda gera</h4>
+          </div>
+        </li>
+
+        <li class="step step--top">
+          <Image src={transmissionTower} alt="Torre da rede de distribuição de energia" loading="lazy" />
+          <div class="step__shade" aria-hidden="true"></div>
+          <div class="step__label">
+            <img src={iconSun} alt="" width="28" height="28" aria-hidden="true" />
+            <h4>A distribuidora entrega</h4>
+          </div>
+        </li>
+
+        <li class="step step--bottom">
+          <Image src={family} alt="Família reunida em casa" loading="lazy" />
+          <div class="step__shade" aria-hidden="true"></div>
+          <div class="step__label">
+            <img src={iconMoneyB} alt="" width="28" height="28" aria-hidden="true" />
+            <h4>O cliente economiza</h4>
+          </div>
+        </li>
+
+        <li class="step step--top step--commission">
+          <Image src={phoneUser} alt="Pessoa usando o celular" loading="lazy" />
+          <div class="step__shade" aria-hidden="true"></div>
+          <div class="money-icons" aria-hidden="true">
+            <img src={iconMoneyA} alt="" />
+            <img src={iconTrending} alt="" />
+            <img src={iconX} alt="" />
+          </div>
+          <div class="step__label">
+            <img src={iconWallet} alt="" width="28" height="28" aria-hidden="true" />
+            <h4>E você é comissionado</h4>
+          </div>
+        </li>
+        </ol>
+
+        <p class="process__end" data-s3-process-end>Simples assim.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .como {
+    overflow: clip;
+    padding-block: 5rem;
+  }
+
+  .como__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .story {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+  }
+
+  .intro__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.9375rem 1.5625rem;
+    border: 1.087px solid rgba(255, 255, 255, 0.25);
+    border-radius: 26.094px;
+    background:
+      radial-gradient(ellipse at 100% 0%, rgba(255, 255, 255, 0.14), transparent 56%),
+      rgba(255, 255, 255, 0.015);
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.09375rem;
+    letter-spacing: 0.8996px;
+    text-transform: uppercase;
+    backdrop-filter: blur(30.343px);
+  }
+
+  .intro__eyebrow strong {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .intro h2 {
+    max-width: 59.25rem;
+    margin-top: 1.25rem;
+    color: #fff;
+    font-size: 4.5rem;
+    font-weight: 400;
+    line-height: 4.4625rem;
+    letter-spacing: -2.16px;
+  }
+
+  .intro h2 strong {
+    display: block;
+    color: #7355e8;
+    font-weight: 700;
+  }
+
+  .mechanism {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 1.25rem;
+    width: min(100%, 59.25rem);
+    margin-top: 2.5rem;
+  }
+
+  .mechanism__copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5625rem;
+    width: 28.9375rem;
+    padding: 0;
+  }
+
+  .mechanism__copy p {
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: -0.54px;
+  }
+
+  .mechanism__copy strong {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .not-needed {
+    width: 28.9375rem;
+    height: 19.25rem;
+    min-height: 0;
+    padding: 2.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 2rem;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(127, 96, 253, 0.2), transparent 38%),
+      #171021;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.035);
+  }
+
+  .not-needed h3 {
+    color: #fff;
+    font-size: 34.265px;
+    font-weight: 400;
+    line-height: 35.979px;
+    letter-spacing: -0.7308px;
+    white-space: nowrap;
+    text-box-edge: cap alphabetic;
+    text-box-trim: trim-both;
+  }
+
+  .not-needed h3 strong {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .not-needed ul {
+    display: grid;
+    gap: 0.625rem;
+    margin-top: 1.5625rem;
+  }
+
+  .not-needed li {
+    display: flex;
+    align-items: center;
+    gap: 0.3125rem;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 1rem;
+    line-height: 1.6;
+    letter-spacing: -0.3125px;
+  }
+
+  .not-needed li span {
+    text-box-edge: cap alphabetic;
+    text-box-trim: trim-both;
+  }
+
+  .not-needed li img {
+    flex: 0 0 1.25rem;
+  }
+
+  .continuity {
+    width: 47.125rem;
+    margin-top: 2.5rem;
+    text-align: center;
+  }
+
+  .continuity p,
+  .continuity strong {
+    display: block;
+    font-size: 2rem;
+    letter-spacing: -0.96px;
+    text-box-edge: cap alphabetic;
+    text-box-trim: trim-both;
+  }
+
+  .continuity p {
+    color: rgba(255, 255, 255, 0.72);
+    line-height: 1.3;
+  }
+
+  .continuity strong {
+    margin-top: 1.25rem;
+    color: #fff;
+    font-weight: 700;
+    line-height: 4.4625rem;
+    white-space: nowrap;
+  }
+
+  .bridge {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+    gap: 1.25rem;
+    width: min(100%, 47.15rem);
+    margin-top: 2.5rem;
+  }
+
+  .bridge__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 22.9375rem;
+    padding: 0;
+  }
+
+  .bridge__copy p {
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 1rem;
+    line-height: 1.6;
+    letter-spacing: -0.48px;
+  }
+
+  .bridge__copy p + p {
+    margin-top: 0;
+    color: #fff;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    letter-spacing: -0.6px;
+  }
+
+  .bridge__copy strong {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .bridge__image {
+    width: 22.9375rem;
+    height: 20.625rem;
+    overflow: hidden;
+  }
+
+  .bridge__image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+  }
+
+  .process-track {
+    position: relative;
+    width: min(calc(100% + 3.25rem), 71.25rem);
+    margin-top: 50px;
+    height: calc(41.0625rem + 115rem);
+  }
+
+  .process {
+    position: sticky;
+    top: calc(var(--bar-h) + max(1rem, (100svh - var(--bar-h) - 41.0625rem) / 2));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.875rem;
+    width: 100%;
+    height: 41.0625rem;
+    padding: 0;
+    border-radius: 2.625rem;
+    background: #e6e6e6;
+    color: #111;
+  }
+
+  .process > h3 {
+    width: 59.125rem;
+    margin: 0 auto;
+    text-align: center;
+    color: #111;
+    font-size: 55.852px;
+    font-weight: 400;
+    line-height: 94.948px;
+    letter-spacing: -1.6756px;
+    text-box-edge: cap alphabetic;
+    text-box-trim: trim-both;
+  }
+
+  .process > h3 strong {
+    color: #7355e8;
+    font-weight: 700;
+  }
+
+  .process__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 5.169px;
+    width: 59.125rem;
+    margin: 0 auto;
+  }
+
+  .step {
+    position: relative;
+    height: 434.229px;
+    border-radius: 14.474px;
+    background: #241b33;
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .step > :global(picture),
+  .step > :global(img:first-child) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+  }
+
+  .step > :global(picture img),
+  .step > :global(img:first-child) {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    object-fit: fill;
+  }
+
+  .step__shade {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background: linear-gradient(to top, rgba(14, 10, 21, 0.94), rgba(14, 10, 21, 0.03) 66%);
+  }
+
+  .step--top .step__shade {
+    background: linear-gradient(to bottom, rgba(14, 10, 21, 0.92), rgba(14, 10, 21, 0.02) 58%);
+  }
+
+  .step__label {
+    position: absolute;
+    z-index: 3;
+    inset-inline: 1.25rem;
+    bottom: 2.5rem;
+    color: #fff;
+  }
+
+  .step--top .step__label {
+    top: 2.5rem;
+    bottom: auto;
+  }
+
+  .step__label > img {
+    display: block;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-bottom: 0.625rem;
+  }
+
+  .step:nth-child(1) .step__label > img {
+    box-sizing: content-box;
+    width: 1.375rem;
+    height: 1.375rem;
+    padding: 0.5625rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+  }
+
+  .step__label h4 {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 24.15px;
+    letter-spacing: -0.48px;
+  }
+
+  .money-icons {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .money-icons img {
+    position: absolute;
+    height: auto;
+  }
+
+  .money-icons img:nth-child(1) {
+    top: 131.65px;
+    left: 114.33px;
+    width: 31.85px;
+    transform: rotate(-18.96deg);
+  }
+
+  .money-icons img:nth-child(2) {
+    top: 114.38px;
+    left: 176.31px;
+    width: 31.017px;
+    transform: rotate(31.09deg);
+  }
+
+  .money-icons img:nth-child(3) {
+    top: 151.51px;
+    left: 144.46px;
+    width: 63.704px;
+  }
+
+  .process__end {
+    width: 59.125rem;
+    margin: 0 auto;
+    text-align: center;
+    color: #111;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 94.948px;
+    letter-spacing: -0.96px;
+    text-box-edge: cap alphabetic;
+    text-box-trim: trim-both;
+  }
+
+  @media (max-width: 64rem) {
+    .process-track {
+      width: 100%;
+      height: auto;
+      margin-top: 50px;
+    }
+
+    .process {
+      position: relative;
+      top: auto;
+      height: auto;
+      padding: 3rem 2rem 2rem;
+    }
+
+    .process > h3,
+    .process__grid,
+    .process__end {
+      width: 100%;
+    }
+
+    .process__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.5rem;
+    }
+
+    .step {
+      height: 24rem;
+    }
+
+    .step:nth-child(n) > :global(picture),
+    .step:nth-child(n) > :global(picture img),
+    .step:nth-child(n) > :global(img:first-child) {
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      transform: none;
+      object-fit: cover;
+    }
+  }
+
+  @media (max-width: 48rem) {
+    .como {
+      padding-block: 5rem;
+    }
+
+    .intro h2 {
+      max-width: 14ch;
+      font-size: clamp(2.55rem, 11.5vw, 4rem);
+    }
+
+    .intro h2 strong {
+      display: inline;
+    }
+
+    .mechanism,
+    .bridge {
+      grid-template-columns: 1fr;
+    }
+
+    .mechanism {
+      width: min(100%, 31rem);
+      margin-top: 3.5rem;
+    }
+
+    .mechanism__copy,
+    .bridge__copy {
+      width: 100%;
+      padding-inline: 0.25rem;
+    }
+
+    .not-needed {
+      width: 100%;
+      max-width: 340px;
+      height: auto;
+      min-height: auto;
+      margin-inline: auto;
+      /* Os 2.5rem do desktop não cabem: a linha mais longa do título a 24px
+         pede ~268px, e com 40px (ou mesmo 28px) de padding de cada lado ela
+         quebraria numa terceira linha já em 360px, largura comum de Android. */
+      padding: 1.25rem;
+    }
+
+    /* 24px no celular. O tracking vem em `em` para acompanhar o corpo menor
+       (em px ele ficaria proporcionalmente apertado demais).
+
+       Sem `nowrap` aqui: a quebra desejada já vem do `<br>` do markup, e o
+       `nowrap` do desktop criava uma largura mínima de ~326px no card. Como
+       `1fr` não encolhe abaixo do conteúdo, a coluna estourava o container
+       de 280px e o `overflow: clip` da seção cortava a borda direita do card
+       em telas de 320px. */
+    .not-needed h3 {
+      font-size: 24px;
+      line-height: 1.05;
+      letter-spacing: -0.021em;
+      white-space: normal;
+    }
+
+    .not-needed li {
+      font-size: 0.9rem;
+    }
+
+    /* Trava de segurança do grid: `1fr` é `minmax(auto, 1fr)`, e o `auto`
+       mínimo é o min-content — que pode ser maior que a coluna. */
+    .mechanism,
+    .bridge {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .continuity {
+      width: 100%;
+    }
+
+    .continuity p {
+      font-size: 1.5rem;
+    }
+
+    .continuity strong {
+      line-height: 1.3;
+      white-space: normal;
+    }
+
+    .bridge {
+      width: min(100%, 31rem);
+    }
+
+    .bridge__image {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 367 / 330;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .intro__eyebrow {
+      max-width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 0.625rem;
+      line-height: 0.875rem;
+      white-space: nowrap;
+    }
+
+    .intro h2 {
+      line-height: 1.02;
+      letter-spacing: -0.05em;
+    }
+
+    .mechanism__copy p {
+      font-size: 1rem;
+      line-height: 1.4;
+      text-wrap: wrap;
+    }
+
+    .process {
+      width: 100%;
+      padding-block: 2.5rem 2rem;
+      padding-inline: 0.75rem;
+      border-radius: 1.75rem;
+    }
+
+    .process > h3 {
+      font-size: 2.65rem;
+      line-height: 1.05;
+      letter-spacing: -0.05em;
+    }
+
+    .process__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      width: 100%;
+      gap: 0.75rem;
+      margin-inline: 0;
+      padding-inline: 0;
+      overflow: visible;
+    }
+
+    .step {
+      width: 100%;
+      height: 24rem;
+    }
+
+    .step__label h4 {
+      font-size: 1rem;
+    }
+
+    .process__end {
+      line-height: 1.2;
+    }
+  }
+</style>
