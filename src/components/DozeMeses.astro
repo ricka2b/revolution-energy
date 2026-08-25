@@ -199,4 +199,21 @@ const valores = ["R$ 3 mil", "R$ 5 mil", "R$ 10 mil"];
       text-wrap: balance;
     }
   }
+
+  /* ---------- Mobile: valores fixos definidos pelo responsável ----------
+     Sem clamp por decisão dele: cada corpo é o número exato pedido. Vem por
+     último de propósito — mesma especificidade das regras acima, então é
+     este bloco que vale no celular. */
+  @media (max-width: 700px) {
+    .doze__cabecalho h2,
+    .doze__painel--um .doze__cabecalho h2,
+    .doze__painel--dois .doze__cabecalho h2 {
+      font-size: 27px;
+    }
+
+    .cenario > span {
+      width: 100%;
+      font-size: 16px;
+    }
+  }
 </style>

@@ -26,18 +26,18 @@ const formAtivo = FORM_ENDPOINT !== "";
 
     <div class="fechamento__grid">
       <div class="fechamento__copy reveal">
-        <h3>Esse mercado não precisa<br />ser criado, ele já existe.</h3>
+        <h3>Esse mercado não precisa <br />ser criado, ele já existe.</h3>
         <ul class="fatos" data-stagger>{fatos.map((item) => <li><img src={item.icon.src} alt="" /><strong>{item.texto}</strong></li>)}</ul>
-        <p class="descoberta">E agora você descobriu que existe uma<br />forma de participar desse mercado.</p>
+        <p class="descoberta">E agora você descobriu que existe uma <br />forma de participar desse mercado.</p>
         <p class="pergunta-label">Então existe uma pergunta que só você pode responder.</p>
         <div class="pergunta">
           <p>Você vai continuar apenas pagando sua conta de energia?</p>
-          <strong>Ou vai aprender como transformar esse<br />mercado em uma nova fonte de renda?</strong>
+          <strong>Ou vai aprender como transformar esse <br />mercado em uma nova fonte de renda?</strong>
         </div>
       </div>
 
       <div class="form-wrap reveal">
-        <h3>Preencha o formulário e<br />descubra como começar como<br />Consultor de Energia Hive.</h3>
+        <h3>Preencha o formulário e <br />descubra como começar como <br />Consultor de Energia Hive.</h3>
         <form
           action={formAtivo ? FORM_ENDPOINT : undefined}
           method={formAtivo ? FORM_METHOD : undefined}
@@ -228,6 +228,48 @@ const formAtivo = FORM_ENDPOINT !== "";
 
     .form-wrap { padding: 34px 22px; border-radius: 28px; }
     button { padding-inline: 22px; font-size: 15px; }
+  }
+
+  /* ---------- Mobile: valores fixos definidos pelo responsável ----------
+     Sem clamp por decisão dele: cada corpo é o número exato pedido. Vem por
+     último de propósito — mesma especificidade das regras acima, então é
+     este bloco que vale no celular. */
+  @media (max-width: 700px) {
+    /* Centro exato da pastilha roxa: grid + place-items resolve os dois
+       eixos, inclusive quando o texto passa a ocupar duas linhas. */
+    .consumindo {
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      white-space: normal;
+    }
+
+    .fatos li {
+      justify-content: flex-start;
+      text-align: left;
+    }
+
+    .fatos strong {
+      font-size: 18px;
+    }
+
+    .pergunta p {
+      font-size: 18px;
+      text-align: center;
+    }
+
+    .pergunta strong {
+      font-size: 20px;
+    }
+
+    .form-wrap h3 {
+      font-size: 19px;
+    }
+
+    /* O botão do formulário é um `<button>` sem classe. */
+    button {
+      font-size: 13px;
+    }
   }
 </style>
 

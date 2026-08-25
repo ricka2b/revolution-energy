@@ -21,7 +21,7 @@ const etapas = ["Prospecção", "Apresentação", "Cadastro", "Acompanhamento"];
     <div class="rotina__principal">
       <header class="rotina__intro reveal">
         <p>Agora imagine transformar isso em uma rotina</p>
-        <h2>Você não precisa falar<br />com 500 pessoas amanhã.</h2>
+        <h2>Você não precisa falar <br />com 500 pessoas amanhã.</h2>
         <div class="rotina__apoio" data-s11-apoio>
           <p>Não precisa abandonar seu trabalho.</p>
           <p>Não precisa resolver sua vida inteira em sete dias.</p>
@@ -128,5 +128,48 @@ const etapas = ["Prospecção", "Apresentação", "Cadastro", "Acompanhamento"];
     }
 
     .ciclo__flow img { transform: rotate(90deg); }
+  }
+
+  /* ---------- Mobile: valores fixos definidos pelo responsável ----------
+     Sem clamp por decisão dele: cada corpo é o número exato pedido. Vem por
+     último de propósito — mesma especificidade das regras acima, então é
+     este bloco que vale no celular. */
+  @media (max-width: 760px) {
+    .rotina__intro > p {
+      font-size: 17px;
+    }
+
+    /* Sem `nowrap` e sem a quebra do markup: a frase passa a correr e
+       quebrar sozinha dentro dos 340px. */
+    .rotina__intro h2 {
+      width: 340px;
+      max-width: 100%;
+      font-size: 38px;
+      white-space: normal;
+    }
+
+    .rotina__intro h2 br {
+      display: none;
+    }
+
+    .rotina__apoio {
+      font-size: 15px;
+      line-height: 1.3em;
+    }
+
+    .rotina__realidade {
+      font-size: 18px;
+      line-height: 1.3em;
+    }
+
+    .rotina__avanco p {
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .ciclo__label {
+      font-size: 14px;
+      line-height: 1.3em;
+    }
   }
 </style>

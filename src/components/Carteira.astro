@@ -66,4 +66,19 @@
     .carteira__regras { grid-template-columns: 1fr; }
     .carteira__regras p { white-space: normal; }
   }
+
+  /* ---------- Mobile: valores fixos definidos pelo responsável ----------
+     Sem clamp por decisão dele: cada corpo é o número exato pedido. Vem por
+     último de propósito — mesma especificidade das regras acima, então é
+     este bloco que vale no celular. */
+  @media (max-width: 760px) {
+    .carteira__header > p {
+      font-size: 18px;
+      line-height: 1.3em;
+    }
+
+    .carteira__header h2 {
+      font-size: 28px;
+    }
+  }
 </style>

@@ -777,4 +777,18 @@ const escala = [
   :global(.anim) [data-rec-illustration] :global(#renew) {
     opacity: 0;
   }
+
+  /* ---------- Mobile: valores fixos definidos pelo responsável ----------
+     Sem clamp por decisão dele: cada corpo é o número exato pedido. Vem por
+     último de propósito — mesma especificidade das regras acima, então é
+     este bloco que vale no celular. */
+  @media (max-width: 48rem) {
+    .recorrencia__intro {
+      font-size: 16px;
+    }
+
+    .recorrencia__virada-frase--parte3 {
+      font-size: 30px;
+    }
+  }
 </style>

@@ -111,4 +111,19 @@ const etapas = ["Você aprende um processo", "Aplica", "Conquista clientes", "E 
     .movimentos__flow strong { white-space: normal; }
     .movimentos__flow img { transform: rotate(90deg); }
   }
+
+  /* ---------- Mobile: valores fixos definidos pelo responsável ----------
+     Sem clamp por decisão dele: cada corpo é o número exato pedido. Vem por
+     último de propósito — mesma especificidade das regras acima, então é
+     este bloco que vale no celular. */
+  @media (max-width: 760px) {
+    .movimentos__frase {
+      font-size: 30px;
+      text-align: center;
+    }
+
+    .movimentos__flow strong {
+      font-size: 18px;
+    }
+  }
 </style>

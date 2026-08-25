@@ -706,4 +706,43 @@ const naoPrecisa = [
       line-height: 1.2;
     }
   }
+
+  /* ---------- Mobile: valores fixos definidos pelo responsável ----------
+     Sem clamp por decisão dele: cada corpo é o número exato pedido.
+     Este bloco vem por último de propósito — mesma especificidade das
+     regras acima, então é ele que vale no celular. */
+  @media (max-width: 40rem) {
+    .intro h2 {
+      font-size: 38px;
+    }
+
+    /* A 35px o `nowrap` do desktop estourava o card em 133px e o texto era
+       cortado. A quebra desejada já vem do `<br>` do markup, então basta
+       liberar — o corpo continua sendo os 35px pedidos. */
+    .not-needed h3 {
+      font-size: 35px;
+      line-height: 1.2em;
+      white-space: normal;
+    }
+
+    .not-needed li {
+      font-size: 0.9rem;
+    }
+
+    .continuity p {
+      font-size: 18px;
+    }
+
+    .continuity strong {
+      font-size: 26px;
+    }
+
+    .bridge__copy p {
+      font-size: 18px;
+    }
+
+    .process > h3 {
+      font-size: 32px;
+    }
+  }
 </style>

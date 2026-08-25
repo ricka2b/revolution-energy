@@ -204,4 +204,36 @@ const contatos = [
 
     .primeiros__fecho { width: 100%; }
   }
+
+  /* ---------- Mobile: valores fixos definidos pelo responsável ----------
+     Sem clamp por decisão dele: cada corpo é o número exato pedido. Vem por
+     último de propósito — mesma especificidade das regras acima, então é
+     este bloco que vale no celular. */
+  @media (max-width: 48rem) {
+    .primeiros__exercicio h3 {
+      font-size: 32px;
+    }
+
+    .primeiros__exercicio header p {
+      font-size: 18px;
+    }
+
+    .primeiros__resumo {
+      font-size: 20px;
+      line-height: 1.3em;
+    }
+
+    .primeiros__mensagem > h3 {
+      font-size: 36px;
+      text-align: center;
+    }
+
+    .primeiros__texto {
+      font-size: 15px;
+    }
+
+    .primeiros__destaque {
+      font-size: 44px;
+    }
+  }
 </style>

@@ -16,7 +16,7 @@ const ignorar = ["Fechar esta página.", "Voltar para sua rotina.", "Continuar p
         <p>Porque muitas vezes as melhores oportunidades possuem uma característica em comum.</p>
         <h3>Elas não parecem óbvias quando ainda estão começando.</h3>
       </div>
-      <p class="timing__amadurece">Depois que <strong>milhares de pessoas entram</strong>… Depois que todo<br />mundo começa a falar… Depois que o mercado amadurece…</p>
+      <p class="timing__amadurece">Depois que <strong>milhares de pessoas entram</strong>… Depois que todo <br />mundo começa a falar… Depois que o mercado amadurece…</p>
       <div class="timing__quote"><p>Aí fica fácil dizer:</p><strong>“Eu deveria ter começado antes.”</strong></div>
       <p class="timing__decisao">Mas começar antes significa tomar uma decisão enquanto a maioria ainda está tentando entender.</p>
     </div>
@@ -237,6 +237,52 @@ const ignorar = ["Fechar esta página.", "Voltar para sua rotina.", "Continuar p
       font-size: 32px;
       line-height: 1.08;
       text-wrap: balance;
+    }
+  }
+
+  /* ---------- Mobile: valores fixos definidos pelo responsável ----------
+     Sem clamp por decisão dele: cada corpo é o número exato pedido. Vem por
+     último de propósito — mesma especificidade das regras acima, então é
+     este bloco que vale no celular. */
+  @media (max-width: 760px) {
+    /* Os `span` viram texto corrido: sem eles a frase quebra sozinha. */
+    .timing__top h2 {
+      font-size: 24px;
+    }
+
+    .timing__top h2 span {
+      display: inline;
+    }
+
+    .timing__argumento h3 {
+      font-size: 34px;
+    }
+
+    /* Sem a quebra do markup — a frase corre e quebra sozinha. */
+    .timing__amadurece {
+      font-size: 18px;
+    }
+
+    .timing__amadurece br {
+      display: none;
+    }
+
+    .timing__oportunidade > p {
+      font-size: 20px;
+    }
+
+    .timing__oportunidade li strong {
+      font-size: 14px;
+    }
+
+    .timing__footer h3 {
+      font-size: 38px;
+    }
+
+    .timing__footer p {
+      font-size: 18px;
+      line-height: 1.3em;
+      text-align: center;
     }
   }
 </style>
