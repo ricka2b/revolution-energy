@@ -30,3 +30,4 @@ pnpm-debug.log*
 src/assets/hero-landing.webm
 src/assets/hero-landing.webm.xmp
 src/assets/figma-section-3/raw-*
+.vercel
