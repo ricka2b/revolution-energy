@@ -76,10 +76,11 @@ const beneficios = [
 
 <style>
   .aplicacao { position: relative; display: grid; min-height: 100svh; overflow: clip; background: #0e0a15; color: #fff; isolation: isolate; }
-  .aplicacao__media, .aplicacao__veil { position: absolute; inset: 0; z-index: -2; }
-  .aplicacao__media video { width: 100%; height: 100%; object-fit: cover; object-position: center; }
-  .aplicacao__veil { z-index: -1; background: linear-gradient(90deg, rgba(8,5,15,.9) 0%, rgba(8,5,15,.78) 46%, rgba(8,5,15,.62) 100%), linear-gradient(180deg, rgba(8,5,15,.1), rgba(8,5,15,.5)); }
-  .aplicacao__content { width: min(100%, 1440px); margin: auto; padding: clamp(2rem, 5vw, 4.5rem); display: grid; grid-template-columns: minmax(0, 1fr) minmax(25rem, 31.5rem); gap: clamp(3rem, 8vw, 9rem); align-items: center; }
+  .aplicacao__media, .aplicacao__veil { position: absolute; inset: 0; }
+  .aplicacao__media { z-index: 0; overflow: hidden; clip-path: inset(0); transform: translateZ(0); }
+  .aplicacao__media video { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; pointer-events: none; transform: translateZ(0); }
+  .aplicacao__veil { z-index: 1; pointer-events: none; background: linear-gradient(90deg, rgba(8,5,15,.9) 0%, rgba(8,5,15,.78) 46%, rgba(8,5,15,.62) 100%), linear-gradient(180deg, rgba(8,5,15,.1), rgba(8,5,15,.5)); }
+  .aplicacao__content { position: relative; z-index: 2; width: min(100%, 1440px); margin: auto; padding: clamp(2rem, 5vw, 4.5rem); display: grid; grid-template-columns: minmax(0, 1fr) minmax(25rem, 31.5rem); gap: clamp(3rem, 8vw, 9rem); align-items: center; transform: translateZ(0); }
   .aplicacao__copy { display: grid; justify-items: start; max-width: 47rem; text-align: left; }
   .aplicacao__logo { width: clamp(7.4rem, 11vw, 10.5rem); height: auto; }
   .aplicacao__eyebrow, .aplicacao__form-eyebrow { margin-top: clamp(2.5rem, 5vw, 4.5rem); color: #c6b5ff; font-size: .75rem; font-weight: 700; letter-spacing: .14em; line-height: 1.2; text-transform: uppercase; }
@@ -110,6 +111,13 @@ const beneficios = [
   .form-status { min-height: 1.35em; color: #514b5e; font-size: .82rem; line-height: 1.35; text-align: center; }
   .form-status[data-state="error"] { color: #a32929; }
   .pendente { color: #514b5e; font-size: .8rem; line-height: 1.4; text-align: center; }
+  /* O Safari pode promover `<video>` para uma camada de composição acima
+     de elementos irmãos. Estes contextos 3D explícitos mantêm conteúdo e
+     formulário acima do vídeo no iPhone, iPad e macOS. */
+  @supports (-webkit-hyphens: none) {
+    .aplicacao__media { -webkit-transform: translateZ(0); }
+    .aplicacao__content, .aplicacao__form-card { -webkit-transform: translateZ(1px); }
+  }
   @media (max-width: 800px) {
     .aplicacao__veil { background: linear-gradient(180deg, rgba(8,5,15,.78), rgba(8,5,15,.9)); }
     .aplicacao__content { grid-template-columns: 1fr; gap: 2.5rem; padding: 2rem 1.25rem; }
