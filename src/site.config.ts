@@ -12,6 +12,10 @@ export const CTA_ANCHOR = "#aplicacao";
 export const FORM_ENDPOINT =
   "https://hook.us2.make.com/s71v7yvwjbbaau8nfsb96le1lihxc9q8";
 
+/** Web App do Google Apps Script usado somente pela confirmação do evento. */
+export const CONFIRMATION_FORM_ENDPOINT =
+  "https://script.google.com/macros/s/AKfycbxiWMZ_XPwKxGaybTcWr_0pf-eIngeqYePTobF1xinAHKujH0m3di8AKcZbmS-JZ9sr/exec";
+
 /** Método HTTP do formulário. */
 export const FORM_METHOD = "POST";
 

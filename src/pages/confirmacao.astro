@@ -1,0 +1,239 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { CONFIRMATION_FORM_ENDPOINT } from "../site.config";
+
+const formAtivo = CONFIRMATION_FORM_ENDPOINT !== "";
+---
+
+<Layout
+  title="Confirme sua presença | Hive Energy"
+  description="Confirme sua presença no evento Hive Energy."
+  showAnnouncement={false}
+  enableMotion={false}
+>
+  <main id="conteudo" class="confirmacao">
+    <section class="confirmacao__content" aria-labelledby="confirmacao-titulo">
+      <header class="confirmacao__header">
+        <h1 id="confirmacao-titulo">Confirmar Presença</h1>
+        <p>Preencha seus dados abaixo e confirme sua presença</p>
+      </header>
+
+      <form
+        class="confirmacao__card"
+        data-confirmation-form
+        data-endpoint={CONFIRMATION_FORM_ENDPOINT}
+        novalidate
+      >
+        <input type="hidden" name="form_id" value="hive_event_confirmation" />
+
+        <div class="confirmation-step" data-step="nome">
+          <div class="field-group">
+            <label for="nome-confirmacao">Nome</label>
+            <input id="nome-confirmacao" name="nome" type="text" placeholder="Insira seu nome completo" autocomplete="name" required />
+          </div>
+          <button class="button" type="button" data-continue>Continuar →</button>
+        </div>
+
+        <div class="confirmation-step is-hidden" data-step="escolha" aria-live="polite">
+          <p class="confirmacao__question">Você irá levar convidados?</p>
+          <div class="choice-group" role="group" aria-label="Você vai levar convidados?">
+            <button class="choice" type="button" data-guest-choice="sim">Sim</button>
+            <button class="choice" type="button" data-guest-choice="nao">Não</button>
+          </div>
+        </div>
+
+        <div class="confirmation-step is-hidden" data-step="convidados" aria-live="polite">
+          <div class="guests" data-guests>
+            <p class="guests__label">Nome do convidado</p>
+            <div class="guests__fields" data-guest-fields></div>
+            <button class="add-guest" type="button" data-add-guest>+ Adicionar convidado</button>
+          </div>
+          <button class="button button--confirm" type="submit" data-confirm>Confirmar Presença →</button>
+        </div>
+
+        <div class="confirmation-success is-hidden" data-success role="status" aria-live="polite">
+          <span class="confirmation-success__check" aria-hidden="true">✓</span>
+          <h2>Presença confirmada!</h2>
+          <p>Estamos te esperando no evento.</p>
+        </div>
+
+        <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+        {!formAtivo && <p class="form-status">O formulário está em modo demonstração.</p>}
+      </form>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .confirmacao {
+    position: relative;
+    display: grid;
+    min-height: 100svh;
+    overflow: clip;
+    isolation: isolate;
+    place-items: center;
+    padding: 32px 20px;
+    background: #000;
+    color: #fff;
+  }
+  .confirmacao::before {
+    position: fixed;
+    z-index: 0;
+    inset: 0;
+    background:
+      radial-gradient(at 20% 30%, #08060e 0%, transparent 60%),
+      radial-gradient(at 80% 70%, #1a1330 0%, transparent 60%),
+      radial-gradient(at 50% 20%, #312a4f 0%, transparent 60%),
+      radial-gradient(at 30% 80%, #493b73 0%, transparent 60%),
+      radial-gradient(at 70% 50%, #110e1e 0%, transparent 60%),
+      radial-gradient(at 60% 40%, #000 0%, transparent 60%),
+      linear-gradient(135deg, #08060e, #000);
+    background-size: 200% 200%;
+    content: "";
+    pointer-events: none;
+    animation: gradient-mesh 15s ease infinite;
+  }
+  .confirmacao__content { position: relative; z-index: 1; width: min(100%, 464px); display: flex; flex-direction: column; align-items: center; gap: 30px; }
+  .confirmacao__header { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+  .confirmacao h1 { color: #fff; font-size: 41.151px; font-weight: 700; letter-spacing: -1.2345px; line-height: 45.266px; white-space: nowrap; }
+  .confirmacao__header > p { color: rgba(255,255,255,.55); font-size: 15px; font-weight: 400; line-height: 20.25px; white-space: nowrap; }
+  .confirmacao__card { width: 100%; padding: 40px; border: 1px solid rgba(255,255,255,.08); border-radius: 24px; background: linear-gradient(180deg, rgba(255,255,255,.03), transparent), rgba(255,255,255,.04); box-shadow: 0 16px 64px rgba(0,0,0,.5); backdrop-filter: blur(40px); }
+  .confirmation-step { display: flex; flex-direction: column; gap: 20px; animation: step-in .45s ease both; }
+  .confirmation-step[data-step="nome"] { align-items: flex-end; }
+  .field-group { width: 100%; display: flex; flex-direction: column; gap: 10px; padding-top: 4px; }
+  .field-group > label, .guests__label { align-self: flex-start; color: rgba(255,255,255,.7); font-size: 14px; font-weight: 400; letter-spacing: .35px; line-height: 20px; }
+  .confirmation-step input { width: 100%; height: 54px; padding: 14px 16px; border: 1px solid rgba(255,255,255,.12); border-radius: 20px; background: rgba(255,255,255,.06); color: #fff; font: inherit; font-size: 16px; letter-spacing: -.48px; }
+  .confirmation-step input::placeholder { color: rgba(255,255,255,.25); }
+  .confirmation-step input:focus-visible { border-color: rgba(185,164,255,.72); outline: 3px solid rgba(185,164,255,.12); }
+  .button { min-height: 47.15px; padding: 11.576px 30px; border: 0; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: #fff; color: #000; font: inherit; font-size: 16.207px; font-weight: 500; letter-spacing: -.4862px; line-height: 24.31px; cursor: pointer; transition: transform .2s ease, background .2s ease; }
+  .button:hover { background: #f0ecff; transform: translateY(-1px); }
+  .button--confirm { width: 100%; }
+  .confirmacao__question { color: #fff; font-size: 20.838px; font-weight: 400; letter-spacing: .4052px; line-height: 23.153px; white-space: nowrap; }
+  .confirmation-step[data-step="escolha"] { width: fit-content; margin-inline: auto; align-items: flex-start; }
+  .confirmation-step[data-step="convidados"] { width: 100%; align-items: flex-start; gap: 15px; }
+  .choice-group { display: flex; gap: 17.365px; }
+  .choice { min-width: 133px; min-height: 47.15px; padding: 11.576px 46.306px; border: 1.158px solid #626262; border-radius: 999px; background: rgba(255,255,255,.12); color: #fff; font: inherit; font-size: 16.207px; font-weight: 400; letter-spacing: .4052px; line-height: 24.31px; cursor: pointer; transition: border-color .2s ease, background .2s ease; }
+  .choice:hover, .choice[aria-pressed="true"] { border-color: #b9a4ff; background: rgba(185,164,255,.18); }
+  .guests { width: 100%; display: flex; flex-direction: column; gap: 15px; }
+  .guests__label { display: none; }
+  .guests__fields { display: flex; flex-direction: column; gap: 15px; }
+  .guests__fields :global(.guest-field) { display: flex; flex-direction: column; gap: 10px; padding-top: 4px; }
+  .guests__fields :global(.guest-field > label) { color: rgba(255,255,255,.7); font-size: 14px; font-weight: 400; letter-spacing: .35px; line-height: 20px; }
+  .guests__fields :global(.guest-input) { width: 100%; height: 54px; padding: 14px 16px; border: 1px solid rgba(255,255,255,.12); border-radius: 20px; background: rgba(255,255,255,.06); color: #fff; font: inherit; font-size: 16px; letter-spacing: -.48px; }
+  .guests__fields :global(.guest-input::placeholder) { color: rgba(255,255,255,.25); }
+  .guests__fields :global(.guest-input:focus-visible) { border-color: rgba(185,164,255,.72); outline: 3px solid rgba(185,164,255,.12); }
+  .add-guest { align-self: flex-start; padding: 0; border: 0; background: transparent; color: #b9a4ff; font: inherit; font-size: 14px; font-weight: 500; letter-spacing: -.42px; line-height: 20px; cursor: pointer; }
+  .confirmation-success { display: grid; min-height: 196px; place-items: center; align-content: center; gap: 10px; text-align: center; animation: step-in .45s ease both; }
+  .confirmation-success__check { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 50%; background: #fff; color: #000; font-size: 22px; font-weight: 700; }
+  .confirmation-success h2 { font-size: 26px; font-weight: 700; letter-spacing: -.78px; }
+  .confirmation-success p, .form-status { color: rgba(255,255,255,.55); font-size: 14px; line-height: 20px; text-align: center; }
+  .form-status { min-height: 0; }
+  .form-status:empty { display: none; }
+  .form-status[data-state="error"] { margin-top: 12px; color: #ffb7b7; }
+  .is-hidden { display: none !important; }
+  @keyframes step-in { from { opacity: 0; transform: translateY(8px); } }
+  @keyframes gradient-mesh {
+    0%, 100% { background-position: 0% 0%; }
+    25% { background-position: 100% 0%; }
+    50% { background-position: 100% 100%; }
+    75% { background-position: 0% 100%; }
+  }
+  @media (max-width: 540px) {
+    .confirmacao { padding-inline: 16px; }
+    .confirmacao__content { width: min(100%, 464px); }
+    .confirmacao h1 { font-size: clamp(30px, 9.2vw, 41.151px); line-height: 1.1; }
+    .confirmacao__header > p { max-width: 330px; font-size: 13px; white-space: normal; }
+    .confirmacao__card { padding: 28px 22px; }
+    .confirmacao__question { font-size: 18px; white-space: normal; }
+    .choice-group { width: 100%; }
+    .choice { flex: 1; min-width: 0; padding-inline: 24px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .confirmacao::before, .confirmation-step, .confirmation-success { animation: none; } }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("[data-confirmation-form]");
+
+  if (form) {
+    const nameInput = form.querySelector<HTMLInputElement>("#nome-confirmacao");
+    const continueButton = form.querySelector<HTMLButtonElement>("[data-continue]");
+    const nameStep = form.querySelector<HTMLElement>('[data-step="nome"]');
+    const choiceStep = form.querySelector<HTMLElement>('[data-step="escolha"]');
+    const guestsStep = form.querySelector<HTMLElement>('[data-step="convidados"]');
+    const guestFields = form.querySelector<HTMLElement>("[data-guest-fields]");
+    const confirmButton = form.querySelector<HTMLButtonElement>("[data-confirm]");
+    const success = form.querySelector<HTMLElement>("[data-success]");
+    const status = form.querySelector<HTMLElement>("[data-form-status]");
+    let levaConvidados: "sim" | "nao" | "" = "";
+
+    const addGuestField = () => {
+      if (!guestFields) return;
+      const field = document.createElement("div");
+      field.className = "guest-field";
+      field.innerHTML = '<label>Nome Convidado</label><input class="guest-input" type="text" name="convidado" placeholder="Insira o nome do seu convidado" required aria-label="Nome do convidado" />';
+      guestFields.append(field);
+    };
+
+    continueButton?.addEventListener("click", () => {
+      if (!nameInput?.reportValidity() || !nameStep || !choiceStep) return;
+      nameStep.classList.add("is-hidden");
+      choiceStep.classList.remove("is-hidden");
+    });
+
+    form.querySelectorAll<HTMLButtonElement>("[data-guest-choice]").forEach((choice) => {
+      choice.addEventListener("click", () => {
+        levaConvidados = choice.dataset.guestChoice === "sim" ? "sim" : "nao";
+        form.querySelectorAll<HTMLButtonElement>("[data-guest-choice]").forEach((item) => item.setAttribute("aria-pressed", String(item === choice)));
+        if (levaConvidados === "sim") {
+          choiceStep?.classList.add("is-hidden");
+          guestsStep?.classList.remove("is-hidden");
+          if (!guestFields?.children.length) addGuestField();
+        }
+        if (levaConvidados === "nao") form.requestSubmit();
+      });
+    });
+
+    form.querySelector<HTMLButtonElement>("[data-add-guest]")?.addEventListener("click", addGuestField);
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!levaConvidados || !confirmButton || !nameInput) return;
+      const convidados = Array.from(form.querySelectorAll<HTMLInputElement>('input[name="convidado"]')).map((input) => input.value.trim()).filter(Boolean);
+      if (levaConvidados === "sim" && convidados.length === 0) { addGuestField(); return; }
+
+      const endpoint = form.dataset.endpoint;
+      confirmButton.disabled = true;
+      confirmButton.setAttribute("aria-busy", "true");
+      if (status) { status.dataset.state = "loading"; status.textContent = "Confirmando sua presença…"; }
+      try {
+        if (endpoint) {
+          const registros = [
+            { nome: nameInput.value.trim(), convidado: "Não" },
+            ...convidados.map((nome) => ({ nome, convidado: "Sim" })),
+          ];
+
+          for (const registro of registros) {
+            const payload = new URLSearchParams(registro);
+            await fetch(endpoint, {
+              method: "POST",
+              mode: "no-cors",
+              keepalive: true,
+              body: payload,
+            });
+          }
+        }
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: "FormSubmit", form_id: "hive_event_confirmation" });
+        choiceStep?.classList.add("is-hidden");
+        guestsStep?.classList.add("is-hidden");
+        success?.classList.remove("is-hidden");
+        if (status) status.textContent = "";
+      } catch (error) {
+        confirmButton.disabled = false;
+        confirmButton.removeAttribute("aria-busy");
+        if (status) { status.dataset.state = "error"; status.textContent = "Não foi possível confirmar agora. Tente novamente."; }
+        console.error("[event-confirmation]", error);
+      }
+    });
+  }
+</script>
