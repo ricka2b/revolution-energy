@@ -1,0 +1,166 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Icon from "../components/Icon.astro";
+import hero from "../assets/hive-hero.jpg";
+import heroVideo from "../assets/hero-landing-optimized.webm";
+import logo from "../assets/hive-logo.svg";
+import arrowRight from "../assets/figma-section-15/arrow-right.svg";
+import { FORM_ENDPOINT, FORM_METHOD, FORM_SUCCESS_PATH, LINKS, SEO } from "../site.config";
+
+const formAtivo = FORM_ENDPOINT !== "";
+const beneficios = [
+  "Sem instalar placa solar.",
+  "Sem precisar entender de energia.",
+  "Apenas oferecendo um benefício real.",
+];
+---
+
+<Layout
+  title={`Aplicação | ${SEO.title}`}
+  description={SEO.description}
+  showAnnouncement={false}
+  enableMotion={false}
+>
+  <main id="conteudo" class="aplicacao">
+    <div class="aplicacao__media" aria-hidden="true">
+      <video autoplay muted loop playsinline preload="auto" poster={hero.src}>
+        <source src={heroVideo} type="video/webm" />
+      </video>
+    </div>
+
+    <div class="aplicacao__veil" aria-hidden="true"></div>
+
+    <div class="aplicacao__content">
+      <section class="aplicacao__copy" aria-labelledby="aplicacao-titulo">
+        <img class="aplicacao__logo" src={logo.src} alt="Hive" />
+        <p class="aplicacao__eyebrow">Consultor de Energia Hive</p>
+        <h1 id="aplicacao-titulo">
+          <span>Descubra como ganhar</span>
+          <span>de <strong>3 a 15 mil reais</strong></span>
+          <span>todos os meses.</span>
+        </h1>
+        <p class="aplicacao__lead">
+          Vou te mostrar o passo a passo para conquistar clientes, gerar economia na conta de energia e criar uma carteira que paga comissões todos os meses, mesmo começando do zero.
+        </p>
+        <ul class="aplicacao__beneficios">
+          {beneficios.map((beneficio) => <li><Icon name="check" size={16} />{beneficio}</li>)}
+        </ul>
+      </section>
+
+      <section class="aplicacao__form-card" aria-labelledby="formulario-titulo">
+        <p class="aplicacao__form-eyebrow">Comece agora</p>
+        <h2 id="formulario-titulo">Preencha seus dados para conhecer a oportunidade.</h2>
+        <form
+          action={formAtivo ? FORM_ENDPOINT : undefined}
+          method={formAtivo ? FORM_METHOD : undefined}
+          data-lead-form
+          data-endpoint={FORM_ENDPOINT}
+          data-success-path={FORM_SUCCESS_PATH}
+        >
+          <input type="hidden" name="form_id" value="hive_energy_landing" />
+          <div class="field"><label for="nome">Nome</label><input id="nome" name="nome" type="text" autocomplete="name" required /></div>
+          <div class="field"><label for="whatsapp">WhatsApp</label><input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" required /></div>
+          <div class="field"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" required /></div>
+          <div class="consent">
+            <input id="consent" name="consent" type="checkbox" required />
+            <label for="consent">Autorizo o contato e o tratamento dos meus dados conforme a {LINKS.privacidade ? <a href={LINKS.privacidade}>política de privacidade</a> : <span>política de privacidade</span>}.</label>
+          </div>
+          <button type="submit" disabled={!formAtivo}>Quero conhecer essa oportunidade <img src={arrowRight.src} alt="" /></button>
+          <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+          {!formAtivo && <p class="pendente">Formulário em modo demonstração: configure o endpoint para ativar o envio.</p>}
+        </form>
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .aplicacao { position: relative; display: grid; min-height: 100svh; overflow: clip; background: #0e0a15; color: #fff; isolation: isolate; }
+  .aplicacao__media, .aplicacao__veil { position: absolute; inset: 0; z-index: -2; }
+  .aplicacao__media video { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+  .aplicacao__veil { z-index: -1; background: linear-gradient(90deg, rgba(8,5,15,.9) 0%, rgba(8,5,15,.78) 46%, rgba(8,5,15,.62) 100%), linear-gradient(180deg, rgba(8,5,15,.1), rgba(8,5,15,.5)); }
+  .aplicacao__content { width: min(100%, 1440px); margin: auto; padding: clamp(2rem, 5vw, 4.5rem); display: grid; grid-template-columns: minmax(0, 1fr) minmax(25rem, 31.5rem); gap: clamp(3rem, 8vw, 9rem); align-items: center; }
+  .aplicacao__copy { display: grid; justify-items: start; max-width: 47rem; text-align: left; }
+  .aplicacao__logo { width: clamp(7.4rem, 11vw, 10.5rem); height: auto; }
+  .aplicacao__eyebrow, .aplicacao__form-eyebrow { margin-top: clamp(2.5rem, 5vw, 4.5rem); color: #c6b5ff; font-size: .75rem; font-weight: 700; letter-spacing: .14em; line-height: 1.2; text-transform: uppercase; }
+  .aplicacao h1 { max-width: 45rem; margin-top: 1rem; font-size: clamp(2.1rem, 3.9vw, 4rem); font-weight: 700; letter-spacing: -.06em; line-height: 1; }
+  .aplicacao h1 > span { display: block; white-space: nowrap; }
+  .aplicacao h1 strong { color: #bba7ff; font-weight: inherit; }
+  .aplicacao__lead { max-width: 39rem; margin-top: 1.75rem; color: rgba(255,255,255,.8); font-size: clamp(1rem, 1.3vw, 1.17rem); line-height: 1.5; }
+  .aplicacao__beneficios { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 2rem; }
+  .aplicacao__beneficios li { display: flex; align-items: center; gap: .5rem; padding: .625rem 1rem; border: 1px solid rgba(255,255,255,.14); border-radius: 999px; background: rgba(255,255,255,.05); box-shadow: inset 0 1px 0 rgba(255,255,255,.08); color: rgba(255,255,255,.86); font-size: .9375rem; font-weight: 500; line-height: 1.25; white-space: nowrap; }
+  .aplicacao__beneficios :global(svg) { flex: none; color: #c6b5ff; }
+  @supports (backdrop-filter: blur(10px)) { .aplicacao__beneficios li { backdrop-filter: blur(10px) saturate(1.3); } }
+  .aplicacao__form-card { padding: clamp(1.75rem, 3vw, 2.75rem); border: 1px solid rgba(255,255,255,.55); border-radius: 2rem; background: #fff; color: #0e0a15; box-shadow: 0 1.5rem 4rem rgba(0,0,0,.25); }
+  .aplicacao__form-eyebrow { margin-top: 0; color: #7355e8; }
+  .aplicacao__form-card h2 { margin-top: .75rem; font-size: clamp(1.65rem, 2vw, 2.25rem); font-weight: 700; letter-spacing: -.05em; line-height: 1.04; }
+  form { display: grid; gap: 1rem; margin-top: 2rem; }
+  .field { display: grid; gap: .45rem; }
+  .field label { color: #514b5e; font-size: .9rem; line-height: 1.2; }
+  .field input { min-height: 3.5rem; padding: .75rem 1rem; border: 1px solid #e6e3ec; border-radius: .9rem; background: #f7f6f9; color: #0e0a15; font: inherit; }
+  .field input:focus-visible { border-color: #7355e8; outline: 3px solid rgba(115,85,232,.2); }
+  .consent { display: flex; align-items: flex-start; gap: .65rem; margin-top: .35rem; }
+  .consent input { flex: none; width: 1.2rem; height: 1.2rem; margin-top: .15rem; accent-color: #7355e8; }
+  .consent label { color: #514b5e; font-size: .77rem; line-height: 1.45; }
+  .consent a { color: #7355e8; text-decoration: underline; }
+  button { min-height: 3.8rem; margin-top: .5rem; padding: .8rem 1.25rem; border: 0; border-radius: 999px; display: flex; align-items: center; justify-content: center; gap: .65rem; background: #7355e8; color: #fff; font: inherit; font-size: .98rem; font-weight: 700; cursor: pointer; }
+  button:hover { background: #6245d8; }
+  button:disabled { opacity: .55; cursor: not-allowed; }
+  button img { width: 1.2rem; height: 1.2rem; }
+  .form-status { min-height: 1.35em; color: #514b5e; font-size: .82rem; line-height: 1.35; text-align: center; }
+  .form-status[data-state="error"] { color: #a32929; }
+  .pendente { color: #514b5e; font-size: .8rem; line-height: 1.4; text-align: center; }
+  @media (max-width: 800px) {
+    .aplicacao__veil { background: linear-gradient(180deg, rgba(8,5,15,.78), rgba(8,5,15,.9)); }
+    .aplicacao__content { grid-template-columns: 1fr; gap: 2.5rem; padding: 2rem 1.25rem; }
+    .aplicacao__copy { max-width: 35rem; }
+    .aplicacao__logo { width: 7.5rem; }
+    .aplicacao__eyebrow { margin-top: 2rem; }
+    .aplicacao h1 { font-size: clamp(2.1rem, 9.5vw, 3.1rem); }
+    .aplicacao h1 > span { white-space: normal; }
+    .aplicacao__lead { margin-top: 1.25rem; }
+    .aplicacao__beneficios { margin-top: 1.5rem; }
+    .aplicacao__form-card { width: 100%; max-width: 34rem; }
+  }
+</style>
+
+<script>
+  const leadForm = document.querySelector<HTMLFormElement>("[data-lead-form]");
+  if (leadForm) {
+    const submitButton = leadForm.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const status = leadForm.querySelector<HTMLElement>("[data-form-status]");
+    leadForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!leadForm.reportValidity() || !submitButton) return;
+      const endpoint = leadForm.dataset.endpoint;
+      const successPath = leadForm.dataset.successPath || "/obrigado/";
+      if (!endpoint) return;
+      submitButton.disabled = true;
+      submitButton.setAttribute("aria-busy", "true");
+      if (status) { status.dataset.state = "loading"; status.textContent = "Enviando seus dados…"; }
+      const payload = new URLSearchParams();
+      new FormData(leadForm).forEach((value, key) => { if (typeof value === "string") payload.set(key, value); });
+      const query = new URLSearchParams(window.location.search);
+      ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "conjunto", "anuncio", "fbclid", "gclid"].forEach((key) => {
+        const value = query.get(key); if (value) payload.set(key, value);
+      });
+      payload.set("consentimento", "sim");
+      payload.set("pagina", window.location.href);
+      payload.set("origem", document.referrer || "acesso_direto");
+      payload.set("enviado_em", new Date().toISOString());
+      try {
+        await fetch(endpoint, { method: "POST", mode: "no-cors", keepalive: true, body: payload });
+        let redirecionando = false;
+        const redirecionar = () => { if (redirecionando) return; redirecionando = true; window.location.assign(successPath); };
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: "FormSubmit", form_id: "hive_energy_landing", eventCallback: redirecionar, eventTimeout: 1600 });
+        window.setTimeout(redirecionar, 1800);
+      } catch (error) {
+        submitButton.disabled = false;
+        submitButton.removeAttribute("aria-busy");
+        if (status) { status.dataset.state = "error"; status.textContent = "Não foi possível enviar agora. Verifique sua conexão e tente novamente."; }
+        console.error("[lead-form]", error);
+      }
+    });
+  }
+</script>
