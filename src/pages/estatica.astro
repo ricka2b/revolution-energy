@@ -1,0 +1,122 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import Reconhecimento from "../components/Reconhecimento.astro";
+import ComoFunciona from "../components/ComoFunciona.astro";
+import Movimentos from "../components/Movimentos.astro";
+import Carteira from "../components/Carteira.astro";
+import Numeros from "../components/Numeros.astro";
+import Recorrencia from "../components/Recorrencia.astro";
+import Provas from "../components/Provas.astro";
+import SemExperiencia from "../components/SemExperiencia.astro";
+import PrimeirosClientes from "../components/PrimeirosClientes.astro";
+import Rotina from "../components/Rotina.astro";
+import Timing from "../components/Timing.astro";
+import DozeMeses from "../components/DozeMeses.astro";
+import Fechamento from "../components/Fechamento.astro";
+---
+
+<Layout title="Consultor de Energia Hive — versão estática" enableMotion={false}>
+  <main id="conteudo" class="pagina-estatica">
+    <Hero />
+    <Reconhecimento />
+
+    <div class="figma-sections">
+      <ComoFunciona />
+      <Movimentos />
+      <Carteira />
+      <Numeros />
+      <Recorrencia />
+      <Provas />
+      <SemExperiencia />
+      <PrimeirosClientes />
+      <Rotina />
+      <Timing />
+      <DozeMeses />
+    </div>
+
+    <Fechamento />
+  </main>
+</Layout>
+
+<script>
+  import "../scripts/smooth-scroll";
+  import "../scripts/static-motion";
+</script>
+
+<style is:global>
+  .pagina-estatica :where(h1, h2, h3, h4, p, li) {
+    text-wrap: wrap;
+  }
+
+  /* Remove somente a mecânica de palco/trilho da versão interativa. */
+  .pagina-estatica .process-track {
+    height: auto;
+    margin-top: 40px;
+    margin-bottom: 0;
+  }
+
+  .pagina-estatica .process {
+    position: relative;
+    top: auto;
+  }
+
+  .pagina-estatica .doze__transicao {
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .pagina-estatica .doze__transicao > .doze__painel {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    min-height: max(680px, calc(100svh - var(--bar-h))) !important;
+  }
+
+  /* Na versão estática as cenas numéricas formam uma sequência normal. */
+  .pagina-estatica .numeros__scene {
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100svh - var(--bar-h));
+  }
+
+  .pagina-estatica .numeros__stage {
+    display: grid;
+    gap: 60px;
+  }
+
+  .pagina-estatica .numeros__scene > .s6-frame {
+    margin-inline: auto;
+  }
+
+  @media (max-width: 47.5rem) {
+    .pagina-estatica .figma-sections :where(
+      .movimentos__header h2,
+      .carteira__header h2,
+      .provas__cabecalho h2,
+      .primeiros__cabecalho h2,
+      .rotina__intro h2,
+      .timing__top h2,
+      .doze__cabecalho h2
+    ) {
+      font-size: clamp(36px, 7.3vw, 80.359px);
+      line-height: 100%;
+      letter-spacing: -0.05em;
+    }
+
+    .pagina-estatica .figma-sections br,
+    .pagina-estatica .fechamento br {
+      display: none;
+    }
+
+    .pagina-estatica .figma-sections :where(h1, h2, h3, h4) > span,
+    .pagina-estatica .fechamento :where(h1, h2, h3, h4) > span {
+      white-space: nowrap;
+    }
+
+    .pagina-estatica .doze__transicao > .doze__painel {
+      min-height: max(620px, calc(100svh - var(--bar-h))) !important;
+    }
+  }
+</style>

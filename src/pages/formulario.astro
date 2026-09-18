@@ -57,7 +57,7 @@ const beneficios = [
           data-endpoint={FORM_ENDPOINT}
           data-success-path={FORM_SUCCESS_PATH}
         >
-          <input type="hidden" name="form_id" value="hive_energy_landing" />
+          <input type="hidden" name="form_id" value="bio" />
           <div class="field"><label for="nome">Nome</label><input id="nome" name="nome" type="text" autocomplete="name" required /></div>
           <div class="field"><label for="whatsapp">WhatsApp</label><input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" required /></div>
           <div class="field"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" required /></div>
@@ -161,7 +161,7 @@ const beneficios = [
         let redirecionando = false;
         const redirecionar = () => { if (redirecionando) return; redirecionando = true; window.location.assign(successPath); };
         window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ event: "FormSubmit", form_id: "hive_energy_landing", eventCallback: redirecionar, eventTimeout: 1600 });
+        window.dataLayer.push({ event: "FormSubmit", form_id: "bio", eventCallback: redirecionar, eventTimeout: 1600 });
         window.setTimeout(redirecionar, 1800);
       } catch (error) {
         submitButton.disabled = false;
