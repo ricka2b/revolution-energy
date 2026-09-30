@@ -1,0 +1,181 @@
+---
+import Layout from "../layouts/Layout.astro";
+import hiveLogo from "../assets/hive-logo.svg";
+---
+
+<Layout
+  title="Política de Privacidade | Hive Energy"
+  description="Saiba como a Hive Energy coleta, utiliza e protege seus dados pessoais."
+  showAnnouncement={false}
+  enableMotion={false}
+>
+  <main class="privacy" id="conteudo">
+    <div class="privacy__glow privacy__glow--one" aria-hidden="true"></div>
+    <div class="privacy__glow privacy__glow--two" aria-hidden="true"></div>
+
+    <article class="privacy__content">
+      <a class="privacy__brand" href="/" aria-label="Voltar para a página inicial">
+        <img src={hiveLogo.src} alt="Hive Energy" />
+      </a>
+
+      <header class="privacy__header">
+        <p>HIVE ENERGY</p>
+        <h1>Política de Privacidade</h1>
+        <span>Última atualização: 30 de setembro de 2026</span>
+      </header>
+
+      <div class="privacy__body">
+        <p>
+          A Hive Energy respeita a sua privacidade. Esta Política explica como coletamos,
+          usamos, armazenamos e protegemos os dados pessoais fornecidos em nossos canais,
+          em conformidade com a Lei Geral de Proteção de Dados Pessoais — LGPD (Lei nº 13.709/2018).
+        </p>
+
+        <section>
+          <h2>1. Dados que podemos coletar</h2>
+          <p>Ao preencher nossos formulários, podemos coletar:</p>
+          <ul>
+            <li>nome, e-mail e número de WhatsApp;</li>
+            <li>dados de origem de campanha, como UTMs, conjunto e anúncio;</li>
+            <li>dados técnicos básicos de navegação, como página acessada, referência de acesso e identificadores de campanha.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>2. Para que usamos seus dados</h2>
+          <p>Usamos os dados para:</p>
+          <ul>
+            <li>entrar em contato sobre a oportunidade de Consultor de Energia Hive;</li>
+            <li>enviar informações solicitadas e responder dúvidas;</li>
+            <li>organizar o atendimento comercial e medir o desempenho das campanhas;</li>
+            <li>aprimorar nossos canais, comunicações e experiências digitais;</li>
+            <li>cumprir obrigações legais e proteger direitos em eventuais demandas.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>3. Bases legais</h2>
+          <p>
+            O tratamento pode ocorrer mediante seu consentimento, para atender à sua solicitação
+            de contato, para o exercício regular de direitos ou para interesses legítimos relacionados
+            à operação e melhoria dos nossos canais, sempre respeitando seus direitos e expectativas.
+          </p>
+        </section>
+
+        <section>
+          <h2>4. Compartilhamento de dados</h2>
+          <p>
+            Seus dados podem ser tratados por fornecedores que apoiam nossa operação, como plataformas
+            de automação, hospedagem, análise de campanhas e ferramentas de atendimento. Esses parceiros
+            devem tratar os dados somente para as finalidades compatíveis com esta Política e com a legislação aplicável.
+          </p>
+          <p>
+            Podemos também compartilhar dados quando exigido por lei, ordem de autoridade competente
+            ou para proteger direitos, segurança e integridade da Hive Energy e de terceiros.
+          </p>
+        </section>
+
+        <section>
+          <h2>5. Cookies e tecnologias de medição</h2>
+          <p>
+            Utilizamos tecnologias como cookies, pixels e tags de medição para entender a navegação,
+            avaliar campanhas e tornar nossas comunicações mais relevantes. Você pode gerenciar cookies
+            nas configurações do seu navegador. A desativação pode afetar algumas funcionalidades ou métricas do site.
+          </p>
+        </section>
+
+        <section>
+          <h2>6. Armazenamento e segurança</h2>
+          <p>
+            Adotamos medidas técnicas e organizacionais razoáveis para proteger os dados contra acesso
+            não autorizado, perda, alteração ou divulgação indevida. Os dados são mantidos pelo período
+            necessário para as finalidades descritas nesta Política, para o cumprimento de obrigações legais
+            ou enquanto houver uma relação legítima de atendimento.
+          </p>
+        </section>
+
+        <section>
+          <h2>7. Seus direitos</h2>
+          <p>Nos termos da LGPD, você pode solicitar, entre outros:</p>
+          <ul>
+            <li>confirmação da existência de tratamento e acesso aos seus dados;</li>
+            <li>correção de dados incompletos, inexatos ou desatualizados;</li>
+            <li>anonimização, bloqueio ou eliminação de dados desnecessários ou tratados em desconformidade;</li>
+            <li>informação sobre compartilhamentos realizados;</li>
+            <li>revogação do consentimento, quando aplicável.</li>
+          </ul>
+          <p>
+            Para exercer seus direitos, entre em contato pelos canais de atendimento oficiais da Hive Energy.
+            Poderemos solicitar informações para confirmar sua identidade e proteger seus dados.
+          </p>
+        </section>
+
+        <section>
+          <h2>8. Alterações nesta Política</h2>
+          <p>
+            Esta Política poderá ser atualizada para refletir mudanças em nossas práticas, serviços ou requisitos legais.
+            A versão vigente estará sempre disponível nesta página.
+          </p>
+        </section>
+      </div>
+    </article>
+  </main>
+</Layout>
+
+<style>
+  .privacy {
+    position: relative;
+    min-height: 100svh;
+    padding: clamp(36px, 7vw, 96px) 20px;
+    overflow: hidden;
+    background: #0e0a15;
+    color: #fff;
+  }
+
+  .privacy__glow {
+    position: absolute;
+    width: min(52vw, 760px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: rgba(115, 85, 232, .2);
+    filter: blur(100px);
+    pointer-events: none;
+  }
+
+  .privacy__glow--one { top: -24%; left: -18%; }
+  .privacy__glow--two { right: -24%; bottom: 2%; background: rgba(198, 181, 255, .1); }
+
+  .privacy__content {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 880px);
+    margin: 0 auto;
+    padding: clamp(28px, 6vw, 72px);
+    border: 1px solid rgba(198, 181, 255, .15);
+    border-radius: clamp(24px, 4vw, 40px);
+    background: rgba(255, 255, 255, .055);
+    box-shadow: 0 32px 100px rgba(0, 0, 0, .28);
+    backdrop-filter: blur(12px);
+  }
+
+  .privacy__brand { display: inline-flex; }
+  .privacy__brand img { width: 110px; height: auto; }
+
+  .privacy__header { margin-top: clamp(42px, 7vw, 76px); }
+  .privacy__header > p { color: #c6b5ff; font-size: 12px; font-weight: 700; letter-spacing: .16em; line-height: 1.2; }
+  .privacy__header h1 { margin-top: 14px; font-size: clamp(42px, 7vw, 74px); font-weight: 700; letter-spacing: -.06em; line-height: .96; }
+  .privacy__header span { display: block; margin-top: 20px; color: rgba(255,255,255,.58); font-size: 14px; }
+
+  .privacy__body { display: grid; gap: 34px; margin-top: clamp(44px, 7vw, 72px); color: rgba(255,255,255,.74); font-size: 17px; line-height: 1.65; }
+  .privacy__body section { display: grid; gap: 12px; }
+  .privacy__body h2 { color: #fff; font-size: clamp(23px, 3vw, 29px); font-weight: 700; letter-spacing: -.04em; line-height: 1.1; }
+  .privacy__body ul { display: grid; gap: 8px; padding-left: 1.2em; }
+  .privacy__body li::marker { color: #bba7ff; }
+
+  @media (max-width: 40rem) {
+    .privacy { padding: 20px 12px; }
+    .privacy__content { padding: 30px 22px; }
+    .privacy__brand img { width: 90px; }
+    .privacy__body { gap: 28px; font-size: 15px; line-height: 1.58; }
+  }
+</style>

@@ -27,7 +27,7 @@ export const GTM_ID = "GTM-NDPR7DB7";
 
 /** Links institucionais. PENDENTE: publicar as páginas reais. */
 export const LINKS = {
-  privacidade: "",
+  privacidade: "/politica-de-privacidade/",
   termos: "",
   site: "https://behive.global",
 };
