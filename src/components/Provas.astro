@@ -20,11 +20,38 @@ const depoimentos = [
             <source src={`/videos/depoimentos/${arquivo}.mp4`} type="video/mp4" />
             Seu navegador não suporta vídeo. <a href={`/videos/depoimentos/${arquivo}.mp4`}>Assistir ao depoimento</a>.
           </video>
+          <button class="provas__play" type="button" aria-label={`Assistir: ${titulo}`} hidden>
+            <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M11 6.5v19L26 16Z" fill="currentColor" /></svg>
+          </button>
         </li>
       ))}
     </ul>
   </div>
 </section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>(".provas__play").forEach((button) => {
+    const video = button.parentElement?.querySelector("video");
+    if (!video) return;
+
+    video.controls = false;
+    button.hidden = false;
+    const showPlay = () => { button.hidden = false; };
+    video.addEventListener("playing", () => { button.hidden = true; });
+    video.addEventListener("pause", showPlay);
+    video.addEventListener("ended", showPlay);
+    button.addEventListener("click", async () => {
+      video.controls = true;
+      button.hidden = true;
+      try {
+        await video.play();
+        video.focus({ preventScroll: true });
+      } catch {
+        showPlay();
+      }
+    });
+  });
+</script>
 
 <style>
   .provas { overflow-x: clip; background: #fff; color: #0e0a15; }
@@ -34,9 +61,15 @@ const depoimentos = [
   .provas__cabecalho p { font-size: 34.448px; font-weight: 400; letter-spacing: -1.0334px; line-height: 38.582px; }
   .provas__cabecalho h2 { font-size: 70.583px; font-weight: 700; letter-spacing: -4.235px; line-height: 1.2; }
   .provas__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; width: 100%; margin-top: 50px; }
-  .provas__grid li { height: 672px; background: #0e0a15; overflow: hidden; border-radius: 20px; }
+  .provas__grid li { position: relative; height: 672px; background: #0e0a15; overflow: hidden; border-radius: 20px; }
   .provas__grid video { display: block; width: 100%; height: 100%; object-fit: contain; }
   .provas__grid video:focus-visible { outline: 3px solid #7f60fd; outline-offset: -3px; }
+  .provas__play { position: absolute; inset: 0; margin: auto; display: grid; place-items: center; width: 96px; height: 96px; padding: 0; border: 2px solid rgba(255,255,255,.65); border-radius: 50%; background: #7f60fd; color: #fff; box-shadow: 0 8px 32px rgba(14,10,21,.35); cursor: pointer; transition: background .2s ease, box-shadow .2s ease; }
+  .provas__play[hidden] { display: none; }
+  .provas__play svg { width: 48px; height: 48px; }
+  .provas__play:hover { background: #7355e8; box-shadow: 0 8px 36px rgba(127,96,253,.5); }
+  .provas__play:focus-visible { outline: 3px solid white; outline-offset: 5px; }
+  @media (prefers-reduced-motion: reduce) { .provas__play { transition: none; } }
 
   @media (max-width: 72rem) {
     .provas__inner { padding-block: clamp(56px, 7vw, 80px); }
