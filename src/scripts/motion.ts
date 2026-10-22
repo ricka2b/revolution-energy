@@ -30,6 +30,7 @@ import {
   pausarRolagemSuave,
   retomarRolagemSuave,
   sincronizarRolagemSuave,
+  saltarParaAncora,
 } from "./smooth-scroll";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -1270,9 +1271,63 @@ function esconderDica() {
  */
 type LinhaTocavel = {
   play: () => unknown;
+  pause?: () => unknown;
   duration: number;
   seek: (tempo: number) => unknown;
 };
+
+const cenasNavegaveis: Array<{ gatilho: HTMLElement; concluir: () => void; ativa: () => boolean }> = [];
+
+function alvoDaAncora() {
+  try {
+    return document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
+  } catch {
+    return null;
+  }
+}
+
+function vemAntesDoAlvo(gatilho: HTMLElement, alvo: HTMLElement) {
+  return !gatilho.contains(alvo) && Boolean(gatilho.compareDocumentPosition(alvo) & Node.DOCUMENT_POSITION_FOLLOWING);
+}
+
+function navegarParaAncora(alvo: HTMLElement) {
+  for (const cena of cenasNavegaveis) {
+    if (cena.ativa() || vemAntesDoAlvo(cena.gatilho, alvo)) cena.concluir();
+  }
+  esconderDica();
+  ScrollTrigger.refresh();
+  saltarParaAncora(alvo);
+  ScrollTrigger.update();
+}
+
+function configurarAncoras() {
+  document.addEventListener("click", (evento) => {
+    if (evento.button !== 0 || evento.metaKey || evento.ctrlKey || evento.shiftKey || evento.altKey) return;
+    const link = (evento.target as Element)?.closest<HTMLAnchorElement>("a[href]");
+    if (!link || link.hasAttribute("download") || (link.target && link.target !== "_self")) return;
+    const url = new URL(link.href, window.location.href);
+    if (url.origin !== location.origin || url.pathname !== location.pathname || url.search !== location.search || !url.hash) return;
+    let alvo: HTMLElement | null = null;
+    try { alvo = document.getElementById(decodeURIComponent(url.hash.slice(1))); } catch { return; }
+    if (!alvo) return;
+    evento.preventDefault();
+    evento.stopImmediatePropagation();
+    history.pushState(null, "", url.hash);
+    navegarParaAncora(alvo);
+  }, true);
+  window.addEventListener("hashchange", () => {
+    const alvo = alvoDaAncora();
+    if (alvo) navegarParaAncora(alvo);
+  });
+  const posicionar = () => {
+    const alvo = alvoDaAncora();
+    if (alvo) navegarParaAncora(alvo);
+  };
+  posicionar();
+  // Fontes e imagens podem mudar a posição final depois do primeiro layout.
+  if (document.readyState !== "complete") window.addEventListener("load", posicionar, { once: true });
+  document.fonts.ready.then(posicionar);
+}
 
 /**
  * Toca uma fila de cenas com a rolagem presa, uma por gesto.
@@ -1295,28 +1350,53 @@ function cenasTravadasEmSequencia(opcoes: {
   const { gatilho, linhas, inicio = "center center", aoLiberar } = opcoes;
   if (!linhas.length) return;
 
+  let concluida = false;
+  let liberar: (() => void) | undefined;
+  let limparEspera: (() => void) | undefined;
+  let trigger: ScrollTrigger | undefined;
+  const concluir = () => {
+    if (concluida) return;
+    concluida = true;
+    limparEspera?.();
+    liberar?.();
+    liberar = undefined;
+    for (const linha of linhas) {
+      linha.pause?.();
+      linha.seek(linha.duration);
+    }
+    trigger?.kill();
+    aoLiberar?.();
+  };
+  cenasNavegaveis.push({ gatilho, concluir, ativa: () => Boolean(liberar) });
+
   // Recarregar a página numa âncora abaixo desta seção deixaria as cenas
   // presas no estado inicial, invisíveis para sempre — o gatilho só dispara
   // ao ser cruzado. Aqui elas já nascem montadas, sem travar nada.
-  if (gatilho.getBoundingClientRect().bottom < 0) {
-    for (const linha of linhas) linha.seek(linha.duration);
-    aoLiberar?.();
+  const destinoInicial = alvoDaAncora();
+  if ((destinoInicial && vemAntesDoAlvo(gatilho, destinoInicial)) || gatilho.getBoundingClientRect().bottom < 0) {
+    concluir();
     return;
   }
 
-  ScrollTrigger.create({
+  trigger = ScrollTrigger.create({
     trigger: gatilho,
     start: inicio,
     once: true,
     onEnter: () => {
+      if (concluida) return;
+      if (gatilho.getBoundingClientRect().bottom <= 0) {
+        concluir();
+        return;
+      }
       const soltarRolagem = travarRolagem();
+      liberar = soltarRolagem;
 
       const tocar = (indice: number) => {
         const linha = linhas[indice];
 
         let avancou = false;
         const avancar = () => {
-          if (avancou) return;
+          if (avancou || concluida) return;
           avancou = true;
           window.removeEventListener("wheel", avancar);
           window.removeEventListener("touchmove", avancar);
@@ -1328,12 +1408,14 @@ function cenasTravadasEmSequencia(opcoes: {
             return;
           }
           soltarRolagem();
+          liberar = undefined;
+          concluida = true;
           aoLiberar?.();
         };
 
         let terminou = false;
         const aoTerminar = () => {
-          if (terminou) return;
+          if (terminou || concluida) return;
           terminou = true;
           mostrarDica();
           // A cena continua presa. O primeiro gesto depois da dica é que
@@ -1346,6 +1428,12 @@ function cenasTravadasEmSequencia(opcoes: {
         // Rede de segurança: se a linha não avisar que terminou, a dica
         // aparece assim mesmo. Prender para sempre seria pior que o defeito.
         const resgate = window.setTimeout(aoTerminar, linha.duration + 4000);
+        limparEspera = () => {
+          window.clearTimeout(resgate);
+          window.removeEventListener("wheel", avancar);
+          window.removeEventListener("touchmove", avancar);
+          window.removeEventListener("keydown", avancar);
+        };
 
         Promise.resolve(linha.play() as PromiseLike<unknown>).then(() => {
           window.clearTimeout(resgate);
@@ -2490,6 +2578,7 @@ function iniciar() {
     progresso();
     revelacoes();
     contadores();
+    configurarAncoras();
     raiz.dataset.motionReady = "true";
   } catch (erro) {
     // Qualquer falha devolve a página ao estado estático e visível.

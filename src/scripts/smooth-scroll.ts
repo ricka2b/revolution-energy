@@ -60,3 +60,14 @@ export function retomarRolagemSuave() {
 export function sincronizarRolagemSuave(callback: () => void) {
   instancia?.on("scroll", callback);
 }
+
+/** Saltos para âncoras não devem atravessar e ativar as cenas intermediárias. */
+export function saltarParaAncora(alvo: HTMLElement) {
+  const top = Math.max(0, window.scrollY + alvo.getBoundingClientRect().top - 56);
+  if (instancia) {
+    instancia.resize();
+    instancia.scrollTo(top, { immediate: true, force: true });
+  } else {
+    window.scrollTo({ top, behavior: "instant" });
+  }
+}
