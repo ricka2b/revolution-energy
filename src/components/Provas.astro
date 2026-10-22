@@ -1,5 +1,9 @@
 ---
-/** Sessão 08 — o Figma ainda reserva três espaços sem conteúdo. */
+const depoimentos = [
+  { arquivo: "lucas-rios", titulo: "Depoimento de Lucas Rios" },
+  { arquivo: "depoimento-06", titulo: "Depoimento de cliente Hive" },
+  { arquivo: "keila", titulo: "Depoimento de Keila" },
+];
 ---
 
 <section class="provas" id="provas" data-node-id="1048:7335">
@@ -9,10 +13,15 @@
       <h2>Veja exemplos reais de quem já está tendo resultados com essa oportunidade:</h2>
     </header>
 
-    <ul class="provas__grid reveal" data-stagger aria-label="Espaços reservados para depoimentos">
-      <li aria-label="Depoimento 1 ainda não publicado"></li>
-      <li aria-label="Depoimento 2 ainda não publicado"></li>
-      <li aria-label="Depoimento 3 ainda não publicado"></li>
+    <ul class="provas__grid reveal" data-stagger aria-label="Depoimentos de clientes Hive">
+      {depoimentos.map(({ arquivo, titulo }) => (
+        <li>
+          <video controls playsinline preload="none" poster={`/videos/depoimentos/${arquivo}.jpg`} aria-label={titulo} width="720" height="1280">
+            <source src={`/videos/depoimentos/${arquivo}.mp4`} type="video/mp4" />
+            Seu navegador não suporta vídeo. <a href={`/videos/depoimentos/${arquivo}.mp4`}>Assistir ao depoimento</a>.
+          </video>
+        </li>
+      ))}
     </ul>
   </div>
 </section>
@@ -25,7 +34,9 @@
   .provas__cabecalho p { font-size: 34.448px; font-weight: 400; letter-spacing: -1.0334px; line-height: 38.582px; }
   .provas__cabecalho h2 { font-size: 70.583px; font-weight: 700; letter-spacing: -4.235px; line-height: 1.2; }
   .provas__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; width: 100%; margin-top: 50px; }
-  .provas__grid li { height: 672px; background: #d9d9d9; }
+  .provas__grid li { height: 672px; background: #0e0a15; overflow: hidden; border-radius: 20px; }
+  .provas__grid video { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .provas__grid video:focus-visible { outline: 3px solid #7f60fd; outline-offset: -3px; }
 
   @media (max-width: 72rem) {
     .provas__inner { padding-block: clamp(56px, 7vw, 80px); }
@@ -58,6 +69,6 @@
     }
 
     .provas__grid { grid-template-columns: 1fr; gap: 16px; margin-top: 40px; }
-    .provas__grid li { aspect-ratio: 4 / 5; }
+    .provas__grid li { aspect-ratio: 9 / 16; }
   }
 </style>
