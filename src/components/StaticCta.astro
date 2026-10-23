@@ -1,0 +1,27 @@
+---
+interface Props { iconSrc?: string; }
+const { iconSrc } = Astro.props;
+---
+<div class="static-cta">
+  <a href="#formulario-carta" class="static-cta__button">
+    Quero conhecer essa oportunidade
+    {iconSrc ? <img src={iconSrc} alt="" width="22" height="22" /> : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>}
+  </a>
+</div>
+
+<style>
+  .static-cta { display: flex; justify-content: center; width: 100%; padding: 40px 20px 80px; }
+  .static-cta__button {
+    display: inline-flex; align-items: center; justify-content: center; gap: 16px;
+    max-width: 100%; padding: 20px 30px; border-radius: 999px;
+    background: #7355e8; color: #fff; border: 1px solid rgba(255,255,255,.3);
+    font-size: 18px; line-height: 1.3; font-weight: 700; text-align: center; text-decoration: none;
+    box-shadow: 0 12px 28px -12px rgba(115,85,232,.45);
+  }
+  .static-cta__button svg { flex: none; }
+  .static-cta__button:hover { background: #6244d6; }
+  .static-cta__button:focus-visible { outline: 3px solid #c6b5ff; outline-offset: 4px; }
+  @media (max-width: 760px) {
+    .static-cta__button { font-size: 15px; padding: 18px 22px; gap: 10px; }
+  }
+</style>

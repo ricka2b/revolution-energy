@@ -1,0 +1,113 @@
+---
+import StaticCta from './StaticCta.astro';
+const etapas = ['Depois o segundo', 'Depois o quinto', 'Depois dez', 'Depois vinte'];
+---
+
+<section class="scenarios-static" id="doze-meses" data-node-id="1916:1936">
+  <div class="scenarios-static__inner">
+    <header class="scenarios-static__header">
+      <p>Eu quero que você faça um último exercício…</p>
+      <h2>Imagine que 12 meses se passaram.<br />E existem dois cenários:</h2>
+    </header>
+    <article class="scenarios-static__card scenarios-static__card--one">
+      <h3 class="scenarios-static__badge">Cenário 01</h3>
+      <p class="scenarios-static__unchanged"><strong>Nada mudou.</strong> Você continua procurando novas maneiras de aumentar sua renda.</p>
+      <div class="scenarios-static__tiles scenarios-static__tiles--one">
+        <p>Continua vendo oportunidades.</p>
+        <p>Continua esperando alguma coisa aparecer.</p>
+      </div>
+      <p class="scenarios-static__sources">Sua renda continua dependendo praticamente das mesmas fontes.</p>
+    </article>
+    <article class="scenarios-static__card scenarios-static__card--two">
+      <h3 class="scenarios-static__badge">Cenário 02</h3>
+      <div class="scenarios-static__started">
+        <h4>Você começou.</h4>
+        <p>Conquistou seu primeiro cliente.</p>
+      </div>
+      <div class="scenarios-static__tiles scenarios-static__tiles--two">
+        {etapas.map(etapa => <p>{etapa}</p>)}
+      </div>
+      <p class="scenarios-static__growth">Sua carteira <strong>começou pequena.</strong> Mas <strong>continuou crescendo.</strong></p>
+      <p class="scenarios-static__monthly"><strong>E mês após mês você continuou construindo.</strong></p>
+    </article>
+    <div class="scenarios-static__result">
+      <h2>Até que aquela decisão de conhecer uma<br />oportunidade começou a se transformar em:</h2>
+      <div class="scenarios-static__values">
+        <div>{['R$ 3 mil', 'R$ 5 mil', 'R$ 10 mil'].map(valor => <strong>{valor}</strong>)}</div>
+        <strong class="scenarios-static__total">Até mesmo R$ 15 mil</strong>
+      </div>
+      <div class="scenarios-static__closing">
+        <p>Tudo começa da mesma forma: <strong>Com o primeiro cliente.</strong></p>
+        <p>E o <strong>primeiro cliente</strong> só existe depois <strong>da primeira decisão.</strong></p>
+      </div>
+      <StaticCta iconSrc="/cenario-cta-arrow.svg" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .scenarios-static { background: #fff; color: var(--dark); padding: 80px 20px; }
+  .scenarios-static :is(h2, h3, h4) { font-weight: 700; }
+  .scenarios-static__inner { width: min(100%, 1040px); margin-inline: auto; display: flex; flex-direction: column; gap: 50px; container-type: inline-size; text-align: center; }
+  .scenarios-static__header { display: grid; gap: 20px; padding: 40px 24px; border-radius: 28px; background: #fff; box-shadow: 0 24px 30px rgba(14,10,21,.22), 0 4px 6px rgba(14,10,21,.04); }
+  .scenarios-static__header p { font-size: 28.814px; line-height: 32.272px; letter-spacing: -.4762px; }
+  .scenarios-static__header h2 { font-size: 44px; line-height: 47.52px; letter-spacing: -.9548px; }
+  .scenarios-static__card { display: flex; flex-direction: column; align-items: center; border: 1px solid rgba(255,255,255,.14); border-radius: 32px; color: #fff; box-shadow: 0 24px 25px rgba(14,10,21,.3); }
+  .scenarios-static__card--one { background: var(--dark); padding: 60px 50px; gap: 20px; }
+  .scenarios-static__card--two { background: #6e4dda; padding: 48px 56px; gap: 30px; }
+  .scenarios-static__badge { width: 330px; max-width: 100%; padding: 12px 10px; border: 1px solid rgba(255,255,255,.35); border-radius: 241px; font-size: 32px; line-height: 38.4px; letter-spacing: 4.2463px; text-transform: uppercase; }
+  .scenarios-static__card--two .scenarios-static__badge { color: var(--dark); background: #fff; }
+  .scenarios-static__unchanged { font-size: 51px; line-height: 1.1; letter-spacing: -2px; }
+  .scenarios-static__tiles { width: 100%; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .scenarios-static__tiles p { background: #fff; color: var(--dark); border-radius: 24px; font-weight: 700; letter-spacing: -1px; line-height: 40px; display: grid; place-items: center; }
+  .scenarios-static__tiles--one { gap: 20px; }
+  .scenarios-static__tiles--one p { padding: 25px 20px; font-size: 21px; text-box-trim: trim-both; text-box-edge: cap alphabetic; }
+  .scenarios-static__sources { font-size: 28px; line-height: 40px; letter-spacing: -.6737px; }
+  .scenarios-static__started { display: grid; gap: 15px; }
+  .scenarios-static__started h4 { font-size: 89.23px; line-height: 111.537px; letter-spacing: -1.8787px; text-box-trim: trim-both; text-box-edge: cap alphabetic; }
+  .scenarios-static__started p { font-size: 44.859px; line-height: 56.073px; letter-spacing: -.9445px; }
+  .scenarios-static__tiles--two { gap: 15px; }
+  .scenarios-static__tiles--two p { padding: 30px 20px; font-size: 32px; text-box-trim: trim-both; text-box-edge: cap alphabetic; }
+  .scenarios-static__growth, .scenarios-static__monthly { font-size: 32px; line-height: 40px; letter-spacing: -.6737px; }
+  .scenarios-static__result { display: grid; justify-items: center; gap: 20px; }
+  .scenarios-static__result h2 { font-size: 49.81px; line-height: 49.149px; letter-spacing: -1.1515px; }
+  .scenarios-static__values { width: min(100%,775px); display: grid; gap: 20px; }
+  .scenarios-static__values > div { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+  .scenarios-static__values strong { display: block; padding: 24px; border-radius: 24px; font-size: 28px; line-height: 44.8px; letter-spacing: -.4572px; color: var(--action); background: #f2f2ff; }
+  .scenarios-static__values > div > strong:nth-child(2) { background: #e4e3fe; }
+  .scenarios-static__values > div > strong:nth-child(3) { background: #d6d5fd; }
+  .scenarios-static__values > strong.scenarios-static__total {
+    width: 100%;
+    color: #fff;
+    background: #7355e8;
+  }
+  .scenarios-static__closing { display: grid; gap: 30px; }
+  .scenarios-static__closing p:first-child { color: #514b5e; font-size: 31.082px; line-height: 49.731px; letter-spacing: -.5309px; }
+  .scenarios-static__closing p:last-child { font-size: 40.368px; line-height: 46.423px; letter-spacing: -.8401px; }
+  .scenarios-static__result :global(.static-cta) { padding: 0; }
+  @media (max-width: 1080px) {
+    .scenarios-static__header h2 { font-size: clamp(24px,4.23cqw,44px); line-height: 1.08; }
+    .scenarios-static__header p { font-size: clamp(16px,2.77cqw,28.814px); line-height: 1.2; }
+    .scenarios-static__unchanged { font-size: clamp(24px,4.9cqw,51px); }
+    .scenarios-static__started h4 { font-size: clamp(38px,8.58cqw,89.23px); line-height: 1.25; }
+    .scenarios-static__started p { font-size: clamp(20px,4.31cqw,44.859px); line-height: 1.25; }
+    .scenarios-static__growth, .scenarios-static__monthly, .scenarios-static__tiles--two p { font-size: clamp(16px,3.07cqw,32px); line-height: 1.3; }
+    .scenarios-static__sources { font-size: clamp(16px,2.69cqw,28px); line-height: 1.4; }
+    .scenarios-static__tiles--one p { font-size: clamp(14px,2.02cqw,21px); line-height: 1.4; }
+    .scenarios-static__result h2 { font-size: clamp(26px,4.79cqw,49.81px); line-height: 1.1; }
+    .scenarios-static__closing p:first-child { font-size: clamp(18px,2.98cqw,31.082px); line-height: 1.4; }
+    .scenarios-static__closing p:last-child { font-size: clamp(22px,3.88cqw,40.368px); line-height: 1.3; }
+  }
+  @media (max-width: 600px) {
+    .scenarios-static { padding: 60px 20px; }
+    .scenarios-static__inner { gap: 32px; }
+    .scenarios-static__header { padding: 28px 18px; }
+    .scenarios-static__card--one, .scenarios-static__card--two { padding: 32px 20px; border-radius: 24px; gap: 24px; }
+    .scenarios-static__badge { width: 220px; font-size: 20px; line-height: 1.2; letter-spacing: 2px; }
+    .scenarios-static__unchanged { letter-spacing: -.6px; }
+    .scenarios-static__tiles { gap: 12px; }
+    .scenarios-static__tiles p { padding: 20px 10px; border-radius: 16px; letter-spacing: -.3px; }
+    .scenarios-static__values, .scenarios-static__values > div { gap: 10px; }
+    .scenarios-static__values strong { padding: 16px 6px; font-size: 18px; line-height: 1.4; border-radius: 16px; }
+  }
+</style>

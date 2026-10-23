@@ -2,6 +2,8 @@
 import contaIcon from "../assets/conta.svg?url";
 import iconHexAccount from "../assets/figma-section-6/icon-hex-account.svg?url";
 import iconPlusCircle from "../assets/figma-section-6/icon-plus-circle.svg?url";
+interface Props { staticContent?: boolean; }
+const { staticContent = false } = Astro.props;
 ---
 
 <section class="section section--dark numeros" id="numeros">
@@ -38,13 +40,14 @@ import iconPlusCircle from "../assets/figma-section-6/icon-plus-circle.svg?url";
             <div class="consumo-final" data-num-consumption>
               <p class="premissa__linha">E juntas essas contas representam aproximadamente:</p>
               <p class="premissa__valor">
-                <span data-num-counter>R$ 0 mil</span>
+                <span data-num-counter>{staticContent ? "R$ 15 mil" : "R$ 0 mil"}</span>
                 <span>em consumo mensal.</span>
               </p>
 
               <p class="aquisicao--palco" data-num-commission>
                 Em cima desse consumo você recebe <em>40% de comissão</em> já na aquisição desse novo cliente.
               </p>
+              {staticContent && <svg class="static-next-arrow" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 5v22M7 18l9 9 9-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>}
             </div>
           </div>
         </div>
@@ -56,11 +59,12 @@ import iconPlusCircle from "../assets/figma-section-6/icon-plus-circle.svg?url";
             Com esse volume, recebendo <em>40% de comissão</em> você pode alcançar até
           </p>
           <div class="s6-2__pill" data-s6-2-pill>
-            <p class="s6-2__pill-valor"><span data-s6-2-counter>R$ 0</span></p>
+            <p class="s6-2__pill-valor"><span data-s6-2-counter>{staticContent ? "R$ 6.000" : "R$ 0"}</span></p>
           </div>
           <p class="s6-2__legenda" data-s6-2-legenda>
             em <strong>comissão</strong> relacionada ao <strong>volume cadastrado.</strong>
           </p>
+          {staticContent && <svg class="static-next-arrow" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 5v22M7 18l9 9 9-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>}
         </div>
       </div>
 
@@ -83,7 +87,7 @@ import iconPlusCircle from "../assets/figma-section-6/icon-plus-circle.svg?url";
               }
             </div>
             <p class="s6-3__bonus-valor" data-s6-3-bonus-valor>
-              +<span data-s6-3-bonus-counter>R$ 0</span> de comissão.
+              +<span data-s6-3-bonus-counter>{staticContent ? "R$ 1.000" : "R$ 0"}</span> de comissão.
             </p>
           </div>
 
@@ -97,7 +101,7 @@ import iconPlusCircle from "../assets/figma-section-6/icon-plus-circle.svg?url";
               <div class="s6-3__coluna" data-s6-3-coluna="2">
                 <p>Resultando em</p>
                 <div class="s6-3__pill">
-                  +<span data-s6-3-bonus-total-counter>R$ 0</span>{" "}
+                  +<span data-s6-3-bonus-total-counter>{staticContent ? "R$ 4.000" : "R$ 0"}</span>{" "}
                   <span data-s6-3-em-bonus>em bônus</span>
                 </div>
               </div>
@@ -113,7 +117,7 @@ import iconPlusCircle from "../assets/figma-section-6/icon-plus-circle.svg?url";
           <div class="s6-4__group" data-s6-4-group>
             <div class="s6-4__cards" data-s6-4-cards>
               <div class="s6-4__card" data-s6-4-card="1">
-                <p class="s6-4__card-valor"><span data-s6-4-counter="6000">R$ 0</span></p>
+                <p class="s6-4__card-valor"><span data-s6-4-counter="6000">{staticContent ? "R$ 6.000" : "R$ 0"}</span></p>
                 <p class="s6-4__card-label" data-s6-4-card-label="1">
                   De comissão gerada pelo volume cadastrado
                 </p>
@@ -126,7 +130,7 @@ import iconPlusCircle from "../assets/figma-section-6/icon-plus-circle.svg?url";
                 data-s6-4-plus
               />
               <div class="s6-4__card" data-s6-4-card="2">
-                <p class="s6-4__card-valor"><span data-s6-4-counter="4000">R$ 0</span></p>
+                <p class="s6-4__card-valor"><span data-s6-4-counter="4000">{staticContent ? "R$ 4.000" : "R$ 0"}</span></p>
                 <p class="s6-4__card-label" data-s6-4-card-label="2">
                   De bônus extra das 10 contas
                 </p>
@@ -135,7 +139,7 @@ import iconPlusCircle from "../assets/figma-section-6/icon-plus-circle.svg?url";
 
             <div class="s6-4__total" data-s6-4-total>
               <p class="s6-4__total-valor" data-s6-4-total-valor>
-                <span data-s6-4-counter-total>R$ 0</span>
+                <span data-s6-4-counter-total>{staticContent ? "R$ 10.000" : "R$ 0"}</span>
               </p>
               <p class="s6-4__total-label" data-s6-4-total-label>
                 De <strong>comissões recebidas</strong> nesse ciclo.
@@ -146,6 +150,7 @@ import iconPlusCircle from "../assets/figma-section-6/icon-plus-circle.svg?url";
       </div>
     </div>
   </div>
+  <slot name="cta" />
 </section>
 
 <style>

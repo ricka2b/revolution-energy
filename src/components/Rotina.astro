@@ -1,5 +1,8 @@
 ---
 import chevron from "../assets/figma-section-11/chevron.svg";
+import Icon from './Icon.astro';
+interface Props { showCalendars?: boolean; }
+const { showCalendars = false } = Astro.props;
 
 const semana = [
   { dia: "Segunda", tarefa: "5 novos contatos." },
@@ -29,7 +32,7 @@ const etapas = ["Prospecção", "Apresentação", "Cadastro", "Acompanhamento"];
         </div>
       </header>
       <ol class="semana" data-stagger>
-        {semana.map((item) => <li><strong>{item.dia}</strong><span>{item.tarefa}</span></li>)}
+        {semana.map((item) => <li>{showCalendars && <Icon name="calendar" size={32} class="semana__calendar" />}<strong>{item.dia}</strong><span>{item.tarefa}</span></li>)}
       </ol>
     </div>
 
@@ -53,6 +56,7 @@ const etapas = ["Prospecção", "Apresentação", "Cadastro", "Acompanhamento"];
       <p class="ciclo__end">Depois você repete.</p>
     </div>
   </div>
+  <slot name="cta" />
 </section>
 
 <style>
