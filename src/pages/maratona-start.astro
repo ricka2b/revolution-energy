@@ -1,0 +1,112 @@
+---
+import Layout from "../layouts/Layout.astro";
+import logo from "../assets/maratona-start.svg?raw";
+import { FORM_ENDPOINT, LINKS } from "../site.config";
+import { ESTADOS, MARATONA_FORM_ID, MARATONA_GROUP_URL } from "../lib/maratona-start";
+
+const whiteLogo = logo.replaceAll('fill="black"', 'fill="white"');
+---
+
+<Layout title="Maratona Start | Hive" description="Entre na comunidade oficial da Maratona Start e acompanhe todas as novidades, informações e lembretes em tempo real." showAnnouncement={false} enableMotion={false}>
+  <main id="conteudo" class="start-page">
+    <div class="start-layout">
+      <h1 class="start-logo" aria-label="Maratona Start"><span aria-hidden="true" set:html={whiteLogo} /></h1>
+      <section class="start-card" aria-label="Inscrição na Maratona Start">
+        <form action={FORM_ENDPOINT} method="post" data-maratona-form data-endpoint={FORM_ENDPOINT} data-success-url={MARATONA_GROUP_URL}>
+          <input type="hidden" name="form_id" value={MARATONA_FORM_ID} />
+          <div class="field"><label for="start-nome">Nome</label><input id="start-nome" name="nome" autocomplete="name" placeholder="Seu nome completo" required maxlength="120" /></div>
+          <div class="field"><label for="start-email">E-mail</label><input id="start-email" name="email" type="email" autocomplete="email" placeholder="seuemail@exemplo.com" required maxlength="254" /></div>
+          <div class="field"><label for="start-phone">Telefone / WhatsApp</label><input id="start-phone" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(DDD) 99999-9999" required maxlength="22" aria-describedby="phone-hint" /><span id="phone-hint" class="hint">Informe seu número com DDD.</span></div>
+          <div class="field"><label for="start-estado">Estado</label><select id="start-estado" name="estado" autocomplete="address-level1" required><option value="" disabled selected>Selecione seu estado</option>{ESTADOS.map(([uf, name]) => <option value={uf}>{name} ({uf})</option>)}</select></div>
+          <div class="consent"><input id="start-consent" name="consent" type="checkbox" required /><label for="start-consent">Autorizo o contato e o tratamento dos meus dados conforme a <a href={LINKS.privacidade} target="_blank" rel="noopener">política de privacidade</a>.</label></div>
+          <button type="submit"><span data-button-label>Entrar na comunidade</span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg></button>
+          <p class="form-status" data-status role="status" aria-live="polite"></p>
+          <noscript><p>Ative o JavaScript no navegador para enviar seu cadastro.</p></noscript>
+        </form>
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .start-page { min-height: 100svh; padding: 56px 28px; display: grid; place-items: center; background: radial-gradient(ellipse at 0% 20%, #271843 0, transparent 55%), #0e0a15; color: white; }
+  .start-layout { width: min(100%, 440px); display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 32px; }
+  .start-logo { width: min(80%, 300px); margin: 0; }
+  .start-logo :global(svg) { width: 100%; height: auto; }
+  .start-card { width: 100%; background: #fff; color: #0e0a15; padding: 36px; border: 1px solid #ece7f6; border-radius: 28px; box-shadow: 0 24px 80px #0004; }
+  form { display: grid; gap: 16px; }
+  .field { display: grid; gap: 7px; min-width: 0; }
+  .field label { font-size: 13px; font-weight: 600; }
+  .field input, .field select { width: 100%; min-width: 0; min-height: 50px; border: 1px solid #ded9e7; border-radius: 10px; padding: 12px 14px; background: #f8f7fa; color: #241d30; font-size: 16px; line-height: 1.4; }
+  .field input::placeholder, select:invalid { color: #787080; }
+  .field input:focus-visible, .field select:focus-visible, button:focus-visible, .consent a:focus-visible { outline: 3px solid #c6b5ff; outline-offset: 3px; border-color: #7355e8; }
+  .hint { font-size: 11px; color: #655e70; }
+  .consent { display: flex; gap: 10px; align-items: flex-start; margin-top: 2px; }
+  .consent input { flex: none; width: 18px; height: 18px; margin-top: 2px; accent-color: #7355e8; }
+  .consent label { font-size: 12px; line-height: 1.5; color: #655e70; }
+  .consent a { color: #6244d6; text-decoration: underline; text-underline-offset: 2px; }
+  button { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 54px; padding: 14px; border: 0; border-radius: 12px; background: #7355e8; color: #fff; font-size: 15px; font-weight: 600; cursor: pointer; transition: background .2s; }
+  button:hover { background: #6244d6; }
+  button:disabled { opacity: .7; cursor: wait; }
+  .form-status { font-size: 13px; line-height: 1.5; color: #655e70; }
+  .form-status:empty { display: none; }
+  .form-status[data-state="error"] { color: #a32929; }
+  @media (max-width: 760px) {
+    .start-page { padding: 32px 20px 40px; }
+    .start-layout { gap: 28px; }
+    .start-logo { max-width: 250px; }
+    .start-card { padding: 28px 24px; border-radius: 22px; }
+  }
+  @media (max-width: 360px) { .start-page { padding-inline: 16px; } .start-card { padding-inline: 20px; } button { font-size: 14px; gap: 8px; } }
+  @media (prefers-reduced-motion: reduce) { button { transition: none; } }
+</style>
+
+<script>
+  import { buildMaratonaPayload, normalizePhone, sendMaratonaLead, MARATONA_FORM_ID } from "../lib/maratona-start";
+  const form = document.querySelector<HTMLFormElement>("[data-maratona-form]");
+  if (form) {
+    const phone = form.querySelector<HTMLInputElement>('[name="whatsapp"]')!;
+    const name = form.querySelector<HTMLInputElement>('[name="nome"]')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const buttonLabel = form.querySelector<HTMLElement>("[data-button-label]")!;
+    const status = form.querySelector<HTMLElement>("[data-status]")!;
+    phone.addEventListener("input", () => phone.setCustomValidity(""));
+    name.addEventListener("input", () => name.setCustomValidity(""));
+    let submitting = false;
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (submitting) return;
+      name.setCustomValidity(name.value.trim() ? "" : "Insira seu nome.");
+      phone.setCustomValidity(normalizePhone(phone.value) ? "" : "Informe um telefone válido com DDD.");
+      if (!form.reportValidity()) return;
+      submitting = true;
+      button.disabled = true;
+      button.setAttribute("aria-busy", "true");
+      buttonLabel.textContent = "Enviando…";
+      status.dataset.state = "loading";
+      status.textContent = "Enviando seus dados…";
+      try {
+        const payload = buildMaratonaPayload(new FormData(form), location.href, document.referrer);
+        await sendMaratonaLead(form.dataset.endpoint!, payload);
+        status.textContent = "Cadastro recebido! Abrindo o grupo no WhatsApp…";
+        let redirected = false;
+        const redirect = () => {
+          if (redirected) return;
+          redirected = true;
+          location.assign(form.dataset.successUrl!);
+        };
+        const trackingWindow = window as typeof window & { dataLayer?: unknown[] };
+        trackingWindow.dataLayer = trackingWindow.dataLayer || [];
+        trackingWindow.dataLayer.push({ event: "FormSubmit", form_id: MARATONA_FORM_ID, eventCallback: redirect, eventTimeout: 1200 });
+        window.setTimeout(redirect, 1400);
+      } catch {
+        submitting = false;
+        button.disabled = false;
+        button.removeAttribute("aria-busy");
+        buttonLabel.textContent = "Tentar novamente";
+        status.dataset.state = "error";
+        status.textContent = "Não foi possível confirmar seu cadastro. Verifique sua conexão e tente novamente.";
+      }
+    });
+  }
+</script>
