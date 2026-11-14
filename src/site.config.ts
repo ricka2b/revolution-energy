@@ -8,9 +8,9 @@
 /** Âncora do formulário de aplicação. Todos os CTAs apontam para cá. */
 export const CTA_ANCHOR = "#aplicacao";
 
-/** Webhook do cenário Make que recebe os leads da landing. */
+/** Webhook do n8n que recebe os leads da landing. */
 export const FORM_ENDPOINT =
-  "https://hook.us2.make.com/s71v7yvwjbbaau8nfsb96le1lihxc9q8";
+  "https://n8n.a2baceleradora.com.br/webhook/campanha-energy-1b2144af2a9f60e648344798a972f87b";
 
 /** Web App do Google Apps Script usado somente pela confirmação do evento. */
 export const CONFIRMATION_FORM_ENDPOINT =
