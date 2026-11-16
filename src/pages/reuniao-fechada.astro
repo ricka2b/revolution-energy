@@ -1,0 +1,126 @@
+---
+import Layout from "../layouts/Layout.astro";
+import logo from "../assets/hive-logo.svg";
+import { LINKS } from "../site.config";
+import { REUNIAO_FORM_ID, REUNIAO_FORM_ENDPOINT, REUNIAO_SUCCESS_URL } from "../lib/reuniao-fechada";
+---
+
+<Layout title="Reunião Fechada - Rafael Cheik | Hive" description="Cadastre-se para a Reunião Fechada com Rafael Cheik." showAnnouncement={false} enableMotion={false}>
+  <main id="conteudo" class="meeting-page">
+    <div class="meeting-layout">
+      <header class="meeting-heading">
+        <img class="hive-logo" src={logo.src} alt="Hive" width="628" height="195" />
+        <h1>Reunião Fechada</h1>
+        <p>Rafael Cheik</p>
+      </header>
+      <section class="meeting-card" aria-label="Inscrição na Reunião Fechada">
+        <form action={REUNIAO_FORM_ENDPOINT} method="post" data-reuniao-form data-endpoint={REUNIAO_FORM_ENDPOINT} data-success-url={REUNIAO_SUCCESS_URL}>
+          <input type="hidden" name="form_id" value={REUNIAO_FORM_ID} />
+          <div class="field"><label for="reuniao-nome">Nome</label><input id="reuniao-nome" name="nome" autocomplete="name" placeholder="Seu nome completo" required maxlength="120" /></div>
+          <div class="field"><label for="reuniao-email">E-mail</label><input id="reuniao-email" name="email" type="email" autocomplete="email" placeholder="seuemail@exemplo.com" required maxlength="254" /></div>
+          <div class="field"><label for="reuniao-phone">Telefone</label><input id="reuniao-phone" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(DDD) 99999-9999" required maxlength="22" aria-describedby="phone-hint" /><span id="phone-hint" class="hint">Informe seu número com DDD.</span></div>
+          <div class="consent"><input id="reuniao-consent" name="consent" type="checkbox" required /><label for="reuniao-consent">Autorizo o contato e o tratamento dos meus dados conforme a <a href={LINKS.privacidade} target="_blank" rel="noopener">política de privacidade</a>.</label></div>
+          <button type="submit"><span data-button-label>Quero participar</span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg></button>
+          <p class="form-status" data-status role="status" aria-live="polite"></p>
+          <noscript><p>Ative o JavaScript no navegador para confirmar seu cadastro.</p></noscript>
+        </form>
+        <div class="success" data-success hidden tabindex="-1">
+          <span class="success-icon" aria-hidden="true">✓</span>
+          <h2>Cadastro Concluído.</h2>
+          <p>Enviaremos o link da Reunião Fechada com o Rafael Cheik no seu e-mail.</p>
+          <p>Confira sua caixa de entrada.</p>
+          {REUNIAO_SUCCESS_URL && <a href={REUNIAO_SUCCESS_URL}>Continuar <span aria-hidden="true">→</span></a>}
+        </div>
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .meeting-page { min-height: 100svh; padding: 48px 28px; display: grid; place-items: center; background: radial-gradient(ellipse at 0% 20%, #271843 0, transparent 55%), #0e0a15; color: #fff; }
+  .meeting-layout { width: min(100%, 440px); display: grid; gap: 32px; }
+  .meeting-heading { display: grid; justify-items: center; gap: 10px; text-align: center; }
+  .hive-logo { width: 100px; height: auto; margin-bottom: 12px; filter: brightness(0) invert(1); }
+  h1 { margin: 0; font-size: clamp(30px, 7.5vw, 40px); font-weight: 700; line-height: 1.12; letter-spacing: -.04em; }
+  .meeting-heading p { font-size: 22px; line-height: 1.3; color: #c6b5ff; letter-spacing: -.02em; }
+  .meeting-card { width: 100%; min-width: 0; background: #fff; color: #0e0a15; padding: 36px; border: 1px solid #ece7f6; border-radius: 28px; box-shadow: 0 24px 80px #0004; }
+  form { display: grid; gap: 18px; }
+  .field { display: grid; gap: 7px; min-width: 0; }
+  .field label { font-size: 13px; font-weight: 600; }
+  .field input { width: 100%; min-width: 0; min-height: 50px; border: 1px solid #ded9e7; border-radius: 10px; padding: 12px 14px; background: #f8f7fa; color: #241d30; font-size: 16px; line-height: 1.4; }
+  .field input::placeholder { color: #787080; }
+  input:focus-visible, button:focus-visible, a:focus-visible, .success:focus-visible { outline: 3px solid #c6b5ff; outline-offset: 3px; border-color: #7355e8; }
+  .hint { font-size: 11px; color: #655e70; }
+  .consent { display: flex; gap: 10px; align-items: flex-start; margin-top: 2px; }
+  .consent input { flex: none; width: 18px; height: 18px; margin-top: 2px; accent-color: #7355e8; }
+  .consent label { font-size: 12px; line-height: 1.5; color: #655e70; }
+  .consent a { color: #6244d6; text-decoration: underline; text-underline-offset: 2px; }
+  button, .success a { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 54px; padding: 14px; border: 0; border-radius: 12px; background: #7355e8; color: #fff; font-size: 15px; font-weight: 600; cursor: pointer; transition: background .2s; }
+  button:hover, .success a:hover { background: #6244d6; }
+  button:disabled { opacity: .7; cursor: wait; }
+  .form-status { font-size: 13px; line-height: 1.5; color: #655e70; }
+  .form-status:empty { display: none; }
+  .form-status[data-state="error"] { color: #a32929; }
+  .success { display: grid; gap: 20px; text-align: center; padding-block: 20px; }
+  [hidden] { display: none !important; }
+  .success-icon { display: grid; place-items: center; justify-self: center; width: 60px; height: 60px; border-radius: 50%; background: #eee9ff; color: #7355e8; font-size: 30px; }
+  .success h2 { font-size: 28px; line-height: 1.15; letter-spacing: -.03em; }
+  .success p { color: #655e70; font-size: 16px; line-height: 1.5; }
+  @media (max-width: 760px) { .meeting-page { padding: 32px 20px 40px; } .meeting-layout { gap: 28px; } .meeting-card { padding: 28px 24px; border-radius: 22px; } }
+  @media (max-width: 360px) { .meeting-page { padding-inline: 16px; } .meeting-card { padding-inline: 20px; } }
+  @media (prefers-reduced-motion: reduce) { button, .success a { transition: none; } }
+</style>
+
+<script>
+  import { normalizePhone } from "../lib/maratona-start";
+  import { buildReuniaoPayload, sendReuniaoLead, REUNIAO_FORM_ID } from "../lib/reuniao-fechada";
+  const form = document.querySelector<HTMLFormElement>("[data-reuniao-form]");
+  if (form) {
+    const phone = form.querySelector<HTMLInputElement>('[name="whatsapp"]')!;
+    const name = form.querySelector<HTMLInputElement>('[name="nome"]')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const label = form.querySelector<HTMLElement>("[data-button-label]")!;
+    const status = form.querySelector<HTMLElement>("[data-status]")!;
+    const success = document.querySelector<HTMLElement>("[data-success]")!;
+    phone.addEventListener("input", () => phone.setCustomValidity(""));
+    name.addEventListener("input", () => name.setCustomValidity(""));
+    let submitting = false;
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (submitting) return;
+      name.setCustomValidity(name.value.trim() ? "" : "Insira seu nome.");
+      phone.setCustomValidity(normalizePhone(phone.value) ? "" : "Informe um telefone válido com DDD.");
+      if (!form.reportValidity()) return;
+      submitting = true;
+      button.disabled = true;
+      button.setAttribute("aria-busy", "true");
+      label.textContent = "Enviando…";
+      status.dataset.state = "loading";
+      status.textContent = "Enviando seus dados…";
+      try {
+        await sendReuniaoLead(form.dataset.endpoint!, buildReuniaoPayload(new FormData(form), location.href, document.referrer));
+        form.hidden = true;
+        success.hidden = false;
+        success.focus();
+        const destination = form.dataset.successUrl;
+        let redirected = false;
+        const redirect = () => {
+          if (redirected || !destination) return;
+          redirected = true;
+          location.assign(destination);
+        };
+        const trackingWindow = window as typeof window & { dataLayer?: unknown[] };
+        trackingWindow.dataLayer = trackingWindow.dataLayer || [];
+        trackingWindow.dataLayer.push({ event: "FormSubmit", form_id: REUNIAO_FORM_ID, eventCallback: redirect, eventTimeout: 1200 });
+        if (destination) window.setTimeout(redirect, 1400);
+      } catch {
+        submitting = false;
+        button.disabled = false;
+        button.removeAttribute("aria-busy");
+        label.textContent = "Tentar novamente";
+        status.dataset.state = "error";
+        status.textContent = "Não foi possível confirmar seu cadastro. Verifique sua conexão e tente novamente.";
+      }
+    });
+  }
+</script>

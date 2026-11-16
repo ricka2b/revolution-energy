@@ -1,0 +1,32 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import logo from "../../assets/hive-logo.svg";
+---
+
+<Layout title="Cadastro Concluído | Reunião Fechada - Rafael Cheik" description="Confira seu e-mail para receber o link da Reunião Fechada com Rafael Cheik." robots="noindex, follow" showAnnouncement={false} enableMotion={false}>
+  <main id="conteudo" class="meeting-thanks">
+    <div class="meeting-content">
+      <img class="hive-logo" src={logo.src} alt="Hive" width="628" height="195" />
+      <section class="thanks-card" aria-labelledby="thanks-title">
+        <span class="success-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6" /></svg>
+        </span>
+        <h1 id="thanks-title">Cadastro Concluído.</h1>
+        <p>Enviaremos o link da Reunião Fechada com o Rafael Cheik no seu e-mail.</p>
+        <p class="reminder">Confira sua caixa de entrada.</p>
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .meeting-thanks { min-height: 100svh; padding: 48px 20px; display: grid; place-items: center; background: radial-gradient(ellipse at 0% 20%, #271843 0, transparent 55%), #0e0a15; }
+  .meeting-content { width: min(100%, 560px); display: grid; justify-items: center; gap: 32px; }
+  .hive-logo { width: 100px; height: auto; filter: brightness(0) invert(1); }
+  .thanks-card { width: 100%; padding: 48px 40px; display: grid; justify-items: center; gap: 24px; border: 1px solid #ece7f6; border-radius: 28px; background: #fff; color: #0e0a15; box-shadow: 0 24px 80px #0004; text-align: center; }
+  .success-icon { width: 64px; height: 64px; display: grid; place-items: center; border-radius: 50%; background: #eee9ff; color: #7355e8; }
+  h1 { margin: 0; font-size: clamp(28px, 7vw, 36px); font-weight: 700; line-height: 1.15; letter-spacing: -.04em; }
+  p { margin: 0; color: #655e70; font-size: 18px; line-height: 1.5; }
+  .reminder { color: #6244d6; font-weight: 600; }
+  @media (max-width: 600px) { .thanks-card { padding: 32px 24px; border-radius: 22px; } p { font-size: 16px; } }
+</style>
