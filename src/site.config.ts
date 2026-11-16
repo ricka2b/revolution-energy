@@ -8,9 +8,13 @@
 /** Âncora do formulário de aplicação. Todos os CTAs apontam para cá. */
 export const CTA_ANCHOR = "#aplicacao";
 
-/** Webhook do n8n que recebe os leads da landing. */
+/** Webhook do n8n que recebe os leads da bio e da Maratona Start. */
 export const FORM_ENDPOINT =
   "https://n8n.a2baceleradora.com.br/webhook/campanha-energy-1b2144af2a9f60e648344798a972f87b";
+
+/** Webhook exclusivo da carta de vendas, nas versões principal e estática. */
+export const SALES_LETTER_FORM_ENDPOINT =
+  "https://uraumxiqidvtfrwucwey.supabase.co/functions/v1/webhook-lead-carta";
 
 /** Web App do Google Apps Script usado somente pela confirmação do evento. */
 export const CONFIRMATION_FORM_ENDPOINT =

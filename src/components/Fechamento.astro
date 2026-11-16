@@ -1,5 +1,5 @@
 ---
-import { FORM_ENDPOINT, FORM_METHOD, FORM_SUCCESS_PATH, LINKS } from "../site.config";
+import { SALES_LETTER_FORM_ENDPOINT, FORM_METHOD, FORM_SUCCESS_PATH, LINKS } from "../site.config";
 import check1 from "../assets/figma-section-15/check-1.svg";
 import check2 from "../assets/figma-section-15/check-2.svg";
 import check3 from "../assets/figma-section-15/check-3.svg";
@@ -13,7 +13,7 @@ const fatos = [
   { texto: "O consumo já existe.", icon: check3 },
   { texto: "A conta já existe.", icon: check4 },
 ];
-const formAtivo = FORM_ENDPOINT !== "";
+const formAtivo = SALES_LETTER_FORM_ENDPOINT !== "";
 ---
 
 <section class="fechamento" id="aplicacao" data-node-id="1048:8047">
@@ -39,10 +39,10 @@ const formAtivo = FORM_ENDPOINT !== "";
       <div class="form-wrap reveal" id="formulario-carta">
         <h3>Preencha o formulário e <br />descubra como começar como <br />Consultor de Energia Hive.</h3>
         <form
-          action={formAtivo ? FORM_ENDPOINT : undefined}
+          action={formAtivo ? SALES_LETTER_FORM_ENDPOINT : undefined}
           method={formAtivo ? FORM_METHOD : undefined}
           data-lead-form
-          data-endpoint={FORM_ENDPOINT}
+          data-endpoint={SALES_LETTER_FORM_ENDPOINT}
           data-success-path={FORM_SUCCESS_PATH}
         >
           <input type="hidden" name="form_id" value="hive_energy_landing" />
@@ -55,7 +55,7 @@ const formAtivo = FORM_ENDPOINT !== "";
           </div>
           <button type="submit" disabled={!formAtivo}>Quero conhecer essa oportunidade <img src={arrowRight.src} alt="" /></button>
           <p class="form-status" data-form-status role="status" aria-live="polite"></p>
-          {!formAtivo && <p class="pendente">Formulário em modo demonstração: configure <code>FORM_ENDPOINT</code> em <code>src/site.config.ts</code> para ativar o envio.</p>}
+          {!formAtivo && <p class="pendente">Formulário em modo demonstração: configure <code>SALES_LETTER_FORM_ENDPOINT</code> em <code>src/site.config.ts</code> para ativar o envio.</p>}
         </form>
       </div>
     </div>
