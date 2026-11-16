@@ -14,7 +14,7 @@ export const FORM_ENDPOINT =
 
 /** Webhook exclusivo da carta de vendas, nas versões principal e estática. */
 export const SALES_LETTER_FORM_ENDPOINT =
-  "https://uraumxiqidvtfrwucwey.supabase.co/functions/v1/webhook-lead-carta";
+  "https://uraumxiqidvtfrwucwey.supabase.co/functions/v1/webhook-lead-carta?token=e0f2f562fe4fa6655d9f62964e78f5aaf291b3e414b3c109";
 
 /** Web App do Google Apps Script usado somente pela confirmação do evento. */
 export const CONFIRMATION_FORM_ENDPOINT =
