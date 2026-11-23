@@ -1,0 +1,185 @@
+---
+import { Font } from 'astro:assets';
+import logo from '../assets/hive-logo.svg';
+import hero from '../assets/hive-hero.jpg';
+import heroVideo from '../assets/hero-landing-optimized.webm';
+import solar from '../assets/sec3-1.webp';
+import consultant from '../assets/hive-consultor-figma.png';
+import '../styles/hive-nova.css';
+const cta = '/formulario/';
+const steps = [
+  ['phone','Você conecta pessoas','Comece pelas pessoas e empresas que já fazem parte da sua rotina. Apresente a possibilidade de economizar na conta de energia.'],
+  ['wallet','Constrói sua carteira','Cadastre as contas elegíveis e acompanhe os clientes. Cada novo cadastro é mais um passo na construção do seu negócio.'],
+  ['refresh','Desenvolve recorrência','Enquanto o cliente utiliza energia com desconto, você pode continuar recebendo comissões conforme as regras da oportunidade.'],
+];
+const benefits = [
+  ['sun','Sem instalar placas','A energia vem de fazendas solares e chega pela rede da distribuidora. O cliente continua usando energia normalmente.'],
+  ['wallet','Um benefício real','Sua conversa começa com uma necessidade que já existe: pagar menos por uma despesa mensal.'],
+  ['refresh','Uma carteira que cresce','Seu trabalho não termina em uma venda isolada. Você constrói relacionamentos e uma base de clientes.'],
+  ['phone','Comece pelo celular','Seus primeiros contatos podem estar na sua agenda: uma loja, um restaurante, uma empresa ou uma casa.'],
+  ['check','Um processo para aprender','Você não precisa ser engenheiro nem dominar o mercado energético para conhecer a oportunidade.'],
+  ['users','Acompanhamento no caminho','Método, ferramentas e orientação de pessoas que já conhecem o processo para apoiar sua execução.'],
+];
+const faqs = [
+ ['Preciso entender de energia para começar?','Você não precisa ser engenheiro ou entender de instalação solar. Existe um processo para ensinar você a apresentar o benefício, cadastrar contas e acompanhar clientes.'],
+ ['O cliente precisa instalar placas solares?','Não. A energia é gerada em fazendas solares e injetada na rede da distribuidora. O cliente continua recebendo energia normalmente, sem instalar equipamentos no imóvel.'],
+ ['Dá para conciliar com meu trabalho?','Você pode começar construindo uma rotina de contatos, apresentações e acompanhamento. O importante é reservar tempo para executar o processo com consistência.'],
+ ['Onde encontro meus primeiros clientes?','Comece pelas pessoas e empresas que você conhece e que já pagam conta de energia. Sua própria agenda pode ser o primeiro passo.'],
+ ['Todas as contas podem ser cadastradas?','A conta precisa atender aos critérios de elegibilidade e à área atendida. A equipe explica as condições e orienta a análise antes do cadastro.'],
+ ['Quanto posso ganhar?','O resultado depende dos clientes cadastrados, do volume elegível, das regras de comissionamento e da sua execução. Não existe promessa de renda; a equipe apresenta as condições para você avaliar.'],
+ ['Como faço para conhecer a oportunidade?','Clique em “Quero conhecer a oportunidade”, preencha seus dados e aguarde o contato da equipe Hive para entender os próximos passos.'],
+];
+const paths: Record<string,string> = {
+ sun:'M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5',
+ phone:'M8 2h8a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm3 16h2',
+ wallet:'M4 7V5a2 2 0 0 1 2-2h12v4M4 7h16v14H4V7Zm16 5h-5v5h5',
+ refresh:'M3 11a9 9 0 0 1 15-6l3 3m0-5v5h-5M21 13a9 9 0 0 1-15 6l-3-3m0 5v-5h5',
+ users:'M2 21v-3a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v3m1-19a4 4 0 0 1 0 8m1 3a5 5 0 0 1 4 5v3',
+ check:'m7 12 3 3 7-7',
+};
+---
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Construa sua carteira de clientes | Hive Energy</title>
+  <meta name="description" content="Conheça a oportunidade de ser Consultor de Energia Hive. Conecte pessoas à economia na conta de luz e construa uma carteira de clientes." />
+  <meta name="theme-color" content="#15102d" /><meta name="robots" content="noindex,nofollow" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <Font cssVariable="--font-inter" preload={[{subset:'latin'}]} />
+</head>
+<body>
+<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+{Object.entries(paths).map(([id,path]) => <symbol id={`h-${id}`} viewBox="0 0 24 24"><path d={path}/>{id==='sun'&&<circle cx="12" cy="12" r="4"/>}{id==='users'&&<circle cx="9" cy="6" r="4"/>}{id==='check'&&<circle cx="12" cy="12" r="10"/>}</symbol>)}
+</svg>
+<main id="conteudo">
+<section class="hero">
+  <video class="hero__video" src={heroVideo} poster={hero.src} autoplay muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1"></video><div class="hero__shade"></div>
+  <div class="wrap"><div class="hero__copy">
+    <span class="pill"><svg class="ic"><use href="#h-sun"/></svg> Consultor de Energia Hive</span>
+    <h1 class="hero__headline"><span>Construa sua renda</span> <span class="grad">com algo que todo</span> <span class="grad">mundo já paga.</span></h1>
+    <p class="hero__lead">A conta de energia chega todos os meses. Como <strong>Consultor de Energia Hive</strong>, você conecta pessoas à economia e constrói uma carteira que pode gerar <strong>comissões recorrentes</strong>. Sem instalar placa solar. Sem precisar entender de energia. Apenas oferecendo um benefício real.</p>
+    <div class="ctas"><a class="cta" href={cta}>Quero conhecer a oportunidade</a><a href="#como-funciona" class="ghost">Ver como funciona</a></div>
+  </div></div>
+</section>
+<section class="sec" id="como-funciona" style="padding-top:24px"><div class="wrap">
+  <header class="head head--c reveal"><span class="eyebrow">Entenda a oportunidade</span><h2>Energia que chega todo mês. <span class="grad">Uma nova forma de participar.</span></h2><p>O cliente continua recebendo energia normalmente. Você apresenta uma solução que pode reduzir uma despesa que ele já possui.</p></header>
+  <div class="photo-story reveal"><img src={solar.src} alt="Fazenda de energia solar" width="640" height="480" loading="lazy"/><div><h3>A energia vem de fazendas solares.</h3><p>Essa produção é injetada diretamente na rede da distribuidora. O consumidor não precisa fazer obra, comprar equipamentos ou mudar a forma como utiliza energia.</p><p>Você entra conectando essa oportunidade às pessoas e empresas.</p><div class="ctas"><a class="cta" href={cta}>Quero entender o processo</a></div></div></div>
+</div></section>
+<section class="sec"><div class="wrap">
+  <header class="head reveal"><span class="eyebrow">Uma estrutura para começar</span><h2>Você não precisa <span class="grad">descobrir tudo sozinho.</span></h2><p>Existe um processo para ensinar você. Seu trabalho é aprender, aplicar e repetir.</p></header>
+  <div class="kpis reveal">{[['Método','Um processo para organizar sua execução.'],['Ferramentas','Recursos para apresentar a oportunidade.'],['Apoio','Orientação de quem conhece o caminho.'],['Rotina','Consistência para construir sua carteira.']].map(([a,b])=><div class="kpi"><strong>{a}</strong><span>{b}</span></div>)}</div>
+</div></section>
+<section class="sec" style="padding-top:24px"><div class="wrap">
+  <header class="head head--consultant reveal"><span class="eyebrow">O seu papel nessa oportunidade</span><h2>Você se torna um <span class="grad">Consultor de Energia.</span></h2></header>
+  <div class="about glass reveal"><div class="about__photo"><img src={consultant.src} alt="Consultor de energia com os braços cruzados, em fundo branco e roxo" width={consultant.width} height={consultant.height} loading="lazy"/><div class="badge"><div><strong>Rafael Cheik</strong><span>+1 milhão de dólares de faturamento no marketing de rede</span></div></div></div><div><h3>Um benefício que faz sentido.</h3><p>Você não precisa criar um novo desejo de consumo ou produto. A conta de energia já existe. A necessidade já existe.</p><p>Seu trabalho é aprender a identificar contas elegíveis, apresentar a possibilidade de economia, realizar o cadastro e acompanhar seus clientes.</p><blockquote>O dinheiro está na construção da carteira.</blockquote><div class="stats">{[['Prospecção','Converse com pessoas.'],['Apresentação','Mostre o benefício.'],['Acompanhamento','Cultive sua carteira.']].map(([a,b])=><div class="stat"><strong>{a}</strong><span>{b}</span></div>)}</div></div></div>
+</div></section>
+<section class="sec"><div class="wrap">
+  <header class="head reveal"><span class="eyebrow">Como funciona</span><h2>Três movimentos. <span class="grad">Um processo para seguir.</span></h2></header>
+  <div class="grid g3">{steps.map(([icon,title,copy])=><article class="card glass reveal"><svg class="ic ic--lg"><use href={`#h-${icon}`}/></svg><h3>{title}</h3><p>{copy}</p></article>)}</div>
+</div></section>
+<section class="sec"><div class="wrap">
+  <header class="head head--c reveal"><span class="eyebrow">O que você oferece</span><h2 class="benefits-title"><span>Economia para quem consome.</span><span class="grad">Oportunidade para quem conecta.</span></h2><p>Você mostra como pagar menos por algo que a pessoa já utiliza todos os dias.</p></header>
+  <div class="grid g2"><article class="prod glass reveal"><div class="benefit-icon" data-animation="/icons/hive-nova/economia.json" aria-hidden="true"><svg class="ic benefit-icon__fallback"><use href="#h-wallet"/></svg></div><span class="prod__tag">Para o cliente</span><h3>Energia com desconto.</h3><p>A rotina continua a mesma: a energia chega pela distribuidora, sem placas no telhado e sem obra no imóvel.</p></article><article class="prod glass reveal"><div class="benefit-icon" data-animation="/icons/hive-nova/clientes.json" aria-hidden="true"><svg class="ic benefit-icon__fallback"><use href="#h-users"/></svg></div><span class="prod__tag">Para você</span><h3>Uma carteira de clientes.</h3><p>Conquiste seu primeiro cliente. Depois o segundo. Desenvolva uma rotina de contatos e construa a sua base ao longo do tempo.</p></article></div>
+</div></section>
+<section class="sec"><div class="wrap">
+  <header class="head reveal"><span class="eyebrow">Por que essa oportunidade faz sentido</span><h2>Você conecta pessoas. <span class="grad">O benefício abre a conversa.</span></h2></header>
+  <div class="grid g3">{benefits.map(([icon,title,copy])=><article class="card glass reveal"><svg class="ic ic--lg"><use href={`#h-${icon}`}/></svg><h3>{title}</h3><p>{copy}</p></article>)}</div>
+</div></section>
+<section class="sec"><div class="wrap"><div class="recur glass reveal"><div><span class="eyebrow">A renda recorrente</span><h2 class="recur__title">Existe um segundo lado<br /><span class="grad">dessa oportunidade.</span></h2><p class="recur__lead">Imagine que você conquistou um cliente este mês. No próximo, ele continua usando energia. No outro também. Enquanto esse cliente utiliza a energia com desconto, você pode continuar recebendo comissões.</p></div><div class="recur__num"><strong>Sua carteira</strong><span>Você deixa de pensar apenas no mês e começa a construir uma base para os próximos.</span></div></div><p class="fine">As comissões dependem das condições do programa e da permanência dos clientes. Resultados não são garantidos.</p></div></section>
+<section class="sec"><div class="wrap">
+  <header class="head reveal"><span class="eyebrow">Uma rotina possível</span><h2>Não precisa falar com <span class="grad">500 pessoas amanhã.</span></h2><p>Comece com uma rotina que você consiga repetir. Este é um exemplo de como organizar a sua semana.</p></header>
+  <div class="timeline">{[['Segunda','Novos contatos','Converse com cinco pessoas da sua agenda.'],['Terça','Apresentações','Apresente o benefício para quem demonstrou interesse.'],['Quarta','Acompanhamento','Retome conversas e esclareça as dúvidas.'],['Quinta','Novos contatos','Amplie sua lista e inicie novas conversas.'],['Sexta','Cadastros','Organize as contas e acompanhe os próximos passos.']].map(([day,title,copy])=><article class="tl glass reveal"><span class="tl__when">{day}</span><h3>{title}</h3><p>{copy}</p></article>)}</div>
+  <div class="section-cta"><a class="cta" href={cta}>Quero conhecer essa oportunidade</a></div>
+</div></section>
+<section class="sec" id="depoimentos"><div class="wrap">
+  <header class="head head--c reveal"><span class="eyebrow">Pessoas reais, experiências reais</span><h2>Conheça quem já está <span class="grad">vivendo essa oportunidade.</span></h2></header>
+  <div class="proof-grid">{[['lucas-rios','Lucas Rios'],['depoimento-06','Cliente Hive'],['keila','Keila']].map(([file,name])=><div class="proof-card reveal"><video controls playsinline preload="none" poster={`/videos/depoimentos/${file}.jpg`} aria-label={`Depoimento de ${name}`}><source src={`/videos/depoimentos/${file}.mp4`} type="video/mp4"/></video><button type="button" class="proof-play" aria-label={`Assistir ao depoimento de ${name}`} hidden><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M11 6v20l15-10Z"/></svg></button></div>)}</div>
+</div></section>
+<section class="sec"><div class="wrap">
+  <header class="head reveal"><span class="eyebrow">Seu próximo passo</span><h2>Aprender. Aplicar. <span class="grad">Repetir.</span></h2></header>
+  <div class="offer"><div class="offer__list glass reveal"><h3>Conheça o processo com a Hive.</h3><ul class="check">{['Entenda como apresentar a economia na conta de energia.','Saiba como identificar e cadastrar contas elegíveis.','Conheça as ferramentas e o acompanhamento.','Veja as condições para iniciar sua carteira.'].map(copy=><li><svg class="ic"><use href="#h-check"/></svg><span>{copy}</span></li>)}</ul></div><div class="price glass reveal"><span class="price__label">Comece por uma conversa</span><div class="price__value">O primeiro passo é seu.</div><p>Preencha seus dados para conhecer a oportunidade e tirar suas dúvidas com a equipe Hive.</p><div class="price__sp"></div><a class="cta" href={cta}>Quero conhecer a Hive</a></div></div>
+</div></section>
+<section class="sec"><div class="wrap"><header class="head reveal"><span class="eyebrow">Perguntas frequentes</span><h2>Antes de você <span class="grad">começar.</span></h2></header><div class="faq">{faqs.map(([q,a])=><details><summary>{q}</summary><p>{a}</p></details>)}</div></div></section>
+<section class="sec" id="contato"><div class="wrap"><div class="final glass reveal"><img src={logo.src} alt="Hive" width="130" height="45" style="margin:auto"/><h2>A conta de energia <span class="grad">vai continuar chegando.</span></h2><p>Você vai continuar apenas pagando sua conta ou quer conhecer uma forma de participar desse mercado?</p><div class="ctas"><a class="cta" href={cta}>Quero conhecer a oportunidade</a></div></div></div></section>
+</main>
+<footer class="foot"><div class="wrap"><img src={logo.src} alt="Hive" width="100" height="32"/><p>Hive Energy · Consultor de Energia · <a href="/politica-de-privacidade/">Política de privacidade</a></p><p>Os resultados dependem da dedicação, da execução e das condições do programa. Não há promessa ou garantia de renda.</p></div></footer>
+<div class="float"><a class="cta" href={cta}>Quero conhecer a oportunidade</a></div>
+</body></html>
+<script>
+// Fit each title to its own available width without clipping or changing the copy.
+const titles = Array.from(document.querySelectorAll<HTMLElement>(
+ 'h2:not(.recur__title):not(.benefits-title), h3, .kpi strong, .stat strong, .recur__num strong, .price__value'
+));
+const fitTitle = (title: HTMLElement) => {
+ title.style.removeProperty('font-size');
+ const available = title.clientWidth;
+ if (!available) return;
+ const size = parseFloat(getComputedStyle(title).fontSize);
+ const range = document.createRange();
+ range.selectNodeContents(title);
+ const textWidth = range.getBoundingClientRect().width;
+ if (textWidth > available) {
+  title.style.fontSize = `${Math.floor(size * (available - 1) / textWidth * 100) / 100}px`;
+ }
+};
+const fitTitles = () => titles.forEach(fitTitle);
+void document.fonts.ready.then(fitTitles);
+const titleWidths = new WeakMap<Element, number>();
+const titleObserver = new ResizeObserver(entries => {
+ for (const entry of entries) {
+  if (titleWidths.get(entry.target) === entry.contentRect.width) continue;
+  titleWidths.set(entry.target, entry.contentRect.width);
+  fitTitle(entry.target as HTMLElement);
+ }
+});
+titles.forEach(title => titleObserver.observe(title));
+window.addEventListener('resize', fitTitles, { passive: true });
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Local Lottie assets: play only while their cards are visible.
+const iconObserver = new IntersectionObserver(async entries => {
+ for (const entry of entries) {
+  if (!entry.isIntersecting) continue;
+  iconObserver.unobserve(entry.target);
+  try {
+   const { default: lottie } = await import('lottie-web');
+   const container = entry.target as HTMLElement;
+   const animation = lottie.loadAnimation({container, renderer:'svg', loop:true, autoplay:false, path:container.dataset.animation!});
+   let visible = true;
+   animation.addEventListener('DOMLoaded', () => {
+    container.classList.add('is-ready');
+    if (reduced) animation.goToAndStop(20, true);
+    else if (visible) animation.play();
+   });
+   new IntersectionObserver(([state]) => {
+    visible = state.isIntersecting;
+    if (!reduced && visible && !document.hidden) animation.play(); else animation.pause();
+   }).observe(container);
+   document.addEventListener('visibilitychange', () => {
+    if (!reduced && visible && !document.hidden) animation.play(); else animation.pause();
+   });
+  } catch (error) { console.warn('Hive icon could not load', error); }
+ }
+});
+document.querySelectorAll('.benefit-icon').forEach(icon => iconObserver.observe(icon));
+const heroVideo = document.querySelector<HTMLVideoElement>('.hero__video')!;
+if (reduced) { heroVideo.pause(); heroVideo.removeAttribute('autoplay'); }
+else new IntersectionObserver(([entry]) => { if(entry.isIntersecting) void heroVideo.play().catch(()=>{});else heroVideo.pause(); }).observe(heroVideo);
+if(!reduced && 'IntersectionObserver' in window){
+ document.documentElement.classList.add('js-reveal');
+ const io = new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('in');io.unobserve(entry.target);}}),{rootMargin:'0px 0px -8% 0px'});
+ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+}
+const floating=document.querySelector('.float')!;
+new IntersectionObserver(([entry])=>floating.classList.toggle('on',!entry.isIntersecting&&entry.boundingClientRect.top<0)).observe(document.querySelector('.hero .ctas')!);
+document.querySelectorAll<HTMLButtonElement>('.proof-play').forEach(button=>{
+ const video=button.parentElement!.querySelector('video')!;button.hidden=false;video.controls=false;
+ video.addEventListener('playing',()=>{button.hidden=true;});
+ video.addEventListener('pause',()=>{button.hidden=false;});
+ video.addEventListener('ended',()=>{button.hidden=false;});
+ button.addEventListener('click',async()=>{video.controls=true;try{await video.play();}catch{button.hidden=false;}});
+});
+// Preserve campaign attribution when the visitor continues to the existing form.
+document.querySelectorAll<HTMLAnchorElement>('a[href="/formulario/"]').forEach(link=>{link.search=location.search;});
+</script>
