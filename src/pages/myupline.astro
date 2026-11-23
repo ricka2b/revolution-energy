@@ -1,0 +1,112 @@
+---
+import MyUplineLayout from '../layouts/MyUplineLayout.astro';
+import { MYUPLINE_ENDPOINT } from '../lib/myupline';
+---
+<MyUplineLayout title="Seu convite exclusivo | MyUpline">
+  <audio id="invitation-audio" src="/audio/myupline-background.mp3" loop preload="auto"></audio>
+  <main id="conteudo" class="invitation-page">
+    <section class="invitation-stage" aria-labelledby="invitation-title">
+      <div class="ambient-light" aria-hidden="true"></div>
+      <div class="envelope">
+        <div class="envelope-back" aria-hidden="true"></div>
+        <div class="letter-mask">
+          <div class="invitation-letter">
+            <img class="invitation-logo" src="/myupline-logo-white.svg" alt="MyUpline" width="833.497" height="208.179" />
+            <h1 id="invitation-title">Você ganhou um convite exclusivo para o <strong>Lançamento Oficial da MyUpline</strong></h1>
+            <p>Clique no botão abaixo e garanta sua vaga.</p>
+            <button class="mu-button" type="button" data-open-ticket>Garantir minha vaga <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
+          </div>
+        </div>
+        <div class="envelope-pocket" aria-hidden="true"><div class="envelope-fold"></div></div>
+        <div class="envelope-flap" aria-hidden="true"></div>
+        <span class="envelope-seal" aria-hidden="true"><span class="seal-monogram"><img src="/myupline-seal-white.svg" alt="" /></span></span>
+      </div>
+    </section>
+  </main>
+  <dialog class="registration-dialog" aria-labelledby="registration-title">
+    <div class="form-ticket">
+      <button class="close-dialog" type="button" data-close-ticket aria-label="Fechar formulário">×</button>
+      <div class="form-ticket-heading"><span class="ticket-eyebrow">MYUPLINE</span><h2 id="registration-title">O Grande<br />Lançamento</h2><p>Confirme seus dados para emitir seu convite.</p></div>
+      <div class="ticket-perforation" aria-hidden="true"></div>
+      <form class="ticket-form" data-endpoint={MYUPLINE_ENDPOINT}>
+        <div class="mu-field"><label for="myupline-name">Nome completo</label><input id="myupline-name" name="nome" autocomplete="name" placeholder="Como podemos chamar você?" required maxlength="120" /></div>
+        <div class="mu-field"><label for="myupline-email">E-mail</label><input id="myupline-email" name="email" type="email" autocomplete="email" placeholder="voce@exemplo.com" required maxlength="254" /></div>
+        <div class="mu-field"><label for="myupline-phone">Telefone</label><input id="myupline-phone" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(DDD) 99999-9999" required maxlength="22" /></div>
+        <p class="privacy-note">Seus dados serão usados para sua inscrição e comunicações do evento. Consulte a <a href="/politica-de-privacidade/" target="_blank" rel="noopener">política de privacidade</a>.</p>
+        <button class="mu-button" type="submit" data-submit-ticket>Garantir meu convite</button>
+        <p class="form-feedback" role="status" aria-live="polite"></p>
+        <span class="ticket-form-caption">LANÇAMENTO OFICIAL · MYUPLINE</span>
+      </form>
+    </div>
+  </dialog>
+</MyUplineLayout>
+<script>
+  import { buildMyUplineRegistration, registerMyUpline, ticketUrl } from '../lib/myupline';
+  import { gsap } from 'gsap';
+  import { normalizePhone } from '../lib/maratona-start';
+  // The local track already has -8 dB applied, including on iOS where
+  // programmatic HTMLMediaElement volume changes are not reliable.
+  const audio = document.querySelector<HTMLAudioElement>('#invitation-audio')!;
+  const playSound = () => audio.play().catch(() => {
+    // Audible autoplay may require a user gesture (especially on mobile).
+  });
+  document.addEventListener('click', () => {
+    if (audio.paused) void playSound();
+  }, { once: true });
+  void playSound();
+  const motion = gsap.matchMedia();
+  motion.add('(prefers-reduced-motion: no-preference)', () => {
+    const envelope = document.querySelector<HTMLElement>('.envelope')!;
+    const letter = document.querySelector<HTMLElement>('.invitation-letter')!;
+    const flap = document.querySelector<HTMLElement>('.envelope-flap')!;
+    const mask = document.querySelector<HTMLElement>('.letter-mask')!;
+    const pocket = document.querySelector<HTMLElement>('.envelope-pocket')!;
+    const rise = pocket.offsetTop + 24 - letter.offsetTop;
+    gsap.set(envelope, { autoAlpha: 0, y: -rise / 2 + 28, scale: .97 });
+    gsap.set(letter, { y: rise });
+    gsap.set(mask, { clipPath: `inset(${pocket.offsetTop}px -80px 0px -80px)` });
+    gsap.set(flap, { rotationX: 0, zIndex: 5 });
+    const opening = gsap.timeline({ defaults: { ease: 'power2.inOut' } });
+    opening.to(envelope, { autoAlpha: 1, y: -rise / 2, scale: 1, duration: 1.1, ease: 'power2.out' })
+      .to(flap, { rotationX: -180, duration: 1.35 }, .65)
+      .set(flap, { zIndex: 0 }, 1.35)
+      .set(mask, { clipPath: 'inset(-800px -80px 0px -80px)' }, 1.65)
+      .to(envelope, { y: 0, duration: 1.9, ease: 'power3.inOut' }, 1.65)
+      .to(letter, { y: 0, duration: 1.9, ease: 'power3.inOut' }, 1.65)
+      .fromTo(letter.querySelector('.mu-button'), { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .65, ease: 'power2.out' }, 3.05);
+    return () => opening.kill();
+  });
+  const dialog = document.querySelector<HTMLDialogElement>('.registration-dialog')!;
+  const form = document.querySelector<HTMLFormElement>('.ticket-form')!;
+  const opener = document.querySelector<HTMLButtonElement>('[data-open-ticket]')!;
+  const submit = form.querySelector<HTMLButtonElement>('[data-submit-ticket]')!;
+  const feedback = form.querySelector<HTMLElement>('.form-feedback')!;
+  const name = form.querySelector<HTMLInputElement>('[name="nome"]')!;
+  const phone = form.querySelector<HTMLInputElement>('[name="whatsapp"]')!;
+  let submitting = false;
+  const close = () => { if (!submitting) dialog.close(); };
+  opener.addEventListener('click', () => { dialog.showModal(); document.body.classList.add('dialog-open'); });
+  document.querySelector('[data-close-ticket]')!.addEventListener('click', close);
+  dialog.addEventListener('click', e => { if (e.target === dialog) { const r = dialog.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) close(); } });
+  dialog.addEventListener('cancel', e => { if (submitting) e.preventDefault(); });
+  dialog.addEventListener('close', () => { document.body.classList.remove('dialog-open'); opener.focus(); });
+  for (const field of [name, phone]) field.addEventListener('input', () => field.setCustomValidity(''));
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (submitting) return;
+    name.setCustomValidity(name.value.trim() ? '' : 'Informe seu nome.');
+    phone.setCustomValidity(normalizePhone(phone.value) ? '' : 'Informe um telefone válido com DDD.');
+    if (!form.reportValidity()) return;
+    submitting = true; submit.disabled = true; submit.setAttribute('aria-busy', 'true'); submit.textContent = 'Emitindo seu convite…'; feedback.textContent = '';
+    try {
+      const { payload, ticket } = buildMyUplineRegistration(new FormData(form), location.href, document.referrer);
+      const confirmed = await registerMyUpline(form.dataset.endpoint!, payload, ticket);
+      const tracking = window as typeof window & { dataLayer?: unknown[] };
+      (tracking.dataLayer ||= []).push({ event: 'FormSubmit', form_id: 'myupline_lancamento' });
+      location.assign(ticketUrl(confirmed));
+    } catch (error) {
+      feedback.textContent = error instanceof Error ? error.message : 'Não foi possível enviar. Verifique sua conexão e tente novamente.';
+      submitting = false; submit.disabled = false; submit.removeAttribute('aria-busy'); submit.textContent = 'Tentar novamente';
+    }
+  });
+</script>

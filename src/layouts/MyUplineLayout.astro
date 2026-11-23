@@ -1,0 +1,20 @@
+---
+import { Font } from 'astro:assets';
+import '../styles/myupline.css';
+interface Props { title: string; noindex?: boolean }
+const { title, noindex = false } = Astro.props;
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0e0a15" />
+    <title>{title}</title>
+    <meta name="description" content="Você ganhou um convite exclusivo para o Lançamento Oficial da MyUpline. Garanta sua vaga e receba seu ingresso." />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <Font cssVariable="--font-inter" preload={[{ subset: 'latin' }]} />
+  </head>
+  <body><a class="mu-skip" href="#conteudo">Pular para o conteúdo</a><slot /></body>
+</html>

@@ -1,0 +1,40 @@
+---
+import MyUplineLayout from '../../layouts/MyUplineLayout.astro';
+---
+<MyUplineLayout title="Seu ingresso | Lançamento MyUpline" noindex>
+  <main id="conteudo" class="ticket-page">
+    <a class="mu-wordmark" href="/myupline/" aria-label="MyUpline"><img src="/myupline-logo-all-white.svg" alt="MyUpline" width="833.497" height="208.179" /></a>
+    <section class="issued-view" hidden data-issued>
+      <header class="issued-heading"><h1>Inscrição confirmada.</h1></header>
+      <article class="issued-ticket" aria-label="Ingresso para o Lançamento Oficial da MyUpline">
+        <div class="ticket-art">
+          <img class="ticket-art-background" src="/myupline/ticket-background.png" alt="" />
+          <div class="ticket-art-content">
+            <p class="ticket-art-intro">VOCÊ FAZ PARTE DESTA NOVA ERA</p>
+            <div class="ticket-art-brand"><p>LANÇAMENTO OFICIAL</p><img src="/myupline/ticket-logo.svg" alt="MyUpline" /></div>
+            <p class="ticket-art-guest">CONVIDADO ESPECIAL</p>
+          </div>
+        </div>
+        <div class="ticket-perforation" aria-hidden="true"></div>
+        <div class="ticket-stub"><span class="stub-label">ESTE CONVITE PERTENCE A</span><h3 data-ticket-name></h3><div class="stub-event"><span>EVENTO</span><p>Lançamento Oficial da MyUpline</p></div><div class="stub-code"><span>CÓDIGO DO SEU INGRESSO</span><p data-ticket-code></p></div><img class="ticket-bars" src="/myupline/ticket-bars.svg" alt="" width="180" height="30" /><span class="stub-caption">CONVITE INDIVIDUAL · MYUPLINE</span></div>
+      </article>
+
+    </section>
+    <section class="missing-ticket" data-missing hidden><span class="ticket-eyebrow">SEU CONVITE ESTÁ ESPERANDO</span><h1>Vamos garantir<br />o seu lugar?</h1><p>Preencha seus dados para receber seu ingresso individual.</p><a class="mu-button" href="/myupline/">Receber meu convite</a></section>
+    <noscript><p>Ative o JavaScript para visualizar seu ingresso.</p></noscript>
+
+  </main>
+</MyUplineLayout>
+<script>
+  import { MYUPLINE_EVENT, readTicket, validTicket, TICKET_STORAGE, type MyUplineTicket } from '../../lib/myupline';
+  let ticket: MyUplineTicket | null = readTicket();
+  const params = new URLSearchParams(location.hash.slice(1));
+  const candidate = { nome: params.get('nome'), codigo: params.get('codigo'), evento: MYUPLINE_EVENT, emitido_em: params.get('emitido') };
+  if (validTicket(candidate)) { ticket = candidate; try { localStorage.setItem(TICKET_STORAGE, JSON.stringify(ticket)); } catch {} }
+  if (ticket) {
+    document.querySelector<HTMLElement>('[data-issued]')!.hidden = false;
+    document.querySelector('[data-ticket-name]')!.textContent = ticket.nome;
+    document.querySelector('[data-ticket-code]')!.textContent = ticket.codigo;
+
+  } else document.querySelector<HTMLElement>('[data-missing]')!.hidden = false;
+</script>
